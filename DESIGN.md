@@ -1,8 +1,6 @@
 Cell Society
 ============
-Will Long (wpl5)
-John Martin (jfm41)
-Lucia Martos Jimenez (lm260)
+Will Long (wpl5), John Martin (jfm41), Lucia Martos Jimenez (lm260)
 
 Specification
 =============
