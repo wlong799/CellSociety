@@ -5,6 +5,16 @@ Will Long (wpl5), John Martin (jfm41), Lucia Martos Jimenez (lm260)
 Specification
 =============
 ### Introduction
+Potential Classes:
+
+* Main "Boilerplate"
+* XML Reader
+* Grid Manager
+* Abstract Parent Cell
+	* Individual Cell Type Subclasses
+* Abstract Algorithm Parent Class
+	* Specific Algorithm Subclasses
+
 This section describes the problem your team is trying to solve by writing this 
 program, the primary design goals of the project (i.e., where is it most 
 flexible), and the primary architecture of the design (i.e., what is closed 
