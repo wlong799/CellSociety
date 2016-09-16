@@ -7,7 +7,7 @@ Specification
 ### Introduction
 ![alt text][logo]
 
-[logo]: Logo.png "CellSociety Team 13"
+[logo]: Logo.png "CellSociety Team 13" = 250 x 150
 
 In this program, our team is attempting to create a JavaFX program that can simulate any general Cellular Automata simulation. The program reads in a set of game rules from an XML file, and draws the grid of cells to screen. When specified (i.e. through a Step or Run button), the simulation updates all cells simultaneously, and redraws them in their new state. The program can also accept new XML files as game input, and allows for users to adjust parameters on the go.
 
