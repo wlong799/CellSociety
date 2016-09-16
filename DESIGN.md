@@ -5,6 +5,12 @@ Team 13: Will Long (wpl5), John Martin (jfm41), Lucia Martos Jimenez (lm260)
 Specification
 =============
 ### Introduction
+
+<p align="center">
+  <img src="Logo.png" alt="Cell Society Team 13 Logo" style="width: 200px;">
+</p>
+
+
 ![alt text][logo]
 
 [logo]: (Logo.png "CellSociety Team 13" = 250x)
