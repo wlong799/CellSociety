@@ -134,35 +134,63 @@ Cells contained within the grid.
 
 Use Cases
 =========
-1. Apply rules to all cells within CellGrid (both edge and middle)
-// Assume game is already loaded
-// User triggers update by pressing either the next button or run button
-void update() {
-	for (Cell cell : cellGrid) {
-		rule.evaluate(cell, cellGrid);
+**Apply Game of Life rules to a cell**
+```java
+// Located within GameOfLifeRule class, a subclass of Rule
+void evaluate(cell, cellGrid) {
+    Cell[] neighbors = getNeighbors(cell, cellGrid);
+    int numLiving = 0;
+    for (Cell neighbor : neighbors) {
+        if (neighbor.getType() == cellTypeMap.get("Living")) {
+            numLiving++;
+        }
+    }
+    if (cell.getType() == cellTypeMap.get("Dead")) {
+        if (numLiving == 3) {
+            cell.setType(cellTypeMap.get("Living"));
+        }
+    } else if (cell.getType() == cellTypeMap.get("Living")) {
+        if (numLiving != 2 && numLiving != 3) {
+            cell.setType(cellTypeMap.get("Dead"));
+        }
+    }
 }
-for (Cell cell : cellGrid) {
-	cell.updateState();
-}
-}
+```
 
-2. Move to next generation
+**Move to next generation and display results**
+```java
+// Assume that a game has been properly loaded from XML file
+// User triggers update through Next or Run button
 cellGrid.update();
+// And within CellGrid...
+void update() {
+    for (Cell cell : cellGrid) {
+        rule.evaluate(cell, cellGrid);
+    }
+    for (Cell cell : cellGrid) {
+        cell.updateNextState();
+    }
+    drawCells();
+}
+```
 
-3. Set simulation parameter
-// User has adjusted value of parameter with String name to int value through UI
-cellGrid.getRule().setParameter(name, value);
+**Set a simulation parameter**
+```java
+// User has adjusted value of parameter probCatch to int val through UI slider
+cellGrid.getRule().setParameter("probCatch", value);
 
-// and the relevant method in Rule...
+// And the relevant method in Rule...
 setParameter(String name, int value) {
 	parameterMap.put(name, value);
 }
+```
 
-4. Switch to new game from file input
-// user inputs filename and hits submit
-// method in CellGrid
+**Switch simulations**
+```java
+// User inputs filename and hits submit button
+// Method in CellGrid...
 void newGame(String filename) {
-	// creates new reader which parses file to determine values
+    // Assume XMLGameReader parses the file properly
 	XMLGameReader gameReader = new XMLGameReader(filename);
 	setSize(gameReader.getGameWidth(), gameReader.getGameHeight());
 	setRule(gameReader.getRuleName());
@@ -172,3 +200,4 @@ void newGame(String filename) {
 	}
 	initializeCells(gameReader.getInitialCellStates());
 }
+```
