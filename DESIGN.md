@@ -38,10 +38,7 @@ knows how the class they are building should interact with the others.
 
 ### Overview
 
-<img src="overview.png" alt="Overview" width = 600>
-
-![alt text][overview]
-[overview]: overview.png "Overview"
+<img src="overview.png" alt="Overview" width = 1000>
 
 ### User Interface
 All user interaction will be handled by CellSocietyManager, which is also 
@@ -113,7 +110,9 @@ The type of a Cell will define the meaning of values stored in its state. It is
 up to the Rule class to properly understand a Cell's state variables. We 
 discussed different options to define Cell types, mostly centered on using 
 integers vs. Strings. The challenge in both cases is the potential to input an 
-invalid String or integer. To negate this, we decided it best to utilize HashMap
+invalid String or integer. 
+
+To negate this, we decided it best to utilize HashMap
 stored within the Rule which can be used to understand the Cell states (i.e. it
 maps the name of the state to the appropriate location of the state in the
 Cell).
