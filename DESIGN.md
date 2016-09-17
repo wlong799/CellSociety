@@ -64,17 +64,23 @@ the Rule class, which contains logic for a specific game.
 [userInt]: userInt.png "Intended User Interface"
 
 ### Design Details 
-This section describes each component introduced in the Overview in detail 
-(as well as any other sub-components that may be needed but are not significant
-to include in a high-level description of the program). It should describe how
-each component handles specific features given in the assignment specification,
-what resources it might use, how it collaborates with other components, and how
-each could be extended to include additional requirements (from the assignment
-specification or discussed by your team). Include the steps needed to complete
-the Use Cases below to help make your descriptions more concrete. Finally,
-justify the decision to create each component with respect to the design's key
-goals, principles, and abstractions. This section should go into as much detail
-as necessary to cover all your team wants to say.
+Main: This class will simply launches the game, this is a generic class that can be used for any interface.  
+
+CellSocietyManager: When starting up for the first time, there will be a generic screen with the cell grid and the XML file inputter and then when the XML file is read and the simulation is specified a particular method will be called to draw out the required environment (with the specific parameters etc). A different method will need to be created for each new implementation of the game. CellSocietyManager interacts with the XML reader class when the “XML File submit” button is pressed. CellSocietyManager will make an instance of the cellGrid and this will update and change the states of the cells in the grid. 
+
+CellGrid: The cell grid class is simply an array of Cells (obj) which extends Group. CellGrid interacts with the Rule class by making an instance of it. The cell grid will be in charge of calling the for the Rule class to calculate the next state of the cells and then change the state of the cells.
+
+Rule: This is an abstract class which has different methods with the logic of the particular simulation, in this class we can change the parameters and evaluate the state of the cell. Methods included:
+evaluate which takes in cell and the cell grid
+setParameter method which takes in the name of the parameter and the value of it, this will be stored in a HashMap with the rest of the parameters
+As rule is an abstract class we can then create different classes for the different simulations, this will give a lot of flexibility when making an instance of Rule in the CellGrid. We are also going to make a HashMap that maps each of possible states of the cell to the index number it will be represented by.  
+
+Cell: The cell class extends Rectangle which contains the current state of the cell, the next state of the cell, the cell type and any other type of useful information.
+
+XMLGameReader: Accepts a String filename for its constructor, and parses the XML file at that location. Determines all necessary variables that the CellGrid class will need to create the game, set the rules, and initialize the starting cells and parameters.
+
+The way that the game is designed should make it relatively easy to add new simulations of the game as well as new parameters. 
+
 
 ### Design Considerations
 **Implementation of Different Algorithms**  
@@ -94,7 +100,7 @@ This decision enables greater flexibility in implementing many different
 algorithms. One downside is that the algorithms will need to have the same core
 basis/interaction, but for the scope of this project this is suitable.
 
-**Defining Cell Types**
+**Defining Cell Types**  
 The type of a Cell will define the meaning of values stored in its state. It is 
 up to the Rule class to properly understand a Cell's state variables. We 
 discussed different options to define Cell types, mostly centered on using 
@@ -110,17 +116,17 @@ arrays, and we would need to create two per cell (for both current and next
 states).
 
 ### Team Responsibilities
-**Will**
+**Will**  
 Primary responsibility is XML file parsing. This includes creating the XML files
 in an appropriate format, and a class that can read these files and determine
 the proper variables from them (i.e. game type/name, initial parameters/cell 
 states).
 
-**Lucia** 
+**Lucia**  
 Primary responsibility is creation of abstract Rule class, as well as 
 implementing the various subclasses for each different game type.
 
-**John** 
+**John**   
 Primary responsibility is creation of CellGrid and Cell classes. CellGrid is 
 responsible for interacting with the Rule class, and using it to update all 
 Cells contained within the grid.
@@ -128,3 +134,41 @@ Cells contained within the grid.
 
 Use Cases
 =========
+1. Apply rules to all cells within CellGrid (both edge and middle)
+// Assume game is already loaded
+// User triggers update by pressing either the next button or run button
+void update() {
+	for (Cell cell : cellGrid) {
+		rule.evaluate(cell, cellGrid);
+}
+for (Cell cell : cellGrid) {
+	cell.updateState();
+}
+}
+
+2. Move to next generation
+cellGrid.update();
+
+3. Set simulation parameter
+// User has adjusted value of parameter with String name to int value through UI
+cellGrid.getRule().setParameter(name, value);
+
+// and the relevant method in Rule...
+setParameter(String name, int value) {
+	parameterMap.put(name, value);
+}
+
+4. Switch to new game from file input
+// user inputs filename and hits submit
+// method in CellGrid
+void newGame(String filename) {
+	// creates new reader which parses file to determine values
+	XMLGameReader gameReader = new XMLGameReader(filename);
+	setSize(gameReader.getGameWidth(), gameReader.getGameHeight());
+	setRule(gameReader.getRuleName());
+	Map<String, Integer> params = gameReader.getInitialParameters();
+	for (String name : params.keySet()) {
+		getRule().setParameter(name, params.get(name));
+	}
+	initializeCells(gameReader.getInitialCellStates());
+}
