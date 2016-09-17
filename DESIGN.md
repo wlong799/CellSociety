@@ -37,6 +37,9 @@ publically accessible should be determined before coding, so each team member
 knows how the class they are building should interact with the others.
 
 ### Overview
+
+<img src="overview.png" alt="Overview" width = 600>
+
 ![alt text][overview]
 [overview]: overview.png "Overview"
 
@@ -60,8 +63,7 @@ which will allow for the user to edit the parameters passed to the simulation
 algorithm. Any time a parameter is changed, its updated value will be sent to
 the Rule class, which contains logic for a specific game.
 
-![alt text][userInt]
-[userInt]: userInt.png "Intended User Interface"
+<img src="userInt.png" alt="Intended User Interface" width = 400>
 
 ### Design Details 
 **Main**  
