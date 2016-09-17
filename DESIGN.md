@@ -64,20 +64,26 @@ the Rule class, which contains logic for a specific game.
 [userInt]: userInt.png "Intended User Interface"
 
 ### Design Details 
-Main: This class will simply launches the game, this is a generic class that can be used for any interface.  
+**Main**  
+This class will simply launches the game, this is a generic class that can be used for any interface.  
 
-CellSocietyManager: When starting up for the first time, there will be a generic screen with the cell grid and the XML file inputter and then when the XML file is read and the simulation is specified a particular method will be called to draw out the required environment (with the specific parameters etc). A different method will need to be created for each new implementation of the game. CellSocietyManager interacts with the XML reader class when the “XML File submit” button is pressed. CellSocietyManager will make an instance of the cellGrid and this will update and change the states of the cells in the grid. 
+**CellSocietyManager**  
+When starting up for the first time, there will be a generic screen with the cell grid and the XML file inputter and then when the XML file is read and the simulation is specified a particular method will be called to draw out the required environment (with the specific parameters etc). A different method will need to be created for each new implementation of the game. CellSocietyManager interacts with the XML reader class when the “XML File submit” button is pressed. CellSocietyManager will make an instance of the cellGrid and this will update and change the states of the cells in the grid. 
 
-CellGrid: The cell grid class is simply an array of Cells (obj) which extends Group. CellGrid interacts with the Rule class by making an instance of it. The cell grid will be in charge of calling the for the Rule class to calculate the next state of the cells and then change the state of the cells.
+**CellGrid**  
+The cell grid class is simply an array of Cells (obj) which extends Group. CellGrid interacts with the Rule class by making an instance of it. The cell grid will be in charge of calling the for the Rule class to calculate the next state of the cells and then change the state of the cells.
 
-Rule: This is an abstract class which has different methods with the logic of the particular simulation, in this class we can change the parameters and evaluate the state of the cell. Methods included:
+**Rule**  
+This is an abstract class which has different methods with the logic of the particular simulation, in this class we can change the parameters and evaluate the state of the cell. Methods included:
 evaluate which takes in cell and the cell grid
 setParameter method which takes in the name of the parameter and the value of it, this will be stored in a HashMap with the rest of the parameters
 As rule is an abstract class we can then create different classes for the different simulations, this will give a lot of flexibility when making an instance of Rule in the CellGrid. We are also going to make a HashMap that maps each of possible states of the cell to the index number it will be represented by.  
 
-Cell: The cell class extends Rectangle which contains the current state of the cell, the next state of the cell, the cell type and any other type of useful information.
+**Cell**  
+The cell class extends Rectangle which contains the current state of the cell, the next state of the cell, the cell type and any other type of useful information.
 
-XMLGameReader: Accepts a String filename for its constructor, and parses the XML file at that location. Determines all necessary variables that the CellGrid class will need to create the game, set the rules, and initialize the starting cells and parameters.
+**XMLGameReader** 
+Accepts a String filename for its constructor, and parses the XML file at that location. Determines all necessary variables that the CellGrid class will need to create the game, set the rules, and initialize the starting cells and parameters.
 
 The way that the game is designed should make it relatively easy to add new simulations of the game as well as new parameters. 
 
