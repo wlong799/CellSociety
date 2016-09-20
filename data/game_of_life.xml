@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<game>
+    <main>
+        <title>Game of Life</title>
+        <rule>GameOfLife</rule>
+        <author>Will Long</author>
+    </main>
+
+    <parameter>
+        <name></name>
+        <value></value>
+    </parameter>
+
+    <celltype>
+        <name>Dead</name>
+        <value>0</value>
+    </celltype>
+    <celltype>
+        <name>Living</name>
+        <value>1</value>
+    </celltype>
+
+    <grid>
+        <length>10</length>
+        <width>10</width>
+        <default>0</default>
+
+        <cell>
+            <type>1</type>
+            <row>0</row>
+            <col>0</col>
+        </cell>
+        <cell>
+            <type>1</type>
+            <row>1</row>
+            <col>2</col>
+        </cell>
+        <cell>
+            <type>1</type>
+            <row>3</row>
+            <col>4</col>
+        </cell>
+        <cell>
+            <type>1</type>
+            <row>4</row>
+            <col>5</col>
+        </cell>
+    </grid>
+
+</game>
