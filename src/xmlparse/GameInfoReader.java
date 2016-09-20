@@ -3,10 +3,6 @@ package xmlparse;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import java.io.File;
 
 /**
@@ -17,14 +13,30 @@ import java.io.File;
  * @author Will Long
  */
 public class GameInfoReader {
-    public static void main(String argv[]) {
+    private String filename;
+    GameInfoHandler gameInfoHandler;
+
+    public GameInfoReader(String fname) {
+        filename = fname;
+        gameInfoHandler = new GameInfoHandler();
+    }
+
+    public void readGameInfoFile() {
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        SAXParser saxParser;
         try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-            GameInfoHandler handler = new GameInfoHandler();
-            saxParser.parse(new File("data/game_of_life.xml"), handler);
+            saxParser = saxParserFactory.newSAXParser();
+            saxParser.parse(new File(filename), gameInfoHandler);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("GAME TITLE : " + gameInfoHandler.getTitle());
+        System.out.println("GAME RULE : " + gameInfoHandler.getRule());
+        System.out.println("GAME AUTHOR : " + gameInfoHandler.getAuthor());
+    }
+
+    public static void main(String argv[]) {
+        GameInfoReader gr = new GameInfoReader("data/game_of_life.xml");
+        gr.readGameInfoFile();
     }
 }

@@ -17,7 +17,7 @@ public class GameInfoHandler extends DefaultHandler {
 
     private LinkedList<String> currentSection;
 
-    private String title, ruleName, author;
+    private String title, rule, author;
 
     Map<String, Integer> parameterMap;
     Map<String, Integer> cellTypeMap;
@@ -28,7 +28,7 @@ public class GameInfoHandler extends DefaultHandler {
         currentSection = new LinkedList<>();
 
         title = "";
-        ruleName = "";
+        rule = "";
         author = "";
 
         parameterMap = new HashMap<>();
@@ -75,7 +75,13 @@ public class GameInfoHandler extends DefaultHandler {
     }
 
     private void getMainInfo(String information) {
-        System.out.println("MAIN : " + information);
+        if (currentSection.getLast().equals("TITLE")) {
+            title = information;
+        } else if (currentSection.getLast().equals("RULE")) {
+            rule = information;
+        } else if (currentSection.getLast().equals("AUTHOR")) {
+            author = information;
+        }
     }
 
     private void getParameterInfo(String information) {
@@ -90,5 +96,15 @@ public class GameInfoHandler extends DefaultHandler {
         System.out.println("GRID : " + information);
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public String getRule() {
+        return rule;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
 }
