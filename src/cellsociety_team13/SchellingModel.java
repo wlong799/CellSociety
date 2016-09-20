@@ -6,16 +6,18 @@ public class SchellingModel extends Rule {
 
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		if (!satisfiedCell(myCell, myGrid)) {
-			myCell.nextState = findAnEmptyValidCell(myCell, myGrid);
+			myCell.setNextState = ;
+			findAnEmptyValidCell(myCell, myGrid).setNextState = "EMPTY";
 		}
 		return;
 	}
+	
 
 	private boolean satisfiedCell(Cell myCell, CellGrid myGrid) {
 		int count = 0;
-		ArrayList<Cell> neighbourCells = new ArrayList<Cell>(myCell.neighbourCells);
+		ArrayList<Cell> neighbourCells = getNeighbours(myCell, myGrid);
 		for (Cell neighbour : neighbourCells) {
-			if (neighbour.getType().equals(myCell.getType())) {
+			if (neighbour.getCurrentState().equals(myCell.getCurrentState())) {
 				count++;
 			}
 		}
