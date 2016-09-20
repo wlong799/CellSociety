@@ -14,23 +14,18 @@ import java.util.*;
  */
 public class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
-
     private LinkedList<String> currentSection;
 
     private String title, rule, author;
 
-    Map<String, Integer> parameterMap;
-    Map<String, Integer> cellTypeMap;
+    private Map<String, Integer> parameterMap;
+    private String nextParameter;
 
-    private boolean bfname, blname, bnname, bsalary;
+    private Map<Integer, String> cellTypeMap;
+    private int nextCellTypeID;
 
     GameInfoHandler() {
         currentSection = new LinkedList<>();
-
-        title = "";
-        rule = "";
-        author = "";
-
         parameterMap = new HashMap<>();
         cellTypeMap = new HashMap<>();
     }
@@ -85,11 +80,21 @@ public class GameInfoHandler extends DefaultHandler {
     }
 
     private void getParameterInfo(String information) {
-        System.out.println("PARAMETER : " + information);
+        if (currentSection.getLast().equals("NAME")) {
+            nextParameter = information;
+        } else if (currentSection.getLast().equals("VALUE")) {
+            int val = Integer.parseInt(information);
+            parameterMap.put(nextParameter, val);
+        }
     }
 
     private void getCellTypeInfo(String information) {
-        System.out.println("CELL TYPE : " + information);
+        if (currentSection.getLast().equals("ID")) {
+            int id = Integer.parseInt(information);
+            nextCellTypeID = id;
+        } else if (currentSection.getLast().equals("NAME")) {
+            cellTypeMap.put(nextCellTypeID, information);
+        }
     }
 
     private void getGridInfo(String information) {
@@ -106,5 +111,13 @@ public class GameInfoHandler extends DefaultHandler {
 
     public String getAuthor() {
         return author;
+    }
+
+    public Map<String, Integer> getParameterMap() {
+        return parameterMap;
+    }
+
+    public Map<Integer, String> getCellTypeMap() {
+        return cellTypeMap;
     }
 }
