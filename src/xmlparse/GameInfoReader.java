@@ -42,10 +42,19 @@ public class GameInfoReader {
         for (Integer cellType : cellTypes.keySet()) {
             System.out.println("CELLTYPE " + cellTypes.get(cellType) + " = " + cellType);
         }
+        int[][] cellGrid = gameInfoHandler.getInitialCellGrid();
+        for (int r = 0; r < cellGrid.length; r++) {
+            for (int c = 0; c < cellGrid[0].length; c++) {
+                System.out.print(cellGrid[r][c] + " ");
+            }
+            System.out.println();
+        }
+
     }
 
     public static void main(String argv[]) {
-        GameInfoReader gr = new GameInfoReader("data/game_of_life.xml");
+        String filename = "data/game_of_life.xml";
+        GameInfoReader gr = new GameInfoReader(filename);
         gr.readGameInfoFile();
     }
 }

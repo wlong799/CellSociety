@@ -24,6 +24,10 @@ public class GameInfoHandler extends DefaultHandler {
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
 
+    private int[][] initialCellGrid;
+    private int gridWidth, gridHeight;
+    private int nextCellID, nextCellRow, nextCellCol;
+
     GameInfoHandler() {
         currentSection = new LinkedList<>();
         parameterMap = new HashMap<>();
@@ -98,7 +102,37 @@ public class GameInfoHandler extends DefaultHandler {
     }
 
     private void getGridInfo(String information) {
-        System.out.println("GRID : " + information);
+        if (currentSection.getLast().equals("WIDTH")) {
+            int width = Integer.parseInt(information);
+            gridWidth = width;
+        } else if (currentSection.getLast().equals("HEIGHT")) {
+            int height = Integer.parseInt(information);
+            gridHeight = height;
+        } else if (currentSection.getLast().equals("DEFAULTID")) {
+            int defaultID = Integer.parseInt(information);
+            initialCellGrid = new int[gridHeight][gridWidth];
+            for (int r = 0; r < gridHeight; r++) {
+                for (int c = 0; c < gridWidth; c++) {
+                    initialCellGrid[r][c] = defaultID;
+                }
+            }
+        } else if (currentSection.contains("CELL")) {
+            addCell(information);
+        }
+    }
+
+    private void addCell(String information) {
+        if (currentSection.getLast().equals("ID")) {
+            int id = Integer.parseInt(information);
+            nextCellID = id;
+        } else if (currentSection.getLast().equals("ROW")) {
+            int row = Integer.parseInt(information);
+            nextCellRow = row;
+        } else if (currentSection.getLast().equals("COL")) {
+            int col = Integer.parseInt(information);
+            nextCellCol = col;
+            initialCellGrid[nextCellRow][nextCellCol] = nextCellID;
+        }
     }
 
     public String getTitle() {
@@ -119,5 +153,9 @@ public class GameInfoHandler extends DefaultHandler {
 
     public Map<Integer, String> getCellTypeMap() {
         return cellTypeMap;
+    }
+
+    public int[][] getInitialCellGrid() {
+        return initialCellGrid;
     }
 }
