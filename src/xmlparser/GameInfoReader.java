@@ -1,4 +1,4 @@
-package xmlparse;
+package xmlparser;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -53,7 +53,7 @@ public class GameInfoReader {
     }
 
     public static void main(String argv[]) {
-        String filename = "data/game_of_life.xml";
+        String filename = "data/fire.xml";
         GameInfoReader gr = new GameInfoReader(filename);
         gr.readGameInfoFile();
     }

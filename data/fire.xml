@@ -1,23 +1,27 @@
 <?xml version="1.0"?>
 <game>
     <main>
-        <title>Game of Life</title>
-        <rule>GameOfLife</rule>
+        <title>Spreading Fire</title>
+        <rule>SpreadingFire</rule>
         <author>Will Long</author>
     </main>
 
     <parameter>
-        <name></name>
-        <value></value>
+        <name>prob_catch</name>
+        <value>55</value>
     </parameter>
 
     <celltype>
         <id>0</id>
-        <name>Dead</name>
+        <name>EMPTY</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>Living</name>
+        <name>Tree</name>
+    </celltype>
+    <celltype>
+        <id>2</id>
+        <name>Burning</name>
     </celltype>
 
     <grid>

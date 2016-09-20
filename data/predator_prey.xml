@@ -1,23 +1,39 @@
 <?xml version="1.0"?>
 <game>
     <main>
-        <title>Game of Life</title>
-        <rule>GameOfLife</rule>
+        <title>Predator Prey</title>
+        <rule>PredatorPrey</rule>
         <author>Will Long</author>
     </main>
 
     <parameter>
-        <name></name>
-        <value></value>
+        <name>fish_breed</name>
+        <value>2</value>
+    </parameter>
+    <parameter>
+        <name>shark_breed</name>
+        <value>4</value>
+    </parameter>
+    <parameter>
+        <name>shark_starve</name>
+        <value>6</value>
     </parameter>
 
     <celltype>
         <id>0</id>
-        <name>Dead</name>
+        <name>Water</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>Living</name>
+        <name>Algae</name>
+    </celltype>
+    <celltype>
+        <id>2</id>
+        <name>Fish</name>
+    </celltype>
+    <celltype>
+        <id>3</id>
+        <name>Shark</name>
     </celltype>
 
     <grid>

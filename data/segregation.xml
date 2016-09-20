@@ -1,28 +1,33 @@
 <?xml version="1.0"?>
 <game>
     <main>
-        <title>Game of Life</title>
-        <rule>GameOfLife</rule>
+        <title>Segregation</title>
+        <rule>Segregation</rule>
         <author>Will Long</author>
     </main>
 
     <parameter>
-        <name></name>
-        <value></value>
+        <name>similar</name>
+        <value>30</value>
     </parameter>
 
     <celltype>
         <id>0</id>
-        <name>Dead</name>
+        <name>Empty</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>Living</name>
+        <name>Blue</name>
+    </celltype>
+    <celltype>
+        <id>2</id>
+        <name>Red</name>
     </celltype>
 
+
     <grid>
-        <width>10</width>
-        <height>10</height>
+        <width>20</width>
+        <height>20</height>
         <defaultid>0</defaultid>
         <cell>
             <id>1</id>
