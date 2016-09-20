@@ -4,6 +4,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.*;
+
 /**
  * Extends the DefaultHandler class, to properly interpret XML files formatted
  * to store Cell Society game information.
@@ -11,63 +13,82 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Will Long
  */
 public class GameInfoHandler extends DefaultHandler {
-    boolean bfname = false;
-    boolean blname = false;
-    boolean bnname = false;
-    boolean bsalary = false;
+    private static final int REMOVE = -1, ADD = 1;
 
+    private LinkedList<String> currentSection;
+
+    private String title, ruleName, author;
+
+    Map<String, Integer> parameterMap;
+    Map<String, Integer> cellTypeMap;
+
+    private boolean bfname, blname, bnname, bsalary;
+
+    GameInfoHandler() {
+        currentSection = new LinkedList<>();
+
+        title = "";
+        ruleName = "";
+        author = "";
+
+        parameterMap = new HashMap<>();
+        cellTypeMap = new HashMap<>();
+    }
+
+    @Override
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
-
-        System.out.println("Start Element :" + qName);
-
-        if (qName.equalsIgnoreCase("FIRSTNAME")) {
-            bfname = true;
-        }
-
-        if (qName.equalsIgnoreCase("LASTNAME")) {
-            blname = true;
-        }
-
-        if (qName.equalsIgnoreCase("NICKNAME")) {
-            bnname = true;
-        }
-
-        if (qName.equalsIgnoreCase("SALARY")) {
-            bsalary = true;
-        }
-
+        updateCurrentSection(qName, ADD);
     }
 
+    @Override
     public void endElement(String uri, String localName,
                            String qName) throws SAXException {
-
-        System.out.println("End Element :" + qName);
-
+        updateCurrentSection(qName, REMOVE);
     }
 
+    @Override
     public void characters(char ch[], int start, int length) throws SAXException {
-
-        if (bfname) {
-            System.out.println("First Name : " + new String(ch, start, length));
-            bfname = false;
+        if (currentSection.size() == 0) {
+            return;
         }
-
-        if (blname) {
-            System.out.println("Last Name : " + new String(ch, start, length));
-            blname = false;
+        String information = new String(ch, start, length);
+        if (currentSection.getFirst().equals("MAIN")) {
+            getMainInfo(information);
+        } else if (currentSection.getFirst().equals("PARAMETER")) {
+            getParameterInfo(information);
+        } else if (currentSection.getFirst().equals("CELLTYPE")) {
+            getCellTypeInfo(information);
+        } else if (currentSection.getFirst().equals("GRID")) {
+            getGridInfo(information);
         }
-
-        if (bnname) {
-            System.out.println("Nick Name : " + new String(ch, start, length));
-            bnname = false;
-        }
-
-        if (bsalary) {
-            System.out.println("Salary : " + new String(ch, start, length));
-            bsalary = false;
-        }
-
     }
+
+    private void updateCurrentSection(String sectionName, int operation) {
+        if (sectionName.equalsIgnoreCase("GAME")) {
+            return;
+        } else if (operation == ADD) {
+            currentSection.addLast(sectionName.toUpperCase());
+        } else if (operation == REMOVE) {
+            currentSection.removeLast();
+        }
+    }
+
+    private void getMainInfo(String information) {
+        System.out.println("MAIN : " + information);
+    }
+
+    private void getParameterInfo(String information) {
+        System.out.println("PARAMETER : " + information);
+    }
+
+    private void getCellTypeInfo(String information) {
+        System.out.println("CELL TYPE : " + information);
+    }
+
+    private void getGridInfo(String information) {
+        System.out.println("GRID : " + information);
+    }
+
 
 }

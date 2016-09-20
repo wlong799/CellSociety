@@ -16,22 +16,15 @@ import java.io.File;
  *
  * @author Will Long
  */
-public class XMLParser {
-
+public class GameInfoReader {
     public static void main(String argv[]) {
-
         try {
-
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             GameInfoHandler handler = new GameInfoHandler();
-
-            saxParser.parse(new File("data/text.xml"), handler);
-
+            saxParser.parse(new File("data/game_of_life.xml"), handler);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }

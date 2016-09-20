@@ -12,19 +12,18 @@
     </parameter>
 
     <celltype>
-        <name>Dead</name>
         <value>0</value>
+        <name>Dead</name>
     </celltype>
     <celltype>
-        <name>Living</name>
         <value>1</value>
+        <name>Living</name>
     </celltype>
 
     <grid>
         <length>10</length>
         <width>10</width>
         <default>0</default>
-
         <cell>
             <type>1</type>
             <row>0</row>
