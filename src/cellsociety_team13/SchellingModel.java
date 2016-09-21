@@ -22,7 +22,7 @@ public class SchellingModel extends Rule {
 			}
 		}
 		int myT = count / neighbourCells.size();
-		return myT > parameters.get("t");
+		return myT > parameterMap.get("t");
 	}
 
 	/*
@@ -34,8 +34,8 @@ public class SchellingModel extends Rule {
 	 * are not occupying this spot
 	 */
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
-		for (int i = 0; i < myGrid.getWidth(); i++) {
-			for (int j = 0; i < myGrid.getLength(); j++) {
+		for (int i = 0; i < myGrid.width(); i++) {
+			for (int j = 0; i < myGrid.length(); j++) {
 				if (myGrid.getCell(i, j).isEmpty()) {
 					return myGrid.getCell(i, j);
 				}
