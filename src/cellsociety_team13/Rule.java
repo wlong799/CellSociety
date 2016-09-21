@@ -2,18 +2,26 @@ package cellsociety_team13;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+import xmlparser.GameInfoHandler;
 
 public abstract class Rule {
 
-	HashMap<String, Integer> states;
-	HashMap<String, Integer> parameters;
+	Map<String, Integer> cellTypeMap;
+	Map<String, Integer> parameterMap;
+	Cell myTopCell;
+	Cell myBottomCell;
+	Cell myRightCell;
+	Cell myLeftCell;
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
 	ArrayList<Cell> getNonDiagNeighbours(Cell myCell, CellGrid myGrid){
 		ArrayList<Cell> nonDiagNeighbours = new ArrayList<Cell>();
 		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY()) == null) {
-			nonDiagNeighbours.add(myGrid.getCell(myCell.getX() + 1, myCell.getY()));
+			myRightCell = myGrid.getCell(myCell.getX() + 1, myCell.getY());
+			nonDiagNeighbours.add(myRightCell);
 		}
 		if (!myGrid.getCell(myCell.getX() - 1, myCell.getY()) == null) {
 			nonDiagNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY()));
@@ -46,8 +54,9 @@ public abstract class Rule {
 	
 
 	void getHashMaps() {
-		states = new HashMap<String, Integer>(myCellGrid.getStates());
-		parameters = new HashMap<String, Integer>(myCellGrid.getParameters());
+		cellTypeMap = GameInfoReader.getCellTypeMap();
+		parameterMap = GameInfoReader.getParameterMap();
 	}
+	
 
 }
