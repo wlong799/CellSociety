@@ -22,7 +22,7 @@ public class SchellingModel extends Rule {
 			}
 		}
 		int myT = count / neighbourCells.size();
-		return myT > parameters.get("t");
+		return myT > parameterMap.get("t");
 	}
 
 	/*
