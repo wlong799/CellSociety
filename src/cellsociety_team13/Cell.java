@@ -9,22 +9,57 @@ import javafx.scene.shape.Rectangle;
 
 
 public class Cell extends Rectangle {
-	public String setNextState;
+	public String nextState;
+	public String currentState;
 	public int row;
 	public int column;
+	public int lifetime;
 	
+	public int getLifetime() {
+		return lifetime;
+	}
+
+	public void setLifetime(int lifetime) {
+		this.lifetime = lifetime;
+	}
+
 	public Cell(int row, int column){
 		this.row = row;
 		this.column = column;
 	}
 	
-	public void setNextState(){};
-//	if (myGrid.getCell(i, j).isEmpty()) {
-//		return myGrid.getCell(i, j);
+	public void setCurrentState(String currentState) {
+		this.currentState = currentState;
+	}
 
+	public String getCurrentState() {
+		return currentState;
+	}
+	
+	public void setNextState(String state){
+		this.nextState = state;
+		this.setLifetime(0); 	//reset lifetime when you change the state
+	}
+	
+	public String getNextState(){
+		return nextState;
+	}
+	
+	public boolean isEmpty(){
+		return (currentState ==null);
+	}
+	
+	public boolean canPut(){
+		if(nextState == null){
+			return (currentState =="EMPTY"); 
+		}
+		return (nextState =="EMPTY");
+	}
 
-	public Object getCurrentState() {
-		return null;
+	public void resetCell(){
+		nextState = null;
+		currentState = null;
+		lifetime = 0; 
 	}
 
 }

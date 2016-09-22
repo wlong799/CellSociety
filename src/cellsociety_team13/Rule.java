@@ -14,29 +14,37 @@ public abstract class Rule {
 	Cell myBottomCell;
 	Cell myRightCell;
 	Cell myLeftCell;
+	ArrayList<Cell> nonDiagNeighbours;
+	ArrayList<Cell> allNeighbours;
+	
+	
+	
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
-	ArrayList<Cell> getNonDiagNeighbours(Cell myCell, CellGrid myGrid){
+	void getNonDiagNeighbours(Cell myCell, CellGrid myGrid){
 		ArrayList<Cell> nonDiagNeighbours = new ArrayList<Cell>();
 		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY()) == null) {
 			myRightCell = myGrid.getCell(myCell.getX() + 1, myCell.getY());
 			nonDiagNeighbours.add(myRightCell);
 		}
 		if (!myGrid.getCell(myCell.getX() - 1, myCell.getY()) == null) {
-			nonDiagNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY()));
+			myBottomCell = myGrid.getCell(myCell.getX() - 1, myCell.getY());
+			nonDiagNeighbours.add(myBottomCell);
 		}
 		if (!myGrid.getCell(myCell.getX(), myCell.getY() + 1) == null) {
-			nonDiagNeighbours.add(myGrid.getCell(myCell.getX(), myCell.getY() + 1));
+			myRightCell = myGrid.getCell(myCell.getX(), myCell.getY() + 1);
+			nonDiagNeighbours.add(myRightCell);
 		}
 		if (!myGrid.getCell(myCell.getX(), myCell.getY() - 1) == null) {
-			nonDiagNeighbours.add(myGrid.getCell(myCell.getX(), myCell.getY() - 1));
+			myLeftCell = myGrid.getCell(myCell.getX(), myCell.getY() - 1);
+			nonDiagNeighbours.add(myLeftCell);
 		}
-		return nonDiagNeighbours;
+		this.nonDiagNeighbours = nonDiagNeighbours;
 	}
 	
-	ArrayList<Cell> getNeighbours(Cell myCell, CellGrid myGrid) {
-		ArrayList<Cell> myNeighbours = new ArrayList<Cell>(getNonDiagNeighbours(myCell, myGrid));
+	void getNeighbours(Cell myCell, CellGrid myGrid) {
+		ArrayList<Cell> myNeighbours = new ArrayList<Cell>(nonDiagNeighbours);
 		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY()+1) == null){
 			myNeighbours.add(myGrid.getCell(myCell.getX() + 1, myCell.getY() +1) == null);
 		}
@@ -49,8 +57,8 @@ public abstract class Rule {
 		if (!myGrid.getCell(myCell.getX() - 1, myCell.getY()+1) == null){
 			myNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY() +1) == null);
 		}
-		return myNeighbours;
-	}
+		this.allNeighbours = myNeighbours;
+}
 	
 
 	void getHashMaps() {
