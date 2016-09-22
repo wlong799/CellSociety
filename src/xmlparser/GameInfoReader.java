@@ -1,5 +1,7 @@
 package xmlparser;
 
+import cellsociety_team13.Cell;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -31,30 +33,25 @@ public class GameInfoReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("GAME TITLE : " + gameInfoHandler.getTitle());
-        System.out.println("GAME RULE : " + gameInfoHandler.getRule());
-        System.out.println("GAME AUTHOR : " + gameInfoHandler.getAuthor());
-        Map<String, Integer> params = gameInfoHandler.getParameterMap();
-        Map<Integer, String> cellTypes = gameInfoHandler.getCellTypeMap();
-        for (String param : params.keySet()) {
-            System.out.println("PARAM " + param + " = " + params.get(param));
-        }
-        for (Integer cellType : cellTypes.keySet()) {
-            System.out.println("CELLTYPE " + cellTypes.get(cellType) + " = " + cellType);
-        }
-        int[][] cellGrid = gameInfoHandler.getInitialCellGrid();
-        for (int r = 0; r < cellGrid.length; r++) {
-            for (int c = 0; c < cellGrid[0].length; c++) {
-                System.out.print(cellGrid[r][c] + " ");
-            }
-            System.out.println();
-        }
-
     }
 
-    public static void main(String argv[]) {
-        String filename = "data/fire.xml";
-        GameInfoReader gr = new GameInfoReader(filename);
-        gr.readGameInfoFile();
+    public String getTitle() {
+        return gameInfoHandler.getTitle();
+    }
+
+    public String getRule() {
+        return gameInfoHandler.getRule();
+    }
+
+    public String getAuthor() {
+        return gameInfoHandler.getAuthor();
+    }
+
+    public Map<String, Integer> getParameterMap() {
+        return gameInfoHandler.getParameterMap();
+    }
+
+    public Cell[][] getCellGrid() {
+        return gameInfoHandler.getCellGrid();
     }
 }

@@ -1,5 +1,6 @@
 package xmlparser;
 
+import cellsociety_team13.Cell;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -8,28 +9,29 @@ import java.util.*;
 
 /**
  * Extends the DefaultHandler class, to properly interpret XML files formatted
- * to store Cell Society game information.
+ * to store CellSociety game information.
  *
  * @author Will Long
  */
-public class GameInfoHandler extends DefaultHandler {
+class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
-    private LinkedList<String> currentSection;
+    private Stack<String> elementStack;
 
     private String title, rule, author;
 
     private Map<String, Integer> parameterMap;
-    private String nextParameter;
+    private String nextParameterName;
 
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
 
-    private int[][] initialCellGrid;
+    private Cell[][] cellGrid;
     private int gridWidth, gridHeight;
-    private int nextCellID, nextCellRow, nextCellCol;
+    private Cell nextCell;
+    private int nextCellRow, nextCellCol;
 
     GameInfoHandler() {
-        currentSection = new LinkedList<>();
+        elementStack = new Stack<>();
         parameterMap = new HashMap<>();
         cellTypeMap = new HashMap<>();
     }
@@ -48,114 +50,108 @@ public class GameInfoHandler extends DefaultHandler {
 
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
-        if (currentSection.size() == 0) {
-            return;
-        }
         String information = new String(ch, start, length);
-        if (currentSection.getFirst().equals("MAIN")) {
+
+        if (elementStack.contains("MAIN")) {
             getMainInfo(information);
-        } else if (currentSection.getFirst().equals("PARAMETER")) {
+        } else if (elementStack.contains("PARAMETER")) {
             getParameterInfo(information);
-        } else if (currentSection.getFirst().equals("CELLTYPE")) {
+        } else if (elementStack.contains("CELLTYPE")) {
             getCellTypeInfo(information);
-        } else if (currentSection.getFirst().equals("GRID")) {
+        } else if (elementStack.contains("GRID")) {
             getGridInfo(information);
         }
     }
 
     private void updateCurrentSection(String sectionName, int operation) {
-        if (sectionName.equalsIgnoreCase("GAME")) {
-            return;
-        } else if (operation == ADD) {
-            currentSection.addLast(sectionName.toUpperCase());
+        if (operation == ADD) {
+            elementStack.push(sectionName.toUpperCase());
         } else if (operation == REMOVE) {
-            currentSection.removeLast();
+            elementStack.pop();
         }
     }
 
     private void getMainInfo(String information) {
-        if (currentSection.getLast().equals("TITLE")) {
+        if (elementStack.peek().equals("TITLE")) {
             title = information;
-        } else if (currentSection.getLast().equals("RULE")) {
+        } else if (elementStack.peek().equals("RULE")) {
             rule = information;
-        } else if (currentSection.getLast().equals("AUTHOR")) {
+        } else if (elementStack.peek().equals("AUTHOR")) {
             author = information;
         }
     }
 
     private void getParameterInfo(String information) {
-        if (currentSection.getLast().equals("NAME")) {
-            nextParameter = information;
-        } else if (currentSection.getLast().equals("VALUE")) {
+        if (elementStack.peek().equals("NAME")) {
+            nextParameterName = information;
+        } else if (elementStack.peek().equals("VALUE")) {
             int val = Integer.parseInt(information);
-            parameterMap.put(nextParameter, val);
+            parameterMap.put(nextParameterName, val);
         }
     }
 
     private void getCellTypeInfo(String information) {
-        if (currentSection.getLast().equals("ID")) {
+        if (elementStack.peek().equals("ID")) {
             int id = Integer.parseInt(information);
             nextCellTypeID = id;
-        } else if (currentSection.getLast().equals("NAME")) {
+        } else if (elementStack.peek().equals("NAME")) {
             cellTypeMap.put(nextCellTypeID, information);
         }
     }
 
     private void getGridInfo(String information) {
-        if (currentSection.getLast().equals("WIDTH")) {
+        if (elementStack.peek().equals("WIDTH")) {
             int width = Integer.parseInt(information);
             gridWidth = width;
-        } else if (currentSection.getLast().equals("HEIGHT")) {
+        } else if (elementStack.peek().equals("HEIGHT")) {
             int height = Integer.parseInt(information);
             gridHeight = height;
-        } else if (currentSection.getLast().equals("DEFAULTID")) {
+        } else if (elementStack.peek().equals("DEFAULTID")) {
             int defaultID = Integer.parseInt(information);
-            initialCellGrid = new int[gridHeight][gridWidth];
+            String defaultCellType = cellTypeMap.get(defaultID);
+            cellGrid = new Cell[gridHeight][gridWidth];
             for (int r = 0; r < gridHeight; r++) {
                 for (int c = 0; c < gridWidth; c++) {
-                    initialCellGrid[r][c] = defaultID;
+                    cellGrid[r][c] = new Cell(defaultCellType);
                 }
             }
-        } else if (currentSection.contains("CELL")) {
+        } else if (elementStack.contains("CELL")) {
             addCell(information);
         }
     }
 
     private void addCell(String information) {
-        if (currentSection.getLast().equals("ID")) {
+        if (elementStack.peek().equals("ID")) {
             int id = Integer.parseInt(information);
-            nextCellID = id;
-        } else if (currentSection.getLast().equals("ROW")) {
+            String cellType = cellTypeMap.get(id);
+            nextCell = new Cell(cellType);
+        } else if (elementStack.peek().equals("ROW")) {
             int row = Integer.parseInt(information);
             nextCellRow = row;
-        } else if (currentSection.getLast().equals("COL")) {
+        } else if (elementStack.peek().equals("COL")) {
             int col = Integer.parseInt(information);
             nextCellCol = col;
-            initialCellGrid[nextCellRow][nextCellCol] = nextCellID;
+            cellGrid[nextCellRow][nextCellCol] = nextCell;
         }
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public String getRule() {
+    String getRule() {
         return rule;
     }
 
-    public String getAuthor() {
+    String getAuthor() {
         return author;
     }
 
-    public Map<String, Integer> getParameterMap() {
+    Map<String, Integer> getParameterMap() {
         return parameterMap;
     }
 
-    public Map<Integer, String> getCellTypeMap() {
-        return cellTypeMap;
-    }
-
-    public int[][] getInitialCellGrid() {
-        return initialCellGrid;
+    Cell[][] getCellGrid() {
+        return cellGrid;
     }
 }
