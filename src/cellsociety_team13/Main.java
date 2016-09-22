@@ -18,7 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start (Stage stage) {
-        cellSocietyManager = new CellSocietyManager(WIDTH, HEIGHT);
+        cellSocietyManager = new CellSocietyManager();
         stage.setTitle("Cell Society");
         stage.setScene(cellSocietyManager.getScene());
         stage.show();
