@@ -17,16 +17,28 @@ public class Cell extends Rectangle {
 
 	private String currentType, nextType;
 	private Map<String, Integer> currentState, nextState;
+	private int myRow, myCol;
 
-	public Cell(String cellType, double xPos, double yPos, double width, double height) {
+	public Cell(String cellType, double xPos, double yPos, double width, double height, int row, int col) {
 		super(xPos, yPos, width, height);
 		setFill(DEFAULT_COLOR);
-
+		
+		myRow = row;
+		myCol = col;
 		currentType = cellType;
 		nextType = cellType;
 		currentState = new HashMap<>();
 		nextState = new HashMap<>();
 	}
+
+	public int getMyCol() {
+		return myCol;
+	}
+
+	public int getMyRow() {
+		return myRow;
+	}
+
 
 	public void initalizeState(Map<String, Integer> initialStates) {
 		for (String stateName : initialStates.keySet()) {

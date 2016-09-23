@@ -1,7 +1,6 @@
 package rule;
 
-import java.util.ArrayList;
-
+import java.util.List;
 
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
@@ -21,14 +20,14 @@ public class WatorWorld extends Rule {
 	}
 	
 	@Override
-	void evaluateGrid(CellGrid myGrid) {
+	public void evaluateGrid(CellGrid myGrid) {
 		iterateArrayListAndUpdate(myGrid, "SHARK");
 		iterateArrayListAndUpdate(myGrid, "FISH");
 		iterateArrayListAndUpdate(myGrid, "KELP");
 	}
 
 	private void iterateArrayListAndUpdate(CellGrid myGrid, String type) {
-		ArrayList<Cell> myCells = myGrid.getCellsWithState(type, myGrid);
+		List<Cell> myCells = myGrid.getCellsByType(type);
 		for (Cell myCell : myCells) {
 			if (myCell.getNextType() != null) {
 				evaluateCell(myCell, myGrid);
@@ -78,19 +77,19 @@ public class WatorWorld extends Rule {
 	}
 
 	private Cell chooseRandomNeighbourCell(Cell myCell, CellGrid myGrid, String type) {
-		getNonDiagNeighbours(myCell, myGrid);
+		myGrid.getNonDiagNeighbours(myCell, myGrid);
 		Cell myRandomCell = null;
 		// not perfectly random or efficient... need to take another look
 		while (myRandomCell == null) {
 			double myRandomValue = Math.random();
-			if (myRandomValue < 0.25 && myRightCell.getCurrentType().equals(type)) {
-				return myRightCell;
-			} else if (myRandomValue > 0.25 && myRandomValue < 0.5 && myLeftCell.getCurrentType().equals(type)) {
-				return myLeftCell;
-			} else if (myRandomValue > 0.5 && myRandomValue < 0.75 && myBottomCell.getCurrentType().equals(type)) {
-				return myBottomCell;
-			} else if (myRandomValue > 0.75 && myTopCell.getCurrentType().equals(type)) {
-				return myTopCell;
+			if (myRandomValue < 0.25 && myGrid.getMyRightCell().getCurrentType().equals(type)) {
+				return myGrid.getMyRightCell();
+			} else if (myRandomValue > 0.25 && myRandomValue < 0.5 && myGrid.getMyLeftCell().getCurrentType().equals(type)) {
+				return myGrid.getMyLeftCell();
+			} else if (myRandomValue > 0.5 && myRandomValue < 0.75 && myGrid.getMyBottomCell().getCurrentType().equals(type)) {
+				return myGrid.getMyBottomCell();
+			} else if (myRandomValue > 0.75 && myGrid.getMyTopCell().getCurrentType().equals(type)) {
+				return myGrid.getMyTopCell();
 			}
 		}
 

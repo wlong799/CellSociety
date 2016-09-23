@@ -18,9 +18,11 @@ public class CellGrid extends Group {
 	private double drawCellWidth, drawCellHeight;
 
 	private int gridWidth, gridHeight;
+
 	private Cell[][] cells;
 	private Rule rule;
 	private boolean isRunning;
+
 	
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight,
 					int gridWidth, int gridHeight, String[][] initialCellTypes, Rule rule) {
@@ -42,11 +44,19 @@ public class CellGrid extends Group {
 
 		this.rule = rule;
 	}
+	
+	public int getGridWidth() {
+		return gridWidth;
+	}
+	
+	public int getGridHeight() {
+		return gridHeight;
+	}
 
 	private void addCell(String cellType, int row, int col) {
 		double xPos = col * drawCellWidth;
 		double yPos = row * drawCellHeight;
-		Cell cell = new Cell(cellType, xPos, yPos, drawCellWidth, drawCellHeight);
+		Cell cell = new Cell(cellType, xPos, yPos, drawCellWidth, drawCellHeight, row, col);
 		getChildren().add(cell);
 		cells[row][col] = cell;
 	}
@@ -64,7 +74,7 @@ public class CellGrid extends Group {
 	}
 	
 	public Cell getCell(int row, int col){
-		return cells[r][c];
+		return cells[row][col];
 	}
 	
 	public void step(){
@@ -77,5 +87,58 @@ public class CellGrid extends Group {
 			this.step();
 			Thread.sleep(5000);
 		}
+	}
+	
+	public Cell getMyRightCell() {
+		return myRightCell;
+	}
+	
+	public Cell getMyBottomCell() {
+		return myBottomCell;
+	}
+	
+	public Cell getMyTopCell() {
+		return myTopCell;
+	}
+	public Cell getMyLeftCell() {
+		return myLeftCell;
+	}
+	
+	public List<Cell> getNonDiagNeighbours(Cell myCell) {
+		List<Cell> nonDiagNeighbours = new ArrayList<Cell>();
+		if (getCell(myCell.getMyRow() + 1, myCell.getMyCol()) != null) {
+			myRightCell = getCell(myCell.getMyRow() + 1, myCell.getMyCol());
+			nonDiagNeighbours.add(myRightCell);
+		}
+		if (getCell(myCell.getMyRow() - 1, myCell.getMyCol()) != null) {
+			myBottomCell = getCell(myCell.getMyRow() - 1, myCell.getMyCol());
+			nonDiagNeighbours.add(myBottomCell);
+		}
+		if (getCell(myCell.getMyRow(), myCell.getMyCol() + 1) != null) {
+			myTopCell = getCell(myCell.getMyRow(), myCell.getMyCol() + 1);
+			nonDiagNeighbours.add(myRightCell);
+		}
+		if (getCell(myCell.getMyRow(), myCell.getMyCol() - 1) != null) {
+			myLeftCell = getCell(myCell.getMyRow(), myCell.getMyCol() - 1);
+			nonDiagNeighbours.add(myLeftCell);
+		}
+		return nonDiagNeighbours;
+	}
+
+	public List<Cell> getNeighbours(Cell myCell) {
+		List<Cell> myNeighbours = new ArrayList<Cell>(getNonDiagNeighbours(myCell));
+		if (getCell(myCell.getMyRow() + 1, myCell.getMyCol() + 1) != null) {
+			myNeighbours.add(getCell(myCell.getMyRow() + 1, myCell.getMyCol() + 1));
+		}
+		if (getCell(myCell.getMyRow() + 1, myCell.getMyCol() - 1) != null) {
+			myNeighbours.add(getCell(myCell.getMyRow() + 1, myCell.getMyCol() - 1));
+		}
+		if (getCell(myCell.getMyRow() - 1, myCell.getMyCol() - 1) != null) {
+			myNeighbours.add(getCell(myCell.getMyRow() - 1, myCell.getMyCol() - 1));
+		}
+		if (getCell(myCell.getMyRow() - 1, myCell.getMyCol() + 1) != null) {
+			myNeighbours.add(getCell(myCell.getMyRow() - 1, myCell.getMyCol() + 1));
+		}
+		return myNeighbours;
 	}
 }
