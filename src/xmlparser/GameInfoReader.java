@@ -12,19 +12,18 @@ import java.util.Map;
  * Parses XML files containing initial Cell Society game information. Stores the
  * information from the file, to be easily accessible by other classes that need
  * it.
- *
- * @author Will Long
  */
 public class GameInfoReader {
     private String filename;
     GameInfoHandler gameInfoHandler;
 
-    public GameInfoReader(String fname) {
-        filename = fname;
+    public GameInfoReader(String filename) {
+        this.filename = filename;
         gameInfoHandler = new GameInfoHandler();
+        readGameInfoFile();
     }
 
-    public void readGameInfoFile() {
+    private void readGameInfoFile() {
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser;
         try {
@@ -39,8 +38,8 @@ public class GameInfoReader {
         return gameInfoHandler.getTitle();
     }
 
-    public String getRule() {
-        return gameInfoHandler.getRule();
+    public String getRuleClassName() {
+        return gameInfoHandler.getRuleClassName();
     }
 
     public String getAuthor() {
@@ -51,7 +50,7 @@ public class GameInfoReader {
         return gameInfoHandler.getParameterMap();
     }
 
-    public Cell[][] getCellGrid() {
-        return gameInfoHandler.getCellGrid();
+    public String[][] getCellTypeGrid() {
+        return gameInfoHandler.getCellTypeGrid();
     }
 }
