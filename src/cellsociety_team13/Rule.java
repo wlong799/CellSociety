@@ -16,13 +16,12 @@ public abstract class Rule {
 	Cell myLeftCell;
 	ArrayList<Cell> nonDiagNeighbours;
 	ArrayList<Cell> allNeighbours;
-	
-	
-	
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
+	
+	abstract void evaluateGrid(CellGrid myGrid);
 
-	void getNonDiagNeighbours(Cell myCell, CellGrid myGrid){
+	void getNonDiagNeighbours(Cell myCell, CellGrid myGrid) {
 		ArrayList<Cell> nonDiagNeighbours = new ArrayList<Cell>();
 		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY()) == null) {
 			myRightCell = myGrid.getCell(myCell.getX() + 1, myCell.getY());
@@ -42,29 +41,29 @@ public abstract class Rule {
 		}
 		this.nonDiagNeighbours = nonDiagNeighbours;
 	}
-	
+
 	void getNeighbours(Cell myCell, CellGrid myGrid) {
 		ArrayList<Cell> myNeighbours = new ArrayList<Cell>(nonDiagNeighbours);
-		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY()+1) == null){
-			myNeighbours.add(myGrid.getCell(myCell.getX() + 1, myCell.getY() +1) == null);
+		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY() + 1) == null) {
+			myNeighbours.add(myGrid.getCell(myCell.getX() + 1, myCell.getY() + 1) == null);
 		}
-		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY()-1) == null){
-			myNeighbours.add(myGrid.getCell(myCell.getX() + 1, myCell.getY() -1) == null);
+		if (!myGrid.getCell(myCell.getX() + 1, myCell.getY() - 1) == null) {
+			myNeighbours.add(myGrid.getCell(myCell.getX() + 1, myCell.getY() - 1) == null);
 		}
-		if (!myGrid.getCell(myCell.getX() -1, myCell.getY()-1) == null){
-			myNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY() -1) == null);
-		}		
-		if (!myGrid.getCell(myCell.getX() - 1, myCell.getY()+1) == null){
-			myNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY() +1) == null);
+		if (!myGrid.getCell(myCell.getX() - 1, myCell.getY() - 1) == null) {
+			myNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY() - 1) == null);
+		}
+		if (!myGrid.getCell(myCell.getX() - 1, myCell.getY() + 1) == null) {
+			myNeighbours.add(myGrid.getCell(myCell.getX() - 1, myCell.getY() + 1) == null);
 		}
 		this.allNeighbours = myNeighbours;
-}
+	}
 	
+	abstract void setColor(Cell myCell);
 
 	void getHashMaps() {
 		cellTypeMap = GameInfoReader.getCellTypeMap();
 		parameterMap = GameInfoReader.getParameterMap();
 	}
-	
 
 }

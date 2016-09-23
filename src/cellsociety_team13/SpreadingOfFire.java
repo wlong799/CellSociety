@@ -1,11 +1,14 @@
 package cellsociety_team13;
 
+import com.sun.prism.paint.Color;
+
 public class SpreadingOfFire extends Rule {
 
 	
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		double myRandomValue = Math.random();
 		getNonDiagNeighbours(myCell, myGrid);
+		
 
 		if (myCell.getCurrentState().equals("TREE") && nonDiagNeighbours.contains("FIRE")) {
 			if (myRandomValue < parameterMap.get("probCatch")) {
@@ -22,6 +25,18 @@ public class SpreadingOfFire extends Rule {
 			myCell.setNextState(myCell.getCurrentState());
 		}
 		return;
+	}
+	
+	void setColor(Cell myCell){
+		if(myCell.getCurrentState().equals("FIRE")){
+			myCell.setFill(Color.RED);
+		}
+		else if(myCell.getCurrentState().equals("TREE")){
+			myCell.setFill(Color.GREEN);
+		}
+		else if(myCell.getCurrentState().equals("EMPTY")){
+			myCell.setFill(Color.WHITE);
+		}
 	}
 	
 	

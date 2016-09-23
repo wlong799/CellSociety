@@ -38,21 +38,26 @@ public class CellGrid {
 		} // End of Length For
 	}
 	
+	public ArrayList<Cell> getCellsWithState(String myType, CellGrid myGrid){
+		ArrayList<Cell> myCells = new ArrayList<Cell>();
+		
+			for(int i = 0; i < myGrid.getWidth(); i ++){
+				for(int j = 0; j < myGrid.getHeight(); j ++){
+					if(myGrid.getCell(i, j).getCurrentState().equals(myType)){
+						myCells.add(myGrid.getCell(i, j));
+					}
+				}
+			}
+		return myCells;
+	}
+	
 	public Cell getCell(int column, int row){
 		int arrayPos = row*width + column;
 		return cells.get(arrayPos);
 	}
 	
 	public void step(){
-		for (Cell cell : cells){
-			if (cell.nextState == null){
-				rule.evaluateCell(cell, this);
-			}
-		}
-		for (Cell cell : cells){
-			cell.updateState();
-		}
-		
+		rule.evaluateGrid(this);
 	}
 	
 	public void run() throws InterruptedException{

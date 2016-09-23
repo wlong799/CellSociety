@@ -1,15 +1,28 @@
 package cellsociety_team13;
 
+import com.sun.prism.paint.Color;
+
 public class SchellingModel extends Rule {
-	//NOTE:: cannot have cells which are null, they must be "EMPTY"
+	//NOTE: cannot have cells which are null, they must be "EMPTY"
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		if (!satisfiedCell(myCell, myGrid)) {
-			myCell.setNextState("T O WHAAT");
-			findAnEmptyValidCell(myCell, myGrid).setNextState("EMPTY");
+			findAnEmptyValidCell(myCell, myGrid).setNextState(myCell.getCurrentState());
+			myCell.setNextState("EMPTY");
 		}
 		return;
 	}
 	
+	void setColor(Cell myCell){
+		if(myCell.getCurrentState().equals("EMPTY")){
+			myCell.setFill(Color.WHITE);
+		}
+		else if(myCell.getCurrentState().equals("X")){
+			myCell.setFill(Color.BLACK);
+		}
+		else if(myCell.getCurrentState().equals("O")){
+			myCell.setFill(Color.BLUE);
+		}
+	}
 
 	private boolean satisfiedCell(Cell myCell, CellGrid myGrid) {
 		int count = 0;
