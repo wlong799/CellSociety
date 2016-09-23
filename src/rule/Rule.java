@@ -1,13 +1,15 @@
 package rule;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
-import xmlparser.GameInfoHandler;
+
+/**
+ * Rule is an abstract class from which all the models are derived from 
+ * 
+ * @author Lucia Martos
+ */
 
 public abstract class Rule {
 
@@ -41,10 +43,9 @@ public abstract class Rule {
 			}
 		}
 	}
-
-	void getHashMaps() {
-		cellTypeMap = GameInfoReader.getCellTypeMap();
-		parameterMap = GameInfoReader.getParameterMap();
+	
+	void addParameter(String parameter, int valueParam){
+		parameterMap.put(parameter, valueParam);
 	}
 
 }
