@@ -33,8 +33,8 @@ public class CellSocietyManager {
         sceneRoot = new Group();
         scene = new Scene(sceneRoot, SCENE_WIDTH, SCENE_HEIGHT);
 
-        cellGrid = new CellGrid();
-        sceneRoot.add(cellGrid);
+        // Just entered basic info to test
+        cellGrid = new CellGrid(10, 10, 20, 10, new SpreadingOfFire(), sceneRoot);
         // set positioning
 
         xmlFilenameField = new TextField();
@@ -48,7 +48,13 @@ public class CellSocietyManager {
         stepButton = new Button("STEP");
         stepButton.setOnAction(e -> cellGrid.step());
         runButton = new Button("RUN");
-        runButton.setOnAction(e -> cellGrid.run());
+        runButton.setOnAction(e -> {
+			try {
+				cellGrid.run();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		});
 
         parameterAdjustmentList = new ComboBox();
     }

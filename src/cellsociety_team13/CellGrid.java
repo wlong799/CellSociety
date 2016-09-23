@@ -2,6 +2,8 @@ package cellsociety_team13;
 
 import java.util.ArrayList;
 
+import javafx.scene.Group;
+
 //The cell grid class is simply an array of 
 //Cells (obj) which extends Group. CellGrid 
 //interacts with the Rule class by making an instance of it. 
@@ -10,17 +12,25 @@ import java.util.ArrayList;
 //the state of the cells.
 
 public class CellGrid {
-	private int width;
-	private int height;
+	private int width; // Number of columns
+	private int height; // Number of rows
+	private int cellWidth;
+	private int cellHeight;
+	private Rule rule;
 	private ArrayList<Cell> cells = new ArrayList<Cell>();
+	private boolean run = false;
 	
-	public CellGrid(int width, int height, Rule rule){
-		this.setWidth(width);
-		this.setHeight(height);
+	public CellGrid(int width, int height, int cellWidth, int cellHeight, Rule rule, Group root){
+		this.setWidth(width); this.setHeight(height);
+		this.cellWidth = cellWidth; this.cellHeight = cellHeight;
+		this.rule = rule;
 		for (int row = 0; row < height; row++){
 			for (int col = 0; col < width; col++){
 				// Based on Rule Type Create Different Cells
-				cells.add(new Cell(col, row));
+				Cell cell = new Cell(col, row, cellWidth, cellHeight);
+				
+				cells.add(cell);
+				root.getChildren().add(cell.shape);
 			} // End of Width For
 		} // End of Length For
 	}
@@ -28,6 +38,26 @@ public class CellGrid {
 	public Cell getCell(int column, int row){
 		int arrayPos = row*width + column;
 		return cells.get(arrayPos);
+	}
+	
+	public void step(){
+		for (Cell cell : cells){
+			if (cell.nextState == null){
+				rule.evaluateCell(cell, this);
+			}
+		}
+		for (Cell cell : cells){
+			cell.updateState();
+		}
+		
+	}
+	
+	public void run() throws InterruptedException{
+		this.run = true;
+		while (run){
+			this.step();
+			Thread.sleep(5000);
+		}
 	}
 
 	
