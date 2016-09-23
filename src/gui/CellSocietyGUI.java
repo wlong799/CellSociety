@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.List;
+
 import cellsociety_team13.CellGrid;
 
 import javafx.animation.KeyFrame;
@@ -67,8 +69,8 @@ public class CellSocietyGUI {
         // ???????????
         //rule = Class.forName(gameInfoReader.getRuleClassName().getConstructor(St))
 
-        
-        cellGrid = new CellGrid(10, 10, 20, 10, 25, 25, new SpreadingOfFire(), sceneRoot);
+        List<String> InitialCellState = null; // THIS WILL CAUSE A NULL EXCEPTION ERROR
+        cellGrid = new CellGrid(10, 10, 20, 10, 25, 25, InitialCellState, new SpreadingOfFire());
         // set positioning
 
         xmlFilenameField = new TextField();
@@ -82,13 +84,7 @@ public class CellSocietyGUI {
         stepButton = new Button("STEP");
         stepButton.setOnAction(e -> step());
         runButton = new Button("RUN");
-        runButton.setOnAction(e -> {
-			try {
-				cellGrid.run();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		});
+        runButton.setOnAction(e -> run());
 
         parameterAdjustmentList = new ComboBox();
     }

@@ -68,38 +68,36 @@ public class CellGrid extends Group {
 	}
 	
 	public Cell getCell(int row, int col){
-		int arrayPos = row*gridWidth + col;
- 		return cells.get(arrayPos);
+		if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)){
+			return null;
+		}
+		else {
+			int arrayPos = row*gridWidth + col;
+	 		return cells.get(arrayPos);
+		}
+		
 	}
 	
 	public void step(){
 		rule.evaluateGrid(this);
 	}
 	
-	public void run() throws InterruptedException{
-		this.isRunning = true;
-		while (isRunning){
-			this.step();
-			Thread.sleep(5000);
-		}
-	}
-	
 	public List<Cell> getNonDiagNeighbours(Cell myCell) {
 		List<Cell> nonDiagNeighbours = new ArrayList<Cell>();
 		if (getCell(myCell.getMyRow() + 1, myCell.getMyCol()) != null) {
-			myRightCell = getCell(myCell.getMyRow() + 1, myCell.getMyCol());
+			Cell myRightCell = getCell(myCell.getMyRow() + 1, myCell.getMyCol());
 			nonDiagNeighbours.add(myRightCell);
 		}
 		if (getCell(myCell.getMyRow() - 1, myCell.getMyCol()) != null) {
-			myBottomCell = getCell(myCell.getMyRow() - 1, myCell.getMyCol());
+			Cell myBottomCell = getCell(myCell.getMyRow() - 1, myCell.getMyCol());
 			nonDiagNeighbours.add(myBottomCell);
 		}
 		if (getCell(myCell.getMyRow(), myCell.getMyCol() + 1) != null) {
-			myTopCell = getCell(myCell.getMyRow(), myCell.getMyCol() + 1);
-			nonDiagNeighbours.add(myRightCell);
+			Cell myTopCell = getCell(myCell.getMyRow(), myCell.getMyCol() + 1);
+			nonDiagNeighbours.add(myTopCell);
 		}
 		if (getCell(myCell.getMyRow(), myCell.getMyCol() - 1) != null) {
-			myLeftCell = getCell(myCell.getMyRow(), myCell.getMyCol() - 1);
+			Cell myLeftCell = getCell(myCell.getMyRow(), myCell.getMyCol() - 1);
 			nonDiagNeighbours.add(myLeftCell);
 		}
 		return nonDiagNeighbours;
