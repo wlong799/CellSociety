@@ -19,13 +19,13 @@ public class CellGrid extends Group {
 
 	private int gridWidth, gridHeight;
 
-	private Cell[][] cells;
+	private List<Cell> cells = new ArrayList<Cell>();
 	private Rule rule;
 	private boolean isRunning;
 
 	
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight,
-					int gridWidth, int gridHeight, String[][] initialCellTypes, Rule rule) {
+					int gridWidth, int gridHeight, List<String> initialCellTypes, Rule rule) {
 		setLayoutX(xPos);
 		setLayoutY(yPos);
 		this.drawWidth = drawWidth;
@@ -35,12 +35,16 @@ public class CellGrid extends Group {
 
 		this.gridWidth = gridWidth;
 		this.gridHeight = gridHeight;
-		cells = new Cell[gridHeight][gridWidth];
-		for (int r = 0; r < gridHeight; r++) {
-			for (int c = 0; c < gridWidth; c++) {
-				addCell(initialCellTypes[r][c], r, c);
-			}
-		}
+		
+		for (int row = 0; row < gridHeight; row++){
+ 			for (int col = 0; col < gridWidth; col++){
+ 				int arrayPos = row*gridWidth + col;
+ 				// Based on Rule Type Create Different Cells
+ 				Cell cell = new Cell(initialCellTypes.get(arrayPos), xPos, yPos, drawCellWidth, drawCellHeight, row, col);
+ 				cells.add(cell);
+ 				getChildren().add(cell);
+ 			} // End of Width For
+ 		} // End of Length For
 
 		this.rule = rule;
 	}
@@ -52,29 +56,20 @@ public class CellGrid extends Group {
 	public int getGridHeight() {
 		return gridHeight;
 	}
-
-	private void addCell(String cellType, int row, int col) {
-		double xPos = col * drawCellWidth;
-		double yPos = row * drawCellHeight;
-		Cell cell = new Cell(cellType, xPos, yPos, drawCellWidth, drawCellHeight, row, col);
-		getChildren().add(cell);
-		cells[row][col] = cell;
-	}
 	
 	public List<Cell> getCellsByType(String cellType){
 		List<Cell> myCells = new ArrayList<>();
-			for(int r = 0; r < gridHeight; r ++){
-				for(int c = 0; c < gridWidth; c ++){
-					if (cells[r][c].getCurrentType().equals(cellType)) {
-						myCells.add(cells[r][c]);
-					}
-				}
+		for (Cell cell : cells){
+			if (cell.getCurrentType().equals(cellType)){
+				myCells.add(cell);
 			}
+		}
 		return myCells;
 	}
 	
 	public Cell getCell(int row, int col){
-		return cells[row][col];
+		int arrayPos = row*gridWidth + col;
+ 		return cells.get(arrayPos);
 	}
 	
 	public void step(){
@@ -87,21 +82,6 @@ public class CellGrid extends Group {
 			this.step();
 			Thread.sleep(5000);
 		}
-	}
-	
-	public Cell getMyRightCell() {
-		return myRightCell;
-	}
-	
-	public Cell getMyBottomCell() {
-		return myBottomCell;
-	}
-	
-	public Cell getMyTopCell() {
-		return myTopCell;
-	}
-	public Cell getMyLeftCell() {
-		return myLeftCell;
 	}
 	
 	public List<Cell> getNonDiagNeighbours(Cell myCell) {
