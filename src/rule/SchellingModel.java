@@ -9,6 +9,8 @@ public class SchellingModel extends Rule {
 	//NOTE: cannot have cells which are null, they must be "EMPTY"
 	
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
+		myNeighbours = myGrid.getNeighbours(myCell);
+		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 		if (!satisfiedCell(myCell, myGrid)) {
 			findAnEmptyValidCell(myCell, myGrid).setNextType(myCell.getCurrentType());
 			myCell.setNextType("EMPTY");
@@ -34,13 +36,12 @@ public class SchellingModel extends Rule {
 
 	private boolean satisfiedCell(Cell myCell, CellGrid myGrid) {
 		int count = 0;
-		myGrid.getNeighbours(myCell, myGrid);
-		for (Cell neighbour : allNeighbours) {
+		for (Cell neighbour : myNeighbours) {
 			if (neighbour.getCurrentType().equals(myCell.getCurrentType())) {
 				count++;
 			}
 		}
-		int myT = count / allNeighbours.size();
+		int myT = count / myNeighbours.size();
 		return myT > parameterMap.get("t");
 	}
 

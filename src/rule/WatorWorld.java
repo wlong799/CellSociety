@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 public class WatorWorld extends Rule {
 	
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
+		myNeighbours = myGrid.getNeighbours(myCell);
+		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 		getHashMaps();
 		if (myCell.getCurrentType().equals("FISH")) {
 			updateFishAndShark(myCell, myGrid, "FISH", "KELP");
@@ -77,19 +79,18 @@ public class WatorWorld extends Rule {
 	}
 
 	private Cell chooseRandomNeighbourCell(Cell myCell, CellGrid myGrid, String type) {
-		myGrid.getNonDiagNeighbours(myCell, myGrid);
 		Cell myRandomCell = null;
 		// not perfectly random or efficient... need to take another look
 		while (myRandomCell == null) {
 			double myRandomValue = Math.random();
-			if (myRandomValue < 0.25 && myGrid.getMyRightCell().getCurrentType().equals(type)) {
-				return myGrid.getMyRightCell();
-			} else if (myRandomValue > 0.25 && myRandomValue < 0.5 && myGrid.getMyLeftCell().getCurrentType().equals(type)) {
-				return myGrid.getMyLeftCell();
-			} else if (myRandomValue > 0.5 && myRandomValue < 0.75 && myGrid.getMyBottomCell().getCurrentType().equals(type)) {
-				return myGrid.getMyBottomCell();
-			} else if (myRandomValue > 0.75 && myGrid.getMyTopCell().getCurrentType().equals(type)) {
-				return myGrid.getMyTopCell();
+			if (myRandomValue < 0.25 && nonDiagNeighbours.get(0).getCurrentType().equals(type)) {
+				return nonDiagNeighbours.get(0);
+			} else if (myRandomValue > 0.25 && myRandomValue < 0.5 && nonDiagNeighbours.get(1).getCurrentType().equals(type)) {
+				return nonDiagNeighbours.get(1);
+			} else if (myRandomValue > 0.5 && myRandomValue < 0.75 && nonDiagNeighbours.get(2).getCurrentType().equals(type)) {
+				return nonDiagNeighbours.get(2);
+			} else if (myRandomValue > 0.75 && nonDiagNeighbours.get(3).getCurrentType().equals(type)) {
+				return nonDiagNeighbours.get(3);
 			}
 		}
 
