@@ -64,8 +64,9 @@ public class Cell extends Rectangle {
 		return nextType;
 	}
 
-	public void stepToNextState() {
+	public void stepToNextStateAndType() {
 		currentType = nextType;
+		nextType = null;
 		currentState = new HashMap<>();
 		for (String stateName : nextState.keySet()) {
 			int stateVal = nextState.get(stateName);
@@ -90,5 +91,4 @@ public class Cell extends Rectangle {
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
 	}
-
 }

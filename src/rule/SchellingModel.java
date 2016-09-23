@@ -15,7 +15,10 @@ import cellsociety_team13.CellGrid;
 
 public class SchellingModel extends Rule {
 	// NOTE: cannot have cells which are null, they must be "EMPTY"
-	void evaluateCell(Cell myCell, CellGrid myGrid) {
+	/* evaluate cell finds the next state for the current grid and current cell
+	 * @param myCell is the current cell being analysed
+	 */
+	public void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 		if (!satisfiedCell(myCell, myGrid)) {
@@ -25,11 +28,11 @@ public class SchellingModel extends Rule {
 		return;
 	}
 
-	void setStatesInMap(Cell myCell) {
+	public void setStatesInMap(Cell myCell) {
 
 	}
 
-	void setColor(Cell myCell) {
+	public void setColor(Cell myCell) {
 		if (myCell.getCurrentType().equals("EMPTY")) {
 			myCell.setFill(Color.WHITE);
 		} else if (myCell.getCurrentType().equals("X")) {
@@ -50,14 +53,6 @@ public class SchellingModel extends Rule {
 		return myT > parameterMap.get("t");
 	}
 
-	/*
-	 * param @myCell the cell we are finding a new position for param @myGrid
-	 * the grid with all the cells
-	 * 
-	 * PROBLEM: need to make sure I don't pick the same cell as another NEW
-	 * isEmpty (canPut?) method to check if current or future states of cells
-	 * are not occupying this spot
-	 */
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
 		for (int i = 0; i < myGrid.getGridWidth(); i++) {
 			for (int j = 0; i < myGrid.getGridHeight(); j++) {

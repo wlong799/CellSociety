@@ -6,7 +6,6 @@ import java.util.List;
 import javafx.scene.Group;
 import rule.Rule;
 
-
 /**
  * CellGrid is responsible for holding the current Cells within the Cell Society
  * game. It stores the position of the cells and uses the specified Rule class
@@ -23,9 +22,8 @@ public class CellGrid extends Group {
 	private Rule rule;
 	private boolean isRunning;
 
-	
-	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight,
-					int gridWidth, int gridHeight, List<String> initialCellTypes, Rule rule) {
+	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
+			List<String> initialCellTypes, Rule rule) {
 		setLayoutX(xPos);
 		setLayoutY(yPos);
 		this.drawWidth = drawWidth;
@@ -35,53 +33,62 @@ public class CellGrid extends Group {
 
 		this.gridWidth = gridWidth;
 		this.gridHeight = gridHeight;
-		
-		for (int row = 0; row < gridHeight; row++){
- 			for (int col = 0; col < gridWidth; col++){
- 				int arrayPos = row*gridWidth + col;
- 				// Based on Rule Type Create Different Cells
- 				Cell cell = new Cell(initialCellTypes.get(arrayPos), xPos, yPos, drawCellWidth, drawCellHeight, row, col);
- 				cells.add(cell);
- 				getChildren().add(cell);
- 			} // End of Width For
- 		} // End of Length For
+
+		for (int row = 0; row < gridHeight; row++) {
+			for (int col = 0; col < gridWidth; col++) {
+				int arrayPos = row * gridWidth + col;
+				// Based on Rule Type Create Different Cells
+				Cell cell = new Cell(initialCellTypes.get(arrayPos), xPos, yPos, drawCellWidth, drawCellHeight, row,
+						col);
+				cells.add(cell);
+				getChildren().add(cell);
+			} // End of Width For
+		} // End of Length For
 
 		this.rule = rule;
 	}
-	
+
 	public int getGridWidth() {
 		return gridWidth;
 	}
-	
+
 	public int getGridHeight() {
 		return gridHeight;
 	}
-	
-	public List<Cell> getCellsByType(String cellType){
+
+	public List<Cell> getCellsByType(String cellType) {
 		List<Cell> myCells = new ArrayList<>();
-		for (Cell cell : cells){
-			if (cell.getCurrentType().equals(cellType)){
+		for (Cell cell : cells) {
+			if (cell.getCurrentType().equals(cellType)) {
 				myCells.add(cell);
 			}
 		}
 		return myCells;
 	}
-	
-	public Cell getCell(int row, int col){
-		if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)){
+
+	public Cell getCell(int row, int col) {
+		if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)) {
 			return null;
+		} else {
+			int arrayPos = row * gridWidth + col;
+			return cells.get(arrayPos);
 		}
-		else {
-			int arrayPos = row*gridWidth + col;
-	 		return cells.get(arrayPos);
-		}
-		
+
 	}
-	
-	public void step(){
+
+	public void step() {
 		rule.evaluateGrid(this);
+		stepToNextStatesAndTypes();
 	}
-	
+
+	private void stepToNextStatesAndTypes() {
+		for (int i = 0; i < gridHeight; i++) {
+			for (int j = 0; j < gridWidth; j++) {
+				getCell(i, j).stepToNextStateAndType();
+			}
+		}
+	}
+
 	public List<Cell> getNonDiagNeighbours(Cell myCell) {
 		List<Cell> nonDiagNeighbours = new ArrayList<Cell>();
 		if (getCell(myCell.getMyRow() + 1, myCell.getMyCol()) != null) {

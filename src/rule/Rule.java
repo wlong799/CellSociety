@@ -21,8 +21,8 @@ public abstract class Rule {
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
 	void initialize(CellGrid myGrid) {
-		for (int i = 0; i < myGrid.getGridWidth(); i++) {
-			for (int j = 0; j < myGrid.getGridHeight(); j++) {
+		for (int i = 0; i < myGrid.getGridHeight(); i++) {
+			for (int j = 0; j < myGrid.getGridWidth(); j++) {
 				setColor(myGrid.getCell(i, j));
 				setStatesInMap(myGrid.getCell(i, j));
 
@@ -35,8 +35,8 @@ public abstract class Rule {
 	abstract void setStatesInMap(Cell myCell);
 
 	public void evaluateGrid(CellGrid myGrid) {
-		for (int i = 0; i < myGrid.getGridWidth(); i++) {
-			for (int j = 0; j < myGrid.getGridHeight(); j++) {
+		for (int i = 0; i < myGrid.getGridHeight(); i++) {
+			for (int j = 0; j < myGrid.getGridWidth(); j++) {
 				if (myGrid.getCell(i, j).getNextType() != null) {
 					evaluateCell(myGrid.getCell(i, j), myGrid);
 				}
