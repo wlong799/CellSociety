@@ -1,124 +1,65 @@
 package cellsociety_team13;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
-// The cell class extends Rectangle which 
-// contains the current state of the cell, 
-// the next state of the cell, the cell type and 
-// any other type of useful information.
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Cell class extends Rectangle to be drawn to screen. Contains information on
+ * its type and state, in a general way that can easily be extended to many
+ * different situations. The Rule class for a given name is responsible for
+ * properly interpreting and setting the Cell's type and state.
+ */
+public class Cell extends Rectangle {
+	private static final Color DEFAULT_COLOR = Color.GRAY;
 
-public class Cell {
-	public String nextState;
-	public String currentState;
-	private int row;
-	private int column;
-	private int x;
-	private int y;
-	private int width;
-	private int height;
-	public int lifetime;
-	public Shape shape;
-	public Paint color;
-	
-	public int getLifetime() {
-		return lifetime;
+	private String currentType, nextType;
+	private Map<String, Integer> currentState, nextState;
+
+	public Cell(String cellType, double xPos, double yPos, double width, double height) {
+		super(xPos, yPos, width, height);
+		setFill(DEFAULT_COLOR);
+
+		currentType = cellType;
+		nextType = cellType;
+		currentState = new HashMap<>();
+		nextState = new HashMap<>();
 	}
 
-	public void setLifetime(int lifetime) {
-		this.lifetime = lifetime;
-	}
-
-	public Cell(int row, int column, int width, int height, int gridX, int gridY){
-		this.setRow(row);
-		this.setColumn(column);
-		this.width = width;
-		this.height = height;
-		this.setX(gridX + column*width);
-		this.setY(gridY + row*height);
-		this.shape = new Rectangle(this.x, this.y, this.width, this.height);
-		this.color = Color.GRAY;
-	}
-	
-	public void updateState(){
-		this.currentState = this.nextState;
-		this.nextState = null;
-		if (this.currentState.equals("FIRE")){
-			this.color = Color.RED;
-		} else if (this.currentState.equals("TREE")){
-			this.color = Color.BROWN;
-		} else if (this.currentState.equals("EMPTY")){
-			this.color = Color.GRAY;
+	public void initalizeState(Map<String, Integer> initialStates) {
+		for (String stateName : initialStates.keySet()) {
+			int stateVal = nextState.get(stateName);
+			currentState.put(stateName, stateVal);
+			nextState.put(stateName, stateVal);
 		}
 	}
-	
-	public void setCurrentState(String currentState) {
-		this.currentState = currentState;
-	}
 
-	public String getCurrentState() {
-		return currentState;
-	}
-	
-	public void setNextState(String state){
-		this.nextState = state;
-		this.setLifetime(0); 	//reset lifetime when you change the state
-	}
-	
-	public String getNextState(){
-		return nextState;
-	}
-	
-	public boolean isEmpty(){
-		return (currentState ==null);
-	}
-	
-	public boolean canPut(){
-		if(nextState == null){
-			return (currentState =="EMPTY"); 
+	public void stepToNextState() {
+		currentType = nextType;
+		currentState = new HashMap<>();
+		for (String stateName : nextState.keySet()) {
+			int stateVal = nextState.get(stateName);
+			currentState.put(stateName, stateVal);
 		}
-		return (nextState =="EMPTY");
 	}
 
-	public void resetCell(){
-		nextState = null;
-		currentState = null;
-		lifetime = 0; 
+	public void setNextType(String cellType) {
+		nextType = cellType;
 	}
 
-	public int getX() {
-		return x;
+	public void setNextState(String stateName, int stateVal) {
+		nextState.put(stateName, stateVal);
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void removeNextState(String stateName) {
+		if (nextState.containsKey(stateName)) {
+			nextState.remove(stateName);
+		}
 	}
 
-	public int getY() {
-		return y;
+	public void removeAllNextStates() {
+		nextState = new HashMap<>();
 	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public int getColumn() {
-		return column;
-	}
-
-	public void setColumn(int column) {
-		this.column = column;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
 }
