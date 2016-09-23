@@ -2,6 +2,7 @@ package rule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cellsociety_team13.Cell;
@@ -12,6 +13,8 @@ public abstract class Rule {
 
 	Map<String, Integer> cellTypeMap;
 	Map<String, Integer> parameterMap;
+	List<Cell> nonDiagNeighbours;
+	List<Cell> myNeighbours; 
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
