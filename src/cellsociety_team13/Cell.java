@@ -43,6 +43,14 @@ public class Cell extends Rectangle {
 	public int getCurrentState(String stateName){
 		return currentState.get(stateName);
 	}
+	
+	public void setCurrentState(String stateName, int value){
+		currentState.put(stateName, value);
+	}
+	
+	public String getNextType(){
+		return nextType;
+	}
 
 	public void stepToNextState() {
 		currentType = nextType;
@@ -70,4 +78,5 @@ public class Cell extends Rectangle {
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
 	}
+
 }

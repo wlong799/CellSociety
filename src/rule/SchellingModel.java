@@ -1,28 +1,33 @@
 package rule;
 
-import com.sun.prism.paint.Color;
+import javafx.scene.paint.Color;
 
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 
 public class SchellingModel extends Rule {
 	//NOTE: cannot have cells which are null, they must be "EMPTY"
+	
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		if (!satisfiedCell(myCell, myGrid)) {
-			findAnEmptyValidCell(myCell, myGrid).setNextState(myCell.getCurrentState());
-			myCell.setNextState("EMPTY");
+			findAnEmptyValidCell(myCell, myGrid).setNextType(myCell.getCurrentType());
+			myCell.setNextType("EMPTY");
 		}
 		return;
 	}
 	
+	void setStatesInMap(Cell myCell){
+		
+	}
+	
 	void setColor(Cell myCell){
-		if(myCell.getCurrentState().equals("EMPTY")){
+		if(myCell.getCurrentType().equals("EMPTY")){
 			myCell.setFill(Color.WHITE);
 		}
-		else if(myCell.getCurrentState().equals("X")){
+		else if(myCell.getCurrentType().equals("X")){
 			myCell.setFill(Color.BLACK);
 		}
-		else if(myCell.getCurrentState().equals("O")){
+		else if(myCell.getCurrentType().equals("O")){
 			myCell.setFill(Color.BLUE);
 		}
 	}
@@ -31,7 +36,7 @@ public class SchellingModel extends Rule {
 		int count = 0;
 		getNeighbours(myCell, myGrid);
 		for (Cell neighbour : allNeighbours) {
-			if (neighbour.getCurrentState().equals(myCell.getCurrentState())) {
+			if (neighbour.getCurrentType().equals(myCell.getCurrentType())) {
 				count++;
 			}
 		}
@@ -50,7 +55,7 @@ public class SchellingModel extends Rule {
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
 		for (int i = 0; i < myGrid.getWidth(); i++) {
 			for (int j = 0; i < myGrid.getHeight(); j++) {
-				if (myGrid.getCell(i, j).canPut()) {
+				if (myGrid.getCell(i, j).getNextType() == "EMPTY" || myGrid.getCell(i, j).getNextType() == null) {
 					return myGrid.getCell(i, j);
 				}
 			}

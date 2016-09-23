@@ -20,8 +20,30 @@ public abstract class Rule {
 	ArrayList<Cell> allNeighbours;
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
-	
-	abstract void evaluateGrid(CellGrid myGrid);
+
+	void initialize(CellGrid myGrid) {
+		for (int i = 0; i < myGrid.getWidth(); i++) {
+			for (int j = 0; j < myGrid.getHeight(); j++) {
+				setColor(myGrid.getCell(i, j));
+				setStatesInMap(myGrid.getCell(i, j));
+
+			}
+		}
+	}
+
+	abstract void setColor(Cell myCell);
+
+	abstract void setStatesInMap(Cell myCell);
+
+	void evaluateGrid(CellGrid myGrid) {
+		for (int i = 0; i < myGrid.getWidth(); i++) {
+			for (int j = 0; j < myGrid.getHeight(); j++) {
+				if (myGrid.getCell(i, j).getNextType() != null) {
+					evaluateCell(myGrid.getCell(i, j), myGrid);
+				}
+			}
+		}
+	}
 
 	void getNonDiagNeighbours(Cell myCell, CellGrid myGrid) {
 		ArrayList<Cell> nonDiagNeighbours = new ArrayList<Cell>();
@@ -60,8 +82,6 @@ public abstract class Rule {
 		}
 		this.allNeighbours = myNeighbours;
 	}
-	
-	abstract void setColor(Cell myCell);
 
 	void getHashMaps() {
 		cellTypeMap = GameInfoReader.getCellTypeMap();
