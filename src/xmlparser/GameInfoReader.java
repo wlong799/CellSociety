@@ -20,9 +20,10 @@ public class GameInfoReader {
     public GameInfoReader(String filename) {
         this.filename = filename;
         gameInfoHandler = new GameInfoHandler();
+        readGameInfoFile();
     }
 
-    public void readGameInfoFile() {
+    private void readGameInfoFile() {
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser;
         try {
