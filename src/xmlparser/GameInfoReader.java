@@ -6,6 +6,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,7 +51,15 @@ public class GameInfoReader {
         return gameInfoHandler.getParameterMap();
     }
 
-    public String[][] getCellTypeGrid() {
-        return gameInfoHandler.getCellTypeGrid();
+    public int getGridWidth() {
+        return gameInfoHandler.getGridWidth();
+    }
+
+    public int getGridHeight() {
+        return gameInfoHandler.getGridHeight();
+    }
+
+    public List<String> getInitialCellTypes() {
+        return gameInfoHandler.getInitialCellTypes();
     }
 }

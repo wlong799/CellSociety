@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <game>
     <main>
-        <title>Segregation</title>
-        <rule>Segregation</rule>
+        <title>Schelling Segregation Model</title>
+        <rule>SchellingModel</rule>
         <author>Will Long</author>
     </main>
 
