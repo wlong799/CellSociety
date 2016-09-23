@@ -34,7 +34,7 @@ public class SchellingModel extends Rule {
 
 	private boolean satisfiedCell(Cell myCell, CellGrid myGrid) {
 		int count = 0;
-		getNeighbours(myCell, myGrid);
+		myGrid.getNeighbours(myCell, myGrid);
 		for (Cell neighbour : allNeighbours) {
 			if (neighbour.getCurrentType().equals(myCell.getCurrentType())) {
 				count++;
@@ -53,8 +53,8 @@ public class SchellingModel extends Rule {
 	 * are not occupying this spot
 	 */
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
-		for (int i = 0; i < myGrid.getWidth(); i++) {
-			for (int j = 0; i < myGrid.getHeight(); j++) {
+		for (int i = 0; i < myGrid.getGridWidth(); i++) {
+			for (int j = 0; i < myGrid.getGridHeight(); j++) {
 				if (myGrid.getCell(i, j).getNextType() == "EMPTY" || myGrid.getCell(i, j).getNextType() == null) {
 					return myGrid.getCell(i, j);
 				}
