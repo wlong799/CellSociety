@@ -1,6 +1,5 @@
 package xmlparser;
 
-import cellsociety_team13.Cell;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -10,14 +9,12 @@ import java.util.*;
 /**
  * Extends the DefaultHandler class, to properly interpret XML files formatted
  * to store CellSociety game information.
- *
- * @author Will Long
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
     private Stack<String> elementStack;
 
-    private String title, rule, author;
+    private String title, ruleClassName, author;
 
     private Map<String, Integer> parameterMap;
     private String nextParameterName;
@@ -25,9 +22,9 @@ class GameInfoHandler extends DefaultHandler {
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
 
-    private Cell[][] cellGrid;
+    private String[][] initialCellTypeGrid;
     private int gridWidth, gridHeight;
-    private Cell nextCell;
+    private String nextCellType;
     private int nextCellRow, nextCellCol;
 
     GameInfoHandler() {
@@ -75,7 +72,7 @@ class GameInfoHandler extends DefaultHandler {
         if (elementStack.peek().equals("TITLE")) {
             title = information;
         } else if (elementStack.peek().equals("RULE")) {
-            rule = information;
+            ruleClassName = information;
         } else if (elementStack.peek().equals("AUTHOR")) {
             author = information;
         }
@@ -109,10 +106,10 @@ class GameInfoHandler extends DefaultHandler {
         } else if (elementStack.peek().equals("DEFAULTID")) {
             int defaultID = Integer.parseInt(information);
             String defaultCellType = cellTypeMap.get(defaultID);
-            cellGrid = new Cell[gridHeight][gridWidth];
+            initialCellTypeGrid = new String[gridHeight][gridWidth];
             for (int r = 0; r < gridHeight; r++) {
                 for (int c = 0; c < gridWidth; c++) {
-                    cellGrid[r][c] = new Cell(defaultCellType);
+                    initialCellTypeGrid[r][c] = defaultCellType;
                 }
             }
         } else if (elementStack.contains("CELL")) {
@@ -124,14 +121,14 @@ class GameInfoHandler extends DefaultHandler {
         if (elementStack.peek().equals("ID")) {
             int id = Integer.parseInt(information);
             String cellType = cellTypeMap.get(id);
-            nextCell = new Cell(cellType);
+            nextCellType = cellType;
         } else if (elementStack.peek().equals("ROW")) {
             int row = Integer.parseInt(information);
             nextCellRow = row;
         } else if (elementStack.peek().equals("COL")) {
             int col = Integer.parseInt(information);
             nextCellCol = col;
-            cellGrid[nextCellRow][nextCellCol] = nextCell;
+            initialCellTypeGrid[nextCellRow][nextCellCol] = nextCellType;
         }
     }
 
@@ -139,8 +136,8 @@ class GameInfoHandler extends DefaultHandler {
         return title;
     }
 
-    String getRule() {
-        return rule;
+    String getRuleClassName() {
+        return ruleClassName;
     }
 
     String getAuthor() {
@@ -151,7 +148,7 @@ class GameInfoHandler extends DefaultHandler {
         return parameterMap;
     }
 
-    Cell[][] getCellGrid() {
-        return cellGrid;
+    String[][] getCellTypeGrid() {
+        return initialCellTypeGrid;
     }
 }
