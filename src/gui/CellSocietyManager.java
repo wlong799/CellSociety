@@ -1,6 +1,8 @@
 package gui;
 
 import cellsociety_team13.CellGrid;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -8,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import rule.SpreadingOfFire;
 import xmlparser.GameInfoReader;
 
@@ -15,12 +18,17 @@ import xmlparser.GameInfoReader;
  * @author Will Long
  */
 public class CellSocietyManager {
+	public static final int SIZE = 400;
+    public static final int FRAMES_PER_SECOND = 1;
+    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    
     private static final int PADDING = 25;
     private static final int SCENE_WIDTH = 600;
     private static final int SCENE_HEIGHT = 750;
-
+    
     private Group sceneRoot;
     private Scene scene;
+    private Timeline runAnimation;
 
     private CellGrid cellGrid;
 
@@ -48,7 +56,7 @@ public class CellSocietyManager {
                 readGameInfoFile(xmlFilenameField.getCharacters().toString()));
 
         stepButton = new Button("STEP");
-        stepButton.setOnAction(e -> cellGrid.step());
+        stepButton.setOnAction(e -> step());
         runButton = new Button("RUN");
         runButton.setOnAction(e -> {
 			try {
@@ -59,6 +67,19 @@ public class CellSocietyManager {
 		});
 
         parameterAdjustmentList = new ComboBox();
+    }
+    
+    private void step(){
+    	cellGrid.step();
+    }
+    
+    private void run(){
+    	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                e -> cellGrid.step());
+    	runAnimation = new Timeline();
+    	runAnimation.setCycleCount(Timeline.INDEFINITE);
+    	runAnimation.getKeyFrames().add(frame);
+    	runAnimation.play();
     }
 
     public Scene getScene() {
