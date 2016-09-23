@@ -1,24 +1,30 @@
-package cellsociety_team13;
+package rule;
 
 import java.util.ArrayList;
 
 import com.sun.prism.paint.Color;
 
+import cellsociety_team13.Cell;
+import cellsociety_team13.CellGrid;
+
 public class WatorWorld extends Rule {
 
 	// NOTE: MUST UPDATE THE SHARKS POSITION BEFORE THE FISH BECAUSE SHARKS HAVE
 	// PREFERENCE!
-	void evaluateGrid(CellGrid myGrid){
-		String type = "SHARK";
-		
-		iterateArrayListAndUpdate(myGrid, type);
-		
+	void evaluateGrid(CellGrid myGrid){		
+		iterateArrayListAndUpdate(myGrid, "SHARK");
+		iterateArrayListAndUpdate(myGrid, "FISH");
+		iterateArrayListAndUpdate(myGrid, "KELP");
+
 	}
 
 	private void iterateArrayListAndUpdate(CellGrid myGrid, String type) {
 		ArrayList<Cell> myCells = myGrid.getCellsWithState(type, myGrid);
 		for(Cell myCell : myCells){
-			evaluateCell(myCell, myGrid);
+			if(){
+				evaluateCell(myCell, myGrid);
+
+			}
 		}
 	}
 

@@ -1,6 +1,9 @@
-package cellsociety_team13;
+package rule;
 
 import com.sun.prism.paint.Color;
+
+import cellsociety_team13.Cell;
+import cellsociety_team13.CellGrid;
 
 public class SchellingModel extends Rule {
 	//NOTE: cannot have cells which are null, they must be "EMPTY"

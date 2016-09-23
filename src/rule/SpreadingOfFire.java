@@ -1,6 +1,9 @@
-package cellsociety_team13;
+package rule;
 
 import com.sun.prism.paint.Color;
+
+import cellsociety_team13.Cell;
+import cellsociety_team13.CellGrid;
 
 public class SpreadingOfFire extends Rule {
 

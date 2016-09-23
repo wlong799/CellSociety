@@ -3,6 +3,7 @@ package cellsociety_team13;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import rule.Rule;
 
 //The cell grid class is simply an array of 
 //Cells (obj) which extends Group. CellGrid 

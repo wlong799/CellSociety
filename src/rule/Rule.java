@@ -1,9 +1,11 @@
-package cellsociety_team13;
+package rule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cellsociety_team13.Cell;
+import cellsociety_team13.CellGrid;
 import xmlparser.GameInfoHandler;
 
 public abstract class Rule {

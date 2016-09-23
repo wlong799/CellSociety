@@ -35,6 +35,14 @@ public class Cell extends Rectangle {
 			nextState.put(stateName, stateVal);
 		}
 	}
+	
+	public String getCurrentType(){
+		return currentType;
+	}
+	
+	public int getCurrentState(String stateName){
+		return currentState.get(stateName);
+	}
 
 	public void stepToNextState() {
 		currentType = nextType;
