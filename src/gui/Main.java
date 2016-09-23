@@ -1,6 +1,5 @@
-package cellsociety_team13;
+package gui;
 
-import cellsociety_team13.CellSocietyManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

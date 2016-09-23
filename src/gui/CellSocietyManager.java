@@ -1,5 +1,6 @@
-package cellsociety_team13;
+package gui;
 
+import cellsociety_team13.CellGrid;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
