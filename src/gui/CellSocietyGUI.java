@@ -17,7 +17,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import javafx.util.Duration;
+import rule.SchellingModel;
 import rule.SpreadingOfFire;
+import rule.WatorWorld;
 import xmlparser.GameInfoReader;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -31,14 +33,12 @@ import rule.Rule;
 
 
 public class CellSocietyGUI {
-	public static final int SIZE = 400;
-    public static final int FRAMES_PER_SECOND = 1;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-
     private static final double SCENE_WIDTH = 600;
     private static final double SCENE_HEIGHT = 750;
+    private static final double TEXT_BOX_HEIGHT = 100;
     private static final double PADDING = 25;
     private static final String DEFAULT_XML_FILE = "data/fire.xml";
+    private static final double RUN_SPEED_MILLI = 1000;
     
     private Group sceneRoot;
     private Scene scene;
@@ -66,12 +66,8 @@ public class CellSocietyGUI {
         title.setWrappingWidth(SCENE_WIDTH - 2*PADDING);
         title.setFont(Font.font("Monospace", FontWeight.BOLD, 36));
 
-        // ???????????
-        //rule = Class.forName(gameInfoReader.getRuleClassName().getConstructor(St))
-
-        List<String> InitialCellState = null; // THIS WILL CAUSE A NULL EXCEPTION ERROR
-        cellGrid = new CellGrid(10, 10, 20, 10, 25, 25, InitialCellState, new SpreadingOfFire());
-        // set positioning
+        rule = loadRule();
+        cellGrid = loadCellGrid();
 
         xmlFilenameField = new TextField();
         // set size
@@ -102,11 +98,33 @@ public class CellSocietyGUI {
     	runAnimation.play();
     }
 
-    public Scene getScene() {
-        return scene;
+    private Rule loadRule() {
+        String ruleName = gameInfoReader.getRuleClassName();
+
+        if (ruleName.equals("SchellingModel")) {
+            return new SchellingModel();
+        } else if (ruleName.equals("WatorWorld")) {
+            return new WatorWorld();
+        } else if (ruleName.equals("SpreadingOfFire")) {
+            return new SpreadingOfFire();
+        }
+
+        return null;
     }
 
-    private void readGameInfoFile(String filename) {
-        GameInfoReader gameInfoReader = new GameInfoReader(filename);
+    private CellGrid loadCellGrid() {
+        double xPos = PADDING;
+        double yPos = PADDING * 2 + TEXT_BOX_HEIGHT;
+        double drawWidth = SCENE_WIDTH - PADDING * 2;
+        double drawHeight = drawWidth;
+        int gridWidth = gameInfoReader.getGridWidth();
+        int gridHeight = gameInfoReader.getGridHeight();
+        List<String> initialCellTypes = gameInfoReader.getInitialCellTypes();
+        return new CellGrid(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                            gridHeight, initialCellTypes, rule);
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }
