@@ -32,13 +32,13 @@ public class Cell {
 		this.lifetime = lifetime;
 	}
 
-	public Cell(int row, int column, int width, int height){
+	public Cell(int row, int column, int width, int height, int gridX, int gridY){
 		this.setRow(row);
 		this.setColumn(column);
 		this.width = width;
 		this.height = height;
-		this.setX(column*width);
-		this.setY(row*height);
+		this.setX(gridX + column*width);
+		this.setY(gridY + row*height);
 		this.shape = new Rectangle(this.x, this.y, this.width, this.height);
 		this.color = Color.GRAY;
 	}

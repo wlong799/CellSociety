@@ -16,19 +16,22 @@ public class CellGrid {
 	private int height; // Number of rows
 	private int cellWidth;
 	private int cellHeight;
+	private int x;
+	private int y;
 	private Rule rule;
 	private ArrayList<Cell> cells = new ArrayList<Cell>();
 	private boolean run = false;
 	
-	public CellGrid(int width, int height, int cellWidth, int cellHeight, Rule rule, Group root){
+	public CellGrid(int width, int height, int cellWidth, int cellHeight, int x, int y, Rule rule, Group root){
 		this.setWidth(width); this.setHeight(height);
 		this.cellWidth = cellWidth; this.cellHeight = cellHeight;
 		this.rule = rule;
+		this.x = x;
+		this.y = y;
 		for (int row = 0; row < height; row++){
 			for (int col = 0; col < width; col++){
 				// Based on Rule Type Create Different Cells
-				Cell cell = new Cell(col, row, cellWidth, cellHeight);
-				
+				Cell cell = new Cell(col, row, cellWidth, cellHeight, x, y);
 				cells.add(cell);
 				root.getChildren().add(cell.shape);
 			} // End of Width For

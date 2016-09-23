@@ -33,8 +33,8 @@ public class CellSocietyManager {
         sceneRoot = new Group();
         scene = new Scene(sceneRoot, SCENE_WIDTH, SCENE_HEIGHT);
 
-        // Just entered basic info to test
-        cellGrid = new CellGrid(10, 10, 20, 10, new SpreadingOfFire(), sceneRoot);
+        // Just Hard-Coded numbers for test
+        cellGrid = new CellGrid(10, 10, 20, 10, 25, 25, new SpreadingOfFire(), sceneRoot);
         // set positioning
 
         xmlFilenameField = new TextField();
