@@ -18,6 +18,8 @@ public abstract class Rule {
 	ArrayList<Cell> allNeighbours;
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
+	
+	abstract void evaluateGrid(CellGrid myGrid);
 
 	void getNonDiagNeighbours(Cell myCell, CellGrid myGrid) {
 		ArrayList<Cell> nonDiagNeighbours = new ArrayList<Cell>();
@@ -57,10 +59,7 @@ public abstract class Rule {
 		this.allNeighbours = myNeighbours;
 	}
 	
-	void getHexagonalNeighbours(Cell myCell, CellGrid myGrid){
-		ArrayList<Cell> myNeighbours = new ArrayList<Cell>(nonDiagNeighbours);
-		
-	}
+	abstract void setColor(Cell myCell);
 
 	void getHashMaps() {
 		cellTypeMap = GameInfoReader.getCellTypeMap();

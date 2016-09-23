@@ -1,9 +1,26 @@
 package cellsociety_team13;
 
+import java.util.ArrayList;
+
+import com.sun.prism.paint.Color;
+
 public class WatorWorld extends Rule {
 
 	// NOTE: MUST UPDATE THE SHARKS POSITION BEFORE THE FISH BECAUSE SHARKS HAVE
 	// PREFERENCE!
+	void evaluateGrid(CellGrid myGrid){
+		String type = "SHARK";
+		
+		iterateArrayListAndUpdate(myGrid, type);
+		
+	}
+
+	private void iterateArrayListAndUpdate(CellGrid myGrid, String type) {
+		ArrayList<Cell> myCells = myGrid.getCellsWithState(type, myGrid);
+		for(Cell myCell : myCells){
+			evaluateCell(myCell, myGrid);
+		}
+	}
 
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		getHashMaps();
@@ -13,6 +30,18 @@ public class WatorWorld extends Rule {
 			updateFishAndShark(myCell, myGrid, "SHARK", "FISH");
 		} else {
 			myCell.setNextState("KELP");
+		}
+	}
+	
+	void setColor(Cell myCell){
+		if(myCell.getCurrentState().equals("FISH")){
+			myCell.setFill(Color.BLUE);
+		}
+		else if(myCell.getCurrentState().equals("KELP")){
+			myCell.setFill(Color.GREEN);
+		}
+		else if(myCell.getCurrentState().equals("SHARK")){
+			myCell.setFill(Color.RED);
 		}
 	}
 
