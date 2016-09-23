@@ -5,9 +5,16 @@ import javafx.scene.paint.Color;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 
+/**
+ * SchellingModel moves cells to a random "EMPTY" position on the grid whenever
+ * they are not "satisfied" a cell is satisfied when its surrounded by at lead t
+ * cells that are the same as itself
+ * 
+ * @author Lucia Martos
+ */
+
 public class SchellingModel extends Rule {
-	//NOTE: cannot have cells which are null, they must be "EMPTY"
-	
+	// NOTE: cannot have cells which are null, they must be "EMPTY"
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
@@ -17,19 +24,17 @@ public class SchellingModel extends Rule {
 		}
 		return;
 	}
-	
-	void setStatesInMap(Cell myCell){
-		
+
+	void setStatesInMap(Cell myCell) {
+
 	}
-	
-	void setColor(Cell myCell){
-		if(myCell.getCurrentType().equals("EMPTY")){
+
+	void setColor(Cell myCell) {
+		if (myCell.getCurrentType().equals("EMPTY")) {
 			myCell.setFill(Color.WHITE);
-		}
-		else if(myCell.getCurrentType().equals("X")){
+		} else if (myCell.getCurrentType().equals("X")) {
 			myCell.setFill(Color.BLACK);
-		}
-		else if(myCell.getCurrentType().equals("O")){
+		} else if (myCell.getCurrentType().equals("O")) {
 			myCell.setFill(Color.BLUE);
 		}
 	}

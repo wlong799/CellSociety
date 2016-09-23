@@ -6,12 +6,18 @@ import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
 
+/**
+ * WatorWorld is a simulation in which the sharks eat the fish and the fish eat
+ * the kelp, the shark has preference over the fish in eating, if the animal has
+ * been alive for more than x amount of time they move and reproduce
+ * 
+ * @author Lucia Martos
+ */
 public class WatorWorld extends Rule {
-	
+
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
-		getHashMaps();
 		if (myCell.getCurrentType().equals("FISH")) {
 			updateFishAndShark(myCell, myGrid, "FISH", "KELP");
 		} else if (myCell.getCurrentType().equals("SHARK")) {
@@ -20,7 +26,7 @@ public class WatorWorld extends Rule {
 			myCell.setNextType("KELP");
 		}
 	}
-	
+
 	@Override
 	public void evaluateGrid(CellGrid myGrid) {
 		iterateArrayListAndUpdate(myGrid, "SHARK");
@@ -37,11 +43,11 @@ public class WatorWorld extends Rule {
 		}
 	}
 
-	void setStatesInMap(Cell myCell){
+	void setStatesInMap(Cell myCell) {
 		myCell.setCurrentState("lifetime", 0);
-		
+
 	}
-	
+
 	void setColor(Cell myCell) {
 		if (myCell.getCurrentType().equals("FISH")) {
 			myCell.setFill(Color.BLUE);
@@ -61,10 +67,10 @@ public class WatorWorld extends Rule {
 			// if it has lived the lifetime required it can reproduce
 			if (myCell.getCurrentState("lifetime") < parameterMap.get("lifetime")) {
 				// set the lifetime to the previous one +1
-				nextCell.setCurrentState("lifetime",myCell.getCurrentState("lifetime") + 1);
+				nextCell.setCurrentState("lifetime", myCell.getCurrentState("lifetime") + 1);
 				myCell.setNextType("KELP");
 			} else {
-				nextCell.setCurrentState("lifetime",myCell.getCurrentState("lifetime") + 1);
+				nextCell.setCurrentState("lifetime", myCell.getCurrentState("lifetime") + 1);
 				myCell.setNextType(attacker);
 			}
 		} else {
@@ -85,9 +91,11 @@ public class WatorWorld extends Rule {
 			double myRandomValue = Math.random();
 			if (myRandomValue < 0.25 && nonDiagNeighbours.get(0).getCurrentType().equals(type)) {
 				return nonDiagNeighbours.get(0);
-			} else if (myRandomValue > 0.25 && myRandomValue < 0.5 && nonDiagNeighbours.get(1).getCurrentType().equals(type)) {
+			} else if (myRandomValue > 0.25 && myRandomValue < 0.5
+					&& nonDiagNeighbours.get(1).getCurrentType().equals(type)) {
 				return nonDiagNeighbours.get(1);
-			} else if (myRandomValue > 0.5 && myRandomValue < 0.75 && nonDiagNeighbours.get(2).getCurrentType().equals(type)) {
+			} else if (myRandomValue > 0.5 && myRandomValue < 0.75
+					&& nonDiagNeighbours.get(2).getCurrentType().equals(type)) {
 				return nonDiagNeighbours.get(2);
 			} else if (myRandomValue > 0.75 && nonDiagNeighbours.get(3).getCurrentType().equals(type)) {
 				return nonDiagNeighbours.get(3);
