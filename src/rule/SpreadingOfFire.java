@@ -35,7 +35,7 @@ public class SpreadingOfFire extends Rule {
 		return;
 	}
 
-	void setColor(Cell myCell) {
+	public void setColor(Cell myCell) {
 		if (myCell.getCurrentType().equals("FIRE")) {
 			myCell.setFill(Color.RED);
 		} else if (myCell.getCurrentType().equals("TREE")) {

@@ -55,7 +55,7 @@ public class GameOfLife extends Rule {
 		return count;
 	}
 
-	void setColor(Cell myCell) {
+	public void setColor(Cell myCell) {
 		if (myCell.getCurrentType().equals("DEAD")) {
 			myCell.setFill(Color.BLACK);
 		} else if (myCell.getCurrentType().equals("LIVE")) {

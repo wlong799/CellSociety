@@ -30,7 +30,7 @@ public abstract class Rule {
 		}
 	}
 
-	abstract void setColor(Cell myCell);
+	public abstract void setColor(Cell myCell);
 
 	abstract void setStatesInMap(Cell myCell);
 

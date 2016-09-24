@@ -78,13 +78,15 @@ public class CellGrid extends Group {
 	public void step() {
 		rule.evaluateGrid(this);
 		stepToNextStatesAndTypes();
+		System.out.println("Step");
 	}
 
 	private void stepToNextStatesAndTypes() {
-		for (int i = 0; i < gridHeight; i++) {
-			for (int j = 0; j < gridWidth; j++) {
-				getCell(i, j).stepToNextStateAndType();
-			}
+		for(Cell cell : cells){
+			System.out.println(cell.getMyRow() + cell.getMyCol() + ": " + cell.getCurrentType());
+			cell.stepToNextStateAndType();
+			System.out.println(cell.getMyRow() + cell.getMyCol() + ": " + cell.getCurrentType());
+			this.rule.setColor(cell);
 		}
 	}
 

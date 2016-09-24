@@ -12,16 +12,16 @@
     </parameter>
 
     <celltype>
-        <id>0</id>
+        <id>2</id>
         <name>EMPTY</name>
     </celltype>
     <celltype>
-        <id>1</id>
-        <name>Tree</name>
+        <id>0</id>
+        <name>TREE</name>
     </celltype>
     <celltype>
-        <id>2</id>
-        <name>Burning</name>
+        <id>1</id>
+        <name>FIRE</name>
     </celltype>
 
     <grid>
