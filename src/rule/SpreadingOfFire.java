@@ -25,8 +25,6 @@ public class SpreadingOfFire extends Rule {
 		} else if (myCell.getCurrentType().equals("FIRE")) {
 			myCell.setNextType("EMPTY");
 		}
-		// this is in the case the cell is empty it remains empty or if the cell
-		// was a try and did not catch fire
 		else {
 			myCell.setNextType(myCell.getCurrentType());
 		}
@@ -34,6 +32,7 @@ public class SpreadingOfFire extends Rule {
 	}
 
 	void setStatesInMap(Cell myCell) {
+		return;
 	}
 
 	void setColor(Cell myCell) {

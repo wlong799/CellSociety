@@ -20,7 +20,7 @@ public abstract class Rule {
 
 	abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
-	void initialize(CellGrid myGrid) {
+	public void initialize(CellGrid myGrid) {
 		for (int i = 0; i < myGrid.getGridHeight(); i++) {
 			for (int j = 0; j < myGrid.getGridWidth(); j++) {
 				setColor(myGrid.getCell(i, j));

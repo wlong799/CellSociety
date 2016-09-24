@@ -45,6 +45,7 @@ public class CellGrid extends Group {
  			}
  		}
 		this.rule = rule;
+		rule.initialize(this);
 	}
 
 	public int getGridWidth() {

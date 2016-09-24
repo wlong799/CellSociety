@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import rule.SchellingModel;
 import rule.SpreadingOfFire;
@@ -53,6 +54,7 @@ public class CellSocietyGUI {
     public CellSocietyGUI() {
         sceneRoot = new Group();
         scene = new Scene(sceneRoot, SCENE_WIDTH, SCENE_HEIGHT);
+        scene.setFill(Color.DARKGRAY);
 
         gameInfoReader = new GameInfoReader(DEFAULT_XML_FILE);
 
