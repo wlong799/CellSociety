@@ -13,11 +13,11 @@
 
     <celltype>
         <id>0</id>
-        <name>Dead</name>
+        <name>DEAD</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>Living</name>
+        <name>LIVE</name>
     </celltype>
 
     <grid>
