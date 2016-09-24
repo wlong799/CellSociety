@@ -33,8 +33,7 @@ public class TitleBox extends Group {
         titleText.setWrappingWidth(width);
         titleText.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, FONT_SIZE));
 
-        getChildren().add(background);
-        getChildren().add(titleText);
+        getChildren().addAll(background, titleText);
     }
 
     public String getText() {
