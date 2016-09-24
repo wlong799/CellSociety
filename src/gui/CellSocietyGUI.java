@@ -20,17 +20,20 @@ import rule.SchellingModel;
 import rule.SpreadingOfFire;
 import rule.WatorWorld;
 import xmlparser.GameInfoReader;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import rule.Rule;
 
 public class CellSocietyGUI {
+    private static final double TITLE_BOX_HEIGHT = 100;
+    private static final double CELL_GRID_SIZE = 500;
+    private static final double INPUT_PANEL_HEIGHT = 200;
+    private static final double PADDING = 25;
+
+
+
+
     private static final double SCENE_WIDTH = 600;
     private static final double SCENE_HEIGHT = 750;
-    private static final double TEXT_BOX_HEIGHT = 100;
-    private static final double PADDING = 25;
+
     private static final String DEFAULT_XML_FILE = "data/fire.xml";
     private static final double RUN_SPEED_MILLI = 1000;
 
@@ -40,7 +43,7 @@ public class CellSocietyGUI {
 
     private GameInfoReader gameInfoReader;
 
-    private Text title;
+    private TitleBox titleBox;
 
     private CellGrid cellGrid;
     private Rule rule;
@@ -58,16 +61,17 @@ public class CellSocietyGUI {
 
         gameInfoReader = new GameInfoReader(DEFAULT_XML_FILE);
 
-        title = new Text(PADDING, PADDING, gameInfoReader.getTitle());
-        title.setTextAlignment(TextAlignment.CENTER);
-        title.setWrappingWidth(SCENE_WIDTH - 2 * PADDING);
-        title.setFont(Font.font("Monospace", FontWeight.BOLD, 36));
+        loadTitleBox();
 
         loadRule();
         loadCellGrid();
         createInputPanel();
 
-        sceneRoot.getChildren().addAll(title, cellGrid, inputPanel);
+        sceneRoot.getChildren().addAll(cellGrid, inputPanel);
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 
     private void step() {
@@ -84,6 +88,16 @@ public class CellSocietyGUI {
         }
     }
 
+    private void loadTitleBox() {
+        double x = PADDING;
+        double y = PADDING;
+        double width = SCENE_WIDTH - (2 * PADDING);
+        double height = TITLE_BOX_HEIGHT;
+        String title = gameInfoReader.getTitle();
+        titleBox = new TitleBox(x, y, width, height, title);
+        sceneRoot.getChildren().add(titleBox);
+    }
+
     private void loadRule() {
         String ruleName = gameInfoReader.getRuleClassName();
 
@@ -98,7 +112,7 @@ public class CellSocietyGUI {
 
     private void loadCellGrid() {
         double xPos = PADDING;
-        double yPos = PADDING * 2 + TEXT_BOX_HEIGHT;
+        double yPos = PADDING * 2 + TITLE_BOX_HEIGHT;
         double drawWidth = SCENE_WIDTH - PADDING * 2;
         double drawHeight = drawWidth;
         int gridWidth = gameInfoReader.getGridWidth();
@@ -124,36 +138,34 @@ public class CellSocietyGUI {
             gameInfoReader = new GameInfoReader(filename);
             loadRule();
             loadCellGrid();
-                });
+        });
 
         stepButton = new Button("STEP");
-        stepButton.setLayoutX(150 + 2*PADDING);
+        stepButton.setLayoutX(150 + 2 * PADDING);
         stepButton.setMaxWidth(50);
         stepButton.setOnAction(e -> step());
 
         KeyFrame frame = new KeyFrame(Duration.millis(RUN_SPEED_MILLI),
-                                      e -> cellGrid.step());
+                e -> cellGrid.step());
         runAnimation = new Timeline();
         runAnimation.setCycleCount(Timeline.INDEFINITE);
         runAnimation.getKeyFrames().add(frame);
 
         runButton = new Button("RUN");
-        runButton.setLayoutX(200 + 3*PADDING);
+        runButton.setLayoutX(200 + 3 * PADDING);
         runButton.setMaxWidth(50);
         runButton.setOnAction(e -> toggleRunning());
 
         parameterAdjustmentList = new ComboBox();
-        parameterAdjustmentList.setLayoutX(250 + 4*PADDING);
-        parameterAdjustmentList.setMaxWidth(SCENE_WIDTH - 250 - 5*PADDING);
+        parameterAdjustmentList.setLayoutX(250 + 4 * PADDING);
+        parameterAdjustmentList.setMaxWidth(SCENE_WIDTH - 250 - 5 * PADDING);
         for (String param : gameInfoReader.getParameterMap().keySet()) {
             parameterAdjustmentList.getItems().add(param);
         }
 
         inputPanel.getChildren().addAll(xmlFilenameField, submitFileButton,
-                                        stepButton, runButton, parameterAdjustmentList);
+                stepButton, runButton, parameterAdjustmentList);
     }
 
-    public Scene getScene() {
-        return scene;
-    }
+
 }
