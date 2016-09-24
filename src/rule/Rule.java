@@ -37,7 +37,7 @@ public abstract class Rule {
 	public void evaluateGrid(CellGrid myGrid) {
 		for (int i = 0; i < myGrid.getGridHeight(); i++) {
 			for (int j = 0; j < myGrid.getGridWidth(); j++) {
-				if (myGrid.getCell(i, j).getNextType() != null) {
+				if (myGrid.getCell(i, j).getNextType() == null) {
 					evaluateCell(myGrid.getCell(i, j), myGrid);
 				}
 			}

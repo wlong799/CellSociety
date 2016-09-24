@@ -16,8 +16,9 @@ public class SpreadingOfFire extends Rule {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 		double myRandomValue = Math.random();
-		if (myCell.getCurrentType().equals("TREE") && nonDiagNeighbours.contains("FIRE")) {
-			if (myRandomValue < parameterMap.get("probCatch")) {
+		boolean hasFire = checkForFire();
+		if (myCell.getCurrentType().equals("TREE") && hasFire ) {
+			if (myRandomValue < 0.55) {		//instead of number should be parameterMap.get("probCatch")
 				myCell.setNextType("FIRE");
 			} else {
 				myCell.setNextType("TREE");
@@ -29,6 +30,14 @@ public class SpreadingOfFire extends Rule {
 			myCell.setNextType(myCell.getCurrentType());
 		}
 		return;
+	}
+
+	private boolean checkForFire() {
+		for(Cell myNeigh : nonDiagNeighbours){
+			if(myNeigh.getCurrentType().equals("FIRE")){
+				return true;
+			}
+		}		return false;
 	}
 
 	void setStatesInMap(Cell myCell) {

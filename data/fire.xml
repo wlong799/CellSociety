@@ -7,7 +7,7 @@
     </main>
 
     <parameter>
-        <name>prob_catch</name>
+        <name>probCatch</name>
         <value>55</value>
     </parameter>
 
