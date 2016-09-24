@@ -62,11 +62,6 @@ public class GameOfLife extends Rule {
 			myCell.setFill(Color.WHITE);
 		}
 	}
-
-	void setStatesInMap(Cell myCell) {
-		
-	}
-
-	
-
+	void setStatesInMap(Cell myCell) {	
+	}	
 }
