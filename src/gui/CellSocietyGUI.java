@@ -16,24 +16,20 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import rule.SchellingModel;
-import rule.SpreadingOfFire;
-import rule.WatorWorld;
+import rule.*;
 import xmlparser.GameInfoReader;
-import rule.Rule;
 
 public class CellSocietyGUI {
     private static final double TITLE_BOX_HEIGHT = 100;
     private static final double CELL_GRID_SIZE = 500;
-    private static final double INPUT_PANEL_HEIGHT = 200;
+    private static final double INPUT_PANEL_HEIGHT = 100;
     private static final double PADDING = 25;
 
+    private static final double SCENE_WIDTH = CELL_GRID_SIZE + (2 * PADDING);
+    private static final double SCENE_HEIGHT = TITLE_BOX_HEIGHT + CELL_GRID_SIZE +
+            INPUT_PANEL_HEIGHT + (4 * PADDING);
 
-
-
-    private static final double SCENE_WIDTH = 600;
-    private static final double SCENE_HEIGHT = 750;
-
+    private static final Color BACKGROUND_COLOR = Color.DARKBLUE;
     private static final String DEFAULT_XML_FILE = "data/fire.xml";
     private static final double RUN_SPEED_MILLI = 1000;
 
@@ -57,14 +53,13 @@ public class CellSocietyGUI {
     public CellSocietyGUI() {
         sceneRoot = new Group();
         scene = new Scene(sceneRoot, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.setFill(Color.DARKGRAY);
+        scene.setFill(BACKGROUND_COLOR);
 
         gameInfoReader = new GameInfoReader(DEFAULT_XML_FILE);
-
-        loadTitleBox();
-
         loadRule();
-        loadCellGrid();
+
+        createTitleBox();
+        createCellGrid();
         createInputPanel();
 
         sceneRoot.getChildren().addAll(cellGrid, inputPanel);
@@ -88,7 +83,20 @@ public class CellSocietyGUI {
         }
     }
 
-    private void loadTitleBox() {
+    private void loadRule() {
+        String ruleName = gameInfoReader.getRuleClassName();
+        if (ruleName.equals("GameOfLife")) {
+            rule = new GameOfLife();
+        } else if (ruleName.equals("SchellingModel")) {
+            rule = new SchellingModel();
+        } else if (ruleName.equals("WatorWorld")) {
+            rule = new WatorWorld();
+        } else if (ruleName.equals("SpreadingOfFire")) {
+            rule = new SpreadingOfFire();
+        }
+    }
+
+    private void createTitleBox() {
         double x = PADDING;
         double y = PADDING;
         double width = SCENE_WIDTH - (2 * PADDING);
@@ -98,19 +106,8 @@ public class CellSocietyGUI {
         sceneRoot.getChildren().add(titleBox);
     }
 
-    private void loadRule() {
-        String ruleName = gameInfoReader.getRuleClassName();
 
-        if (ruleName.equals("SchellingModel")) {
-            rule = new SchellingModel();
-        } else if (ruleName.equals("WatorWorld")) {
-            rule = new WatorWorld();
-        } else if (ruleName.equals("SpreadingOfFire")) {
-            rule = new SpreadingOfFire();
-        }
-    }
-
-    private void loadCellGrid() {
+    private void createCellGrid() {
         double xPos = PADDING;
         double yPos = PADDING * 2 + TITLE_BOX_HEIGHT;
         double drawWidth = SCENE_WIDTH - PADDING * 2;
@@ -125,7 +122,7 @@ public class CellSocietyGUI {
     private void createInputPanel() {
         inputPanel = new Group();
         inputPanel.setLayoutX(PADDING);
-        inputPanel.setLayoutY(cellGrid.getBoundsInLocal().getMaxY() + PADDING);
+        inputPanel.setLayoutY(cellGrid.getBoundsInParent().getMaxY() + PADDING);
 
         xmlFilenameField = new TextField("XML GAME FILE");
         xmlFilenameField.setMaxWidth(100);
@@ -137,7 +134,7 @@ public class CellSocietyGUI {
             String filename = xmlFilenameField.getCharacters().toString();
             gameInfoReader = new GameInfoReader(filename);
             loadRule();
-            loadCellGrid();
+            createCellGrid();
         });
 
         stepButton = new Button("STEP");
