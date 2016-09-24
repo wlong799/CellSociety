@@ -25,7 +25,6 @@ public abstract class Rule {
 			for (int j = 0; j < myGrid.getGridWidth(); j++) {
 				setColor(myGrid.getCell(i, j));
 				setStatesInMap(myGrid.getCell(i, j));
-
 			}
 		}
 	}

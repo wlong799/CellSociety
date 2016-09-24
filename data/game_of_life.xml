@@ -44,6 +44,31 @@
             <row>4</row>
             <col>5</col>
         </cell>
+        <cell>
+            <id>1</id>
+            <row>4</row>
+            <col>6</col>
+                </cell>
+        <cell>
+            <id>1</id>
+            <row>5</row>
+            <col>5</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>6</row>
+            <col>6</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>2</row>
+            <col>9</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>5</row>
+            <col>10</col>
+        </cell>
     </grid>
 
 </game>

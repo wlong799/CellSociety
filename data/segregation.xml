@@ -13,15 +13,15 @@
 
     <celltype>
         <id>0</id>
-        <name>Empty</name>
+        <name>EMPTY</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>Blue</name>
+        <name>X</name>
     </celltype>
     <celltype>
         <id>2</id>
-        <name>Red</name>
+        <name>O</name>
     </celltype>
 
 
@@ -47,7 +47,7 @@
         <cell>
             <id>1</id>
             <row>4</row>
-            <col>5</col>
+            <col>4</col>
         </cell>
     </grid>
 

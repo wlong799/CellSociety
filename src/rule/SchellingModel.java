@@ -50,13 +50,13 @@ public class SchellingModel extends Rule {
 			}
 		}
 		int myT = count / myNeighbours.size();
-		return myT > parameterMap.get("t");
+		return myT > 0.5;		//parameterMap.get("t")
 	}
 
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
-		for (int i = 0; i < myGrid.getGridWidth(); i++) {
-			for (int j = 0; i < myGrid.getGridHeight(); j++) {
-				if (myGrid.getCell(i, j).getNextType() == "EMPTY" || myGrid.getCell(i, j).getNextType() == null) {
+		for (int i = 0; i < myGrid.getGridHeight(); i++) {
+			for (int j = 0; j < myGrid.getGridWidth(); j++) {
+				if ( myGrid.getCell(i, j).getNextType() == null || myGrid.getCell(i, j).getNextType().equals("EMPTY")) {
 					return myGrid.getCell(i, j);
 				}
 			}

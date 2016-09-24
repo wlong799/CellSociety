@@ -22,7 +22,7 @@ public class Cell extends Rectangle {
 	public Cell(String cellType, double xPos, double yPos, double width, double height, int row, int col) {
 		super(xPos, yPos, width, height);
 		setFill(DEFAULT_COLOR);
-		
+
 		myRow = row;
 		myCol = col;
 		currentType = cellType;
@@ -39,7 +39,6 @@ public class Cell extends Rectangle {
 		return myRow;
 	}
 
-
 	public void initalizeState(Map<String, Integer> initialStates) {
 		for (String stateName : initialStates.keySet()) {
 			int stateVal = nextState.get(stateName);
@@ -47,28 +46,36 @@ public class Cell extends Rectangle {
 			nextState.put(stateName, stateVal);
 		}
 	}
-	
-	public String getCurrentType(){
+
+	public String getCurrentType() {
 		return currentType;
 	}
-	
-	public int getCurrentState(String stateName){
+
+	public int getCurrentState(String stateName) {
 		return currentState.get(stateName);
 	}
-	
-	public void setCurrentState(String stateName, int value){
-		currentState.put(stateName, value);
+
+	public int getNextState(String stateName) {
+		return nextState.get(stateName);
 	}
 	
-	public String getNextType(){
-		return nextType;
+	public boolean containsNextState(String stateName) {
+		return nextState.containsKey(stateName);
 	}
 
+	public void setCurrentState(String stateName, int value) {
+		currentState.put(stateName, value);
+	}
+
+	public String getNextType() {
+		return nextType;
+	}
+	
 	public void stepToNextStateAndType() {
 		currentType = nextType;
 		nextType = null;
-		currentState = new HashMap<>();
-		for (String stateName : nextState.keySet()) {
+		
+		for(String stateName :nextState.keySet()){
 			int stateVal = nextState.get(stateName);
 			currentState.put(stateName, stateVal);
 		}

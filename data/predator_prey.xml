@@ -19,21 +19,18 @@
         <value>6</value>
     </parameter>
 
+    
     <celltype>
         <id>0</id>
-        <name>Water</name>
+        <name>KELP</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>Algae</name>
+        <name>FISH</name>
     </celltype>
     <celltype>
         <id>2</id>
-        <name>Fish</name>
-    </celltype>
-    <celltype>
-        <id>3</id>
-        <name>Shark</name>
+        <name>SHARK</name>
     </celltype>
 
     <grid>
@@ -59,6 +56,21 @@
             <id>1</id>
             <row>4</row>
             <col>5</col>
+        </cell>
+        <cell>
+            <id>2</id>
+            <row>3</row>
+            <col>5</col>
+        </cell>
+        <cell>
+            <id>2</id>
+            <row>4</row>
+            <col>4</col>
+        </cell>
+        <cell>
+            <id>2</id>
+            <row>4</row>
+            <col>6</col>
         </cell>
     </grid>
 
