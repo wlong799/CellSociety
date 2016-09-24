@@ -18,9 +18,8 @@ public class CellGrid extends Group {
 
 	private int gridWidth, gridHeight;
 
-	private List<Cell> cells = new ArrayList<Cell>();
+	private List<Cell> cells = new ArrayList<>();
 	private Rule rule;
-	private boolean isRunning;
 
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
 			List<String> initialCellTypes, Rule rule) {
@@ -34,17 +33,17 @@ public class CellGrid extends Group {
 		this.gridWidth = gridWidth;
 		this.gridHeight = gridHeight;
 
-		for (int row = 0; row < gridHeight; row++) {
-			for (int col = 0; col < gridWidth; col++) {
-				int arrayPos = row * gridWidth + col;
-				// Based on Rule Type Create Different Cells
-				Cell cell = new Cell(initialCellTypes.get(arrayPos), xPos, yPos, drawCellWidth, drawCellHeight, row,
-						col);
-				cells.add(cell);
-				getChildren().add(cell);
-			} // End of Width For
-		} // End of Length For
-
+		for (int row = 0; row < gridHeight; row++){
+ 			for (int col = 0; col < gridWidth; col++){
+ 				int arrayPos = row*gridWidth + col;
+				double cellXPos = row * drawCellWidth;
+				double cellYPos = col * drawCellHeight;
+ 				Cell cell = new Cell(initialCellTypes.get(arrayPos), cellXPos, cellYPos,
+								     drawCellWidth, drawCellHeight, row, col);
+ 				cells.add(cell);
+ 				getChildren().add(cell);
+ 			}
+ 		}
 		this.rule = rule;
 	}
 
@@ -66,14 +65,13 @@ public class CellGrid extends Group {
 		return myCells;
 	}
 
-	public Cell getCell(int row, int col) {
+	public Cell getCell(int row, int col){
 		if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)) {
 			return null;
 		} else {
 			int arrayPos = row * gridWidth + col;
 			return cells.get(arrayPos);
 		}
-
 	}
 
 	public void step() {

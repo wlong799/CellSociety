@@ -6,6 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.*;
 
+
 /**
  * Extends the DefaultHandler class, to properly interpret XML files formatted
  * to store CellSociety game information.
@@ -22,7 +23,7 @@ class GameInfoHandler extends DefaultHandler {
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
 
-    private String[][] initialCellTypeGrid;
+    private List<String> initialCellTypes;
     private int gridWidth, gridHeight;
     private String nextCellType;
     private int nextCellRow, nextCellCol;
@@ -31,6 +32,7 @@ class GameInfoHandler extends DefaultHandler {
         elementStack = new Stack<>();
         parameterMap = new HashMap<>();
         cellTypeMap = new HashMap<>();
+        initialCellTypes = new ArrayList<>();
     }
 
     @Override
@@ -106,11 +108,8 @@ class GameInfoHandler extends DefaultHandler {
         } else if (elementStack.peek().equals("DEFAULTID")) {
             int defaultID = Integer.parseInt(information);
             String defaultCellType = cellTypeMap.get(defaultID);
-            initialCellTypeGrid = new String[gridHeight][gridWidth];
-            for (int r = 0; r < gridHeight; r++) {
-                for (int c = 0; c < gridWidth; c++) {
-                    initialCellTypeGrid[r][c] = defaultCellType;
-                }
+            for (int i = 0; i < gridHeight * gridWidth; i++) {
+                initialCellTypes.add(defaultCellType);
             }
         } else if (elementStack.contains("CELL")) {
             addCell(information);
@@ -128,7 +127,8 @@ class GameInfoHandler extends DefaultHandler {
         } else if (elementStack.peek().equals("COL")) {
             int col = Integer.parseInt(information);
             nextCellCol = col;
-            initialCellTypeGrid[nextCellRow][nextCellCol] = nextCellType;
+            int pos = nextCellRow * gridWidth + nextCellCol;
+            initialCellTypes.add(pos, nextCellType);
         }
     }
 
@@ -148,7 +148,15 @@ class GameInfoHandler extends DefaultHandler {
         return parameterMap;
     }
 
-    String[][] getCellTypeGrid() {
-        return initialCellTypeGrid;
+    int getGridWidth() {
+        return gridWidth;
+    }
+
+    int getGridHeight() {
+        return gridHeight;
+    }
+
+    List<String> getInitialCellTypes() {
+        return initialCellTypes;
     }
 }
