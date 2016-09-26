@@ -99,7 +99,9 @@ public class CellSocietyGUI {
             String filename = inputPanel.getXMLFilename();
             gameInfoReader = new GameInfoReader(filename);
             loadRule();
+            createTitleBox();
             createCellGrid();
+            createInputPanel();
         };
 
         String[] params = gameInfoReader.getParameterMap().keySet().toArray(new String[0]);

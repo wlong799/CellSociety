@@ -78,7 +78,6 @@ public class CellGrid extends Group {
 	public void step() {
 		rule.evaluateGrid(this);
 		stepToNextStatesAndTypes();
-		System.out.println("Step");
 	}
 
 	private void stepToNextStatesAndTypes() {

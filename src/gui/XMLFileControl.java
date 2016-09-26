@@ -31,6 +31,8 @@ public class XMLFileControl extends VBox {
     }
 
     public String getFilename() {
-        return xmlFilenameField.getCharacters().toString();
+        String filename = xmlFilenameField.getCharacters().toString();
+        filename = "data/" + filename;
+        return filename;
     }
 }
