@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -20,6 +21,7 @@ public class AnimationControl extends VBox {
     private Timeline runAnimation;
     private CellGrid targetCellGrid;
 
+    private HBox buttonBox;
     private Button stepButton, runButton;
     private Slider runSpeedSlider;
 
@@ -49,7 +51,10 @@ public class AnimationControl extends VBox {
                 runAnimation.setRate(newValue.doubleValue());
                 });
 
-        getChildren().addAll(stepButton, runButton, runSpeedSlider);
+        buttonBox = new HBox(PADDING);
+        buttonBox.getChildren().addAll(stepButton, runButton);
+
+        getChildren().addAll(buttonBox, runSpeedSlider);
     }
 
     private void step() {
