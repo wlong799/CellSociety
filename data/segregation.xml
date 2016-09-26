@@ -56,6 +56,11 @@
         </cell>
         <cell>
             <id>1</id>
+            <row>5</row>
+            <col>14</col>
+        </cell>
+        <cell>
+            <id>1</id>
             <row>3</row>
             <col>6</col>
         </cell>
@@ -90,24 +95,144 @@
         	<col>4</col>
         </cell>
         <cell>
-        	<id>2</id>
-        	<row>0</row>
-        	<col>3</col>
+            <id>1</id>
+            <row>5</row>
+            <col>14</col>
         </cell>
         <cell>
-        	<id>2</id>
-        	<row>2</row>
-        	<col>6</col>
+            <id>1</id>
+            <row>5</row>
+            <col>14</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>5</row>
+            <col>14</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>0</row>
+            <col>2</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>0</row>
+            <col>11</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>0</row>
+            <col>9</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>0</row>
+            <col>16</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>1</row>
+            <col>19</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>1</row>
+            <col>11</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>1</row>
+            <col>3</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>1</row>
+            <col>0</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>2</row>
+            <col>4</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>2</row>
+            <col>17</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>2</row>
+            <col>19</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>3</row>
+            <col>18</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>7</row>
+            <col>17</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>8</row>
+            <col>6</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>9</row>
+            <col>11</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>9</row>
+            <col>15</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>9</row>
+            <col>0</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>13</row>
+            <col>16</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>15</row>
+            <col>15</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>17</row>
+            <col>9</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>19</row>
+            <col>15</col>
         </cell>
         <cell>
         	<id>2</id>
         	<row>3</row>
-        	<col>10</col>
+        	<col>16</col>
         </cell>
         <cell>
         	<id>2</id>
-        	<row>5</row>
-        	<col>15</col>
+        	<row>11</row>
+        	<col>0</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>13</row>
+        	<col>1</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>19</row>
+        	<col>0</col>
         </cell>
         <cell>
         	<id>2</id>
@@ -144,7 +269,121 @@
         	<row>13</row>
         	<col>8</col>
         </cell>
-        
+        <cell>
+        	<id>2</id>
+        	<row>17</row>
+        	<col>8</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>2</row>
+        	<col>2</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>5</row>
+        	<col>0</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>3</row>
+        	<col>3</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>2</row>
+        	<col>1</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>9</row>
+        	<col>5</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>5</row>
+        	<col>9</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>1</row>
+        	<col>15</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>1</row>
+        	<col>19</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>0</row>
+        	<col>18</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>0</row>
+        	<col>19</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>0</row>
+        	<col>8</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>0</row>
+        	<col>1</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>12</row>
+        	<col>0</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>12</row>
+        	<col>18</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>11</row>
+        	<col>15</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>11</row>
+        	<col>14</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>17</row>
+        	<col>13</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>18</row>
+        	<col>3</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>17</row>
+        	<col>4</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>13</row>
+        	<col>8</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>15</row>
+        	<col>9</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>19</row>
+        	<col>0</col>
+        </cell>
     </grid>
 
 </game>
