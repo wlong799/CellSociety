@@ -13,7 +13,7 @@ public class TitleBox extends Group {
     private static final double ARC_SIZE = 50;
     private static final double TEXT_VERTICAL_ALIGNMENT_RATIO = 0.625;
     private static final String FONT_FAMILY = "Monospace";
-    private static final int FONT_SIZE = 36;
+    private static final int FONT_SIZE = 28;
 
     private Rectangle background;
     private Text titleText;

@@ -24,7 +24,7 @@ public class CellSocietyGUI {
             INPUT_PANEL_HEIGHT + (4 * PADDING);
 
     private static final Color BACKGROUND_COLOR = Color.DARKBLUE;
-    private static final String DEFAULT_XML_FILE = "data/segregation.xml";
+    private static final String DEFAULT_XML_FILE = "data/fire.xml";
 
     private Group sceneRoot;
     private Scene scene;
