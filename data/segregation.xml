@@ -45,6 +45,10 @@
             <col>4</col>
         </cell>
         <cell>
+        	<id>2</id>
+        	<row>7</row>
+        	<col>6</col></cell>
+        <cell>
             <id>1</id>
             <row>4</row>
             <col>4</col>
