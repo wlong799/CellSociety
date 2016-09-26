@@ -83,9 +83,7 @@ public class CellGrid extends Group {
 
 	private void stepToNextStatesAndTypes() {
 		for(Cell cell : cells){
-			System.out.println(cell.getMyRow() + cell.getMyCol() + ": " + cell.getCurrentType());
 			cell.stepToNextStateAndType();
-			System.out.println(cell.getMyRow() + cell.getMyCol() + ": " + cell.getCurrentType());
 			this.rule.setColor(cell);
 		}
 	}

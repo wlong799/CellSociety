@@ -74,7 +74,6 @@ public class Cell extends Rectangle {
 	public void stepToNextStateAndType() {
 		currentType = nextType;
 		nextType = null;
-		
 		for(String stateName :nextState.keySet()){
 			int stateVal = nextState.get(stateName);
 			currentState.put(stateName, stateVal);
