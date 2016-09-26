@@ -45,14 +45,106 @@
             <col>4</col>
         </cell>
         <cell>
-        	<id>2</id>
-        	<row>7</row>
-        	<col>6</col></cell>
+            <id>1</id>
+            <row>16</row>
+            <col>16</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>6</row>
+            <col>14</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>3</row>
+            <col>6</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>3</row>
+            <col>19</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>18</row>
+            <col>12</col>
+        </cell>
         <cell>
             <id>1</id>
             <row>4</row>
             <col>4</col>
         </cell>
+        <cell>
+            <id>1</id>
+            <row>17</row>
+            <col>9</col>
+        </cell>
+        <cell>
+            <id>1</id>
+            <row>8</row>
+            <col>12</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>0</row>
+        	<col>4</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>0</row>
+        	<col>3</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>2</row>
+        	<col>6</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>3</row>
+        	<col>10</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>5</row>
+        	<col>15</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>16</row>
+        	<col>6</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>18</row>
+        	<col>6</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>4</row>
+        	<col>4</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>8</row>
+        	<col>4</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>10</row>
+        	<col>5</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>11</row>
+        	<col>2</col>
+        </cell>
+        <cell>
+        	<id>2</id>
+        	<row>13</row>
+        	<col>8</col>
+        </cell>
+        
     </grid>
 
 </game>

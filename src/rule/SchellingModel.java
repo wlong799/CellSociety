@@ -63,17 +63,22 @@ public class SchellingModel extends Rule {
 	}
 
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
-		for (int i = 0; i < myGrid.getGridHeight(); i++) {
-			for (int j = 0; j < myGrid.getGridWidth(); j++) {
-				Cell testCell = myGrid.getCell(i, j);
-				String cellCurrentType = testCell.getCurrentType();
-				String cellNextType = testCell.getNextType();
-				// This needs to be shortened but wasn't working with other methods...
-				if ((cellCurrentType == null || cellCurrentType.equals("EMPTY")) && 
-						(cellNextType == null || cellNextType.equals("EMPTY"))) {
-					return testCell;
-				}
+		boolean emptyTest = false;
+		int numLoops = 0;
+		while (!emptyTest){
+			int i = (int) (20*Math.random());
+			int j = (int) (20*Math.random());
+			Cell testCell = myGrid.getCell(i, j);
+			String cellCurrentType = testCell.getCurrentType();
+			String cellNextType = testCell.getNextType();
+			// This needs to be shortened but wasn't working with other methods...
+			if ((cellCurrentType == null || cellCurrentType.equals("EMPTY")) && 
+					(cellNextType == null || cellNextType.equals("EMPTY"))) {
+				return testCell;
+			} else if (numLoops > 100){
+				break;
 			}
+			numLoops++;
 		}
 		return null;
 	}
