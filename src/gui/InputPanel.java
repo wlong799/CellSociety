@@ -46,6 +46,11 @@ public class InputPanel extends Group {
     public String getXMLFilename() {
         return xmlFileControl.getFilename();
     }
+    
+    
+    public String getSelectedString(){
+    	return (String) parameterAdjustmentBox.getValue();
+    }
 
 
 }

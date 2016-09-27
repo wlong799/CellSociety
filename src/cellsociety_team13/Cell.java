@@ -1,7 +1,9 @@
 package cellsociety_team13;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +15,11 @@ import java.util.Map;
  * properly interpreting and setting the Cell's type and state.
  */
 public class Cell extends Rectangle {
-	private static final Color DEFAULT_COLOR = Color.GRAY;
+	protected static final Color DEFAULT_COLOR = Color.GRAY;
 
-	private String currentType, nextType;
-	private Map<String, Integer> currentState, nextState;
-	private int myRow, myCol;
+	protected String currentType, nextType;
+	protected Map<String, Integer> currentState, nextState;
+	protected int myRow, myCol;
 
 	public Cell(String cellType, double xPos, double yPos, double width, double height, int row, int col) {
 		super(xPos, yPos, width, height);

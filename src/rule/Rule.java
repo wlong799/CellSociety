@@ -43,8 +43,9 @@ public abstract class Rule {
 		}
 	}
 	
-	void addParameter(String parameter, int valueParam){
+	public void addParameter(String parameter, int valueParam){
 		parameterMap.put(parameter, valueParam);
 	}
+	
 
 }

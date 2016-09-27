@@ -124,4 +124,9 @@ public class CellGrid extends Group {
 		}
 		return myNeighbours;
 	}
+
+	public void updateParameterMap(String param, int value) {
+		rule.addParameter(param, value);
+		
+	}
 }

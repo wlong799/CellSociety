@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 import rule.*;
 import xmlparser.GameInfoReader;
@@ -25,6 +25,8 @@ public class CellSocietyGUI {
 
     private static final Color BACKGROUND_COLOR = Color.DARKBLUE;
     private static final String DEFAULT_XML_FILE = "data/fire.xml";
+	private static final double MIN_RATE = 0;
+	private static final double MAX_RATE = 100;
 
     private Group sceneRoot;
     private Scene scene;
@@ -74,7 +76,7 @@ public class CellSocietyGUI {
         titleBox = new TitleBox(x, y, width, height, title);
         sceneRoot.getChildren().add(titleBox);
     }
-
+   
 
     private void createCellGrid() {
         double xPos = PADDING;
@@ -104,9 +106,16 @@ public class CellSocietyGUI {
             createInputPanel();
         };
 
-        String[] params = gameInfoReader.getParameterMap().keySet().toArray(new String[0]);
+        createParameterDropDown(x, y, width, height, submitFileHandler);
+    }
+
+	private void createParameterDropDown(double x, double y, double width, double height,
+			EventHandler<ActionEvent> submitFileHandler) {
+		String[] params = gameInfoReader.getParameterMap().keySet().toArray(new String[0]);
 
         inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);
-    }
+       
+
+	}
 }

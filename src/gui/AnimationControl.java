@@ -14,7 +14,7 @@ import javafx.util.Duration;
 public class AnimationControl extends VBox {
     private static final double PADDING = 25;
 
-    private static final double DEFAULT_RUN_SPEED_MILLI = 1000;
+    private static final double DEFAULT_RUN_SPEED_MILLI = 100;
     private static final double MIN_RATE = 0.25;
     private static final double MAX_RATE = 2.5;
 
@@ -51,10 +51,15 @@ public class AnimationControl extends VBox {
                 runAnimation.setRate(newValue.doubleValue());
                 });
 
+        Slider parameterSlider = new Slider(MIN_RATE, MAX_RATE, 1);
+        parameterSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+        	cellGrid.updateParameterMap("lifetime", (int) newValue.doubleValue()); //how do you get the text from dropdown?
+                });
+        
         buttonBox = new HBox(PADDING);
         buttonBox.getChildren().addAll(stepButton, runButton);
-
-        getChildren().addAll(buttonBox, runSpeedSlider);
+        
+        getChildren().addAll(buttonBox, runSpeedSlider, parameterSlider);
     }
 
     private void step() {
