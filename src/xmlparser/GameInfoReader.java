@@ -36,15 +36,15 @@ public class GameInfoReader {
     }
 
     public String getTitle() {
-        return gameInfoHandler.getTitle();
+        return gameInfoHandler.getMetadata("TITLE");
     }
 
     public String getRuleClassName() {
-        return gameInfoHandler.getRuleClassName();
+        return gameInfoHandler.getMetadata("RULE");
     }
 
     public String getAuthor() {
-        return gameInfoHandler.getAuthor();
+        return gameInfoHandler.getMetadata("AUTHOR");
     }
 
     public Map<String, Integer> getParameterMap() {

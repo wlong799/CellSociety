@@ -15,7 +15,7 @@ class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
     private Stack<String> elementStack;
 
-    private String title, ruleClassName, author;
+    private Map<String, String> metadataMap;
 
     private Map<String, Integer> parameterMap;
     private String nextParameterName;
@@ -30,6 +30,8 @@ class GameInfoHandler extends DefaultHandler {
 
     GameInfoHandler() {
         elementStack = new Stack<>();
+
+        metadataMap = new HashMap<>();
         parameterMap = new HashMap<>();
         cellTypeMap = new HashMap<>();
         initialCellTypes = new ArrayList<>();
@@ -51,8 +53,8 @@ class GameInfoHandler extends DefaultHandler {
     public void characters(char ch[], int start, int length) throws SAXException {
         String information = new String(ch, start, length);
 
-        if (elementStack.contains("MAIN")) {
-            getMainInfo(information);
+        if (elementStack.contains("METADATA")) {
+            parseMetadata(information);
         } else if (elementStack.contains("PARAMETER")) {
             getParameterInfo(information);
         } else if (elementStack.contains("CELLTYPE")) {
@@ -70,14 +72,9 @@ class GameInfoHandler extends DefaultHandler {
         }
     }
 
-    private void getMainInfo(String information) {
-        if (elementStack.peek().equals("TITLE")) {
-            title = information;
-        } else if (elementStack.peek().equals("RULE")) {
-            ruleClassName = information;
-        } else if (elementStack.peek().equals("AUTHOR")) {
-            author = information;
-        }
+    private void parseMetadata(String information) {
+        String metadataName = elementStack.peek();
+        metadataMap.put(metadataName, information);
     }
 
     private void getParameterInfo(String information) {
@@ -132,16 +129,8 @@ class GameInfoHandler extends DefaultHandler {
         }
     }
 
-    String getTitle() {
-        return title;
-    }
-
-    String getRuleClassName() {
-        return ruleClassName;
-    }
-
-    String getAuthor() {
-        return author;
+    String getMetadata(String metadataName) {
+        return metadataMap.get(metadataName);
     }
 
     Map<String, Integer> getParameterMap() {
