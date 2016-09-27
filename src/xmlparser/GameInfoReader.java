@@ -1,6 +1,7 @@
 package xmlparser;
 
 import cellsociety_team13.Cell;
+import cellsociety_team13.GameParameter;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -47,8 +48,8 @@ public class GameInfoReader {
         return gameInfoHandler.getMetadata("AUTHOR");
     }
 
-    public Map<String, Integer> getParameterMap() {
-        return gameInfoHandler.getParameterMap();
+    public List<GameParameter> getGameParameters() {
+        return gameInfoHandler.getGameParameters();
     }
 
     public int getGridWidth() {

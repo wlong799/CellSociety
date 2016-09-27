@@ -1,17 +1,17 @@
 package cellsociety_team13;
 
-public class Parameter {
+public class GameParameter {
     private String name;
     private int minVal, maxVal, currentVal;
 
-    public Parameter(String pName, int min, int max) {
+    public GameParameter(String pName, int min, int max) {
         name = pName;
         minVal = min;
         maxVal = max;
         currentVal = (minVal + maxVal) / 2;
     }
 
-    public Parameter(String pName, int min, int max, int current) {
+    public GameParameter(String pName, int min, int max, int current) {
         this(pName, min, max);
         currentVal = current;
     }

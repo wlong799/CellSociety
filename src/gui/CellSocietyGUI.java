@@ -1,9 +1,11 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cellsociety_team13.CellGrid;
 
+import cellsociety_team13.GameParameter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -104,7 +106,11 @@ public class CellSocietyGUI {
             createInputPanel();
         };
 
-        String[] params = gameInfoReader.getParameterMap().keySet().toArray(new String[0]);
+        List<String> paramsList = new ArrayList<>();
+        for (GameParameter gp : gameInfoReader.getGameParameters()) {
+            paramsList.add(gp.getName());
+        }
+        String[] params = paramsList.toArray(new String[0]);
 
         inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);
