@@ -14,15 +14,16 @@ import java.util.*;
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
+
     private Stack<String> elementStack;
     private String nextParameterName;
     private int[] nextParameterVals;
+    private Map<Integer, String> cellTypeMap;
+    private int nextCellTypeID;
+    private String nextCellTypeName;
 
     private Map<String, String> metadataMap;
     private List<GameParameter> gameParameterList;
-
-    private Map<Integer, String> cellTypeMap;
-    private int nextCellTypeID;
 
     private List<String> initialCellTypes;
     private int gridWidth, gridHeight;
@@ -33,6 +34,8 @@ class GameInfoHandler extends DefaultHandler {
         elementStack = new Stack<>();
         nextParameterName = null;
         nextParameterVals = new int[]{-1, -1, -1};
+        nextCellTypeID = -1;
+        nextCellTypeName = null;
 
         metadataMap = new HashMap<>();
         gameParameterList = new ArrayList<>();
@@ -44,12 +47,24 @@ class GameInfoHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
         updateCurrentSection(qName, ADD);
+        if (qName.equalsIgnoreCase("PARAMETER")) {
+            nextParameterName = null;
+            nextParameterVals = new int[]{-1, -1, -1};
+        } else if (qName.equalsIgnoreCase("CELLTYPE")) {
+            nextCellTypeID = -1;
+            nextCellTypeName = null;
+        }
     }
 
     @Override
     public void endElement(String uri, String localName,
                            String qName) throws SAXException {
         updateCurrentSection(qName, REMOVE);
+        if (qName.equalsIgnoreCase("PARAMETER")) {
+            addParameter();
+        } else if (qName.equalsIgnoreCase("CELLTYPE")) {
+            addCellType();
+        }
     }
 
     @Override
@@ -61,7 +76,7 @@ class GameInfoHandler extends DefaultHandler {
         } else if (elementStack.contains("PARAMETER")) {
             parseParameter(information);
         } else if (elementStack.contains("CELLTYPE")) {
-            getCellTypeInfo(information);
+            parseCellType(information);
         } else if (elementStack.contains("GRID")) {
             getGridInfo(information);
         }
@@ -81,11 +96,7 @@ class GameInfoHandler extends DefaultHandler {
     }
 
     private void parseParameter(String information) {
-        if (elementStack.peek().equals("PARAMETER")) {
-            addParameter();
-            nextParameterName = null;
-            nextParameterVals = new int[]{-1, -1, -1};
-        } else if (elementStack.peek().equals("NAME")) {
+        if (elementStack.peek().equals("NAME")) {
             nextParameterName = information;
         } else if (elementStack.peek().equals("MIN")) {
             int val = Integer.parseInt(information);
@@ -117,13 +128,24 @@ class GameInfoHandler extends DefaultHandler {
         }
     }
 
-    private void getCellTypeInfo(String information) {
+    private void parseCellType(String information) {
         if (elementStack.peek().equals("ID")) {
             int id = Integer.parseInt(information);
             nextCellTypeID = id;
         } else if (elementStack.peek().equals("NAME")) {
-            cellTypeMap.put(nextCellTypeID, information);
+            nextCellTypeName = information;
         }
+    }
+
+    private void addCellType() {
+        if (nextCellTypeID == -1 || nextCellTypeName == null) {
+
+            return;
+        }
+        if (cellTypeMap.containsKey(nextCellTypeID)) {
+            return;
+        }
+        cellTypeMap.put(nextCellTypeID, nextCellTypeName);
     }
 
     private void getGridInfo(String information) {
