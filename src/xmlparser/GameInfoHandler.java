@@ -21,14 +21,16 @@ class GameInfoHandler extends DefaultHandler {
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
     private String nextCellTypeName;
+    String gridFillMethod;
+    private String nextCellType;
+    private int nextCellRow, nextCellCol;
+    private int nextCellPercentFill;
+    private Map<String, Integer> cellFillInfo;
 
     private Map<String, String> metadataMap;
     private List<GameParameter> gameParameterList;
-
-    private List<String> initialCellTypes;
     private int gridWidth, gridHeight;
-    private String nextCellType;
-    private int nextCellRow, nextCellCol;
+    private List<String> initialCellTypeLocations;
 
     GameInfoHandler() {
         elementStack = new Stack<>();
@@ -36,11 +38,15 @@ class GameInfoHandler extends DefaultHandler {
         nextParameterVals = new int[]{-1, -1, -1};
         nextCellTypeID = -1;
         nextCellTypeName = null;
+        gridFillMethod = null;
+        nextCellType = null;
+        nextCellRow = -1;
+        nextCellCol = -1;
 
         metadataMap = new HashMap<>();
         gameParameterList = new ArrayList<>();
         cellTypeMap = new HashMap<>();
-        initialCellTypes = new ArrayList<>();
+        initialCellTypeLocations = new ArrayList<>();
     }
 
     @Override
@@ -78,7 +84,7 @@ class GameInfoHandler extends DefaultHandler {
         } else if (elementStack.contains("CELLTYPE")) {
             parseCellType(information);
         } else if (elementStack.contains("GRID")) {
-            getGridInfo(information);
+            parseGrid(information);
         }
     }
 
@@ -148,7 +154,7 @@ class GameInfoHandler extends DefaultHandler {
         cellTypeMap.put(nextCellTypeID, nextCellTypeName);
     }
 
-    private void getGridInfo(String information) {
+    private void parseGrid(String information) {
         if (elementStack.peek().equals("WIDTH")) {
             int width = Integer.parseInt(information);
             gridWidth = width;
@@ -157,16 +163,22 @@ class GameInfoHandler extends DefaultHandler {
             gridHeight = height;
         } else if (elementStack.peek().equals("DEFAULTID")) {
             int defaultID = Integer.parseInt(information);
-            String defaultCellType = cellTypeMap.get(defaultID);
-            for (int i = 0; i < gridHeight * gridWidth; i++) {
-                initialCellTypes.add(defaultCellType);
-            }
+            initializeGrid(defaultID);
+        } else if (elementStack.peek().equals("FILLMETHOD")) {
+            gridFillMethod = information;
         } else if (elementStack.contains("CELL")) {
-            addCell(information);
+            parseCell(information);
         }
     }
 
-    private void addCell(String information) {
+    private void initializeGrid(int defaultID) {
+        String defaultCellType = cellTypeMap.get(defaultID);
+        for (int i = 0; i < gridHeight * gridWidth; i++) {
+            initialCellTypeLocations.add(defaultCellType);
+        }
+    }
+
+    private void parseCell(String information) {
         if (elementStack.peek().equals("ID")) {
             int id = Integer.parseInt(information);
             String cellType = cellTypeMap.get(id);
@@ -178,7 +190,7 @@ class GameInfoHandler extends DefaultHandler {
             int col = Integer.parseInt(information);
             nextCellCol = col;
             int pos = nextCellRow * gridWidth + nextCellCol;
-            initialCellTypes.add(pos, nextCellType);
+            initialCellTypeLocations.add(pos, nextCellType);
         }
     }
 
@@ -198,7 +210,7 @@ class GameInfoHandler extends DefaultHandler {
         return gridHeight;
     }
 
-    List<String> getInitialCellTypes() {
-        return initialCellTypes;
+    List<String> getInitialCellTypeLocations() {
+        return initialCellTypeLocations;
     }
 }

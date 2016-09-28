@@ -30,6 +30,7 @@
         <width>10</width>
         <height>10</height>
         <defaultid>0</defaultid>
+        <fillmethod>manual</fillmethod>
         <cell>
             <id>1</id>
             <row>0</row>

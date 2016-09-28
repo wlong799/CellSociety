@@ -1,6 +1,5 @@
 package xmlparser;
 
-import cellsociety_team13.Cell;
 import cellsociety_team13.GameParameter;
 
 import javax.xml.parsers.SAXParser;
@@ -8,7 +7,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Parses XML files containing initial Cell Society game information. Stores the
@@ -60,7 +58,7 @@ public class GameInfoReader {
         return gameInfoHandler.getGridHeight();
     }
 
-    public List<String> getInitialCellTypes() {
-        return gameInfoHandler.getInitialCellTypes();
+    public List<String> getInitialCellTypeLocations() {
+        return gameInfoHandler.getInitialCellTypeLocations();
     }
 }

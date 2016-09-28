@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 import rule.*;
 import xmlparser.GameInfoReader;
@@ -27,8 +26,6 @@ public class CellSocietyGUI {
 
     private static final Color BACKGROUND_COLOR = Color.DARKBLUE;
     private static final String DEFAULT_XML_FILE = "data/fire.xml";
-    private static final double MIN_RATE = 0;
-    private static final double MAX_RATE = 100;
 
     private Group sceneRoot;
     private Scene scene;
@@ -87,7 +84,7 @@ public class CellSocietyGUI {
         double drawHeight = drawWidth;
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
-        List<String> initialCellTypes = gameInfoReader.getInitialCellTypes();
+        List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         cellGrid = new CellGrid(xPos, yPos, drawWidth, drawHeight, gridWidth,
                 gridHeight, initialCellTypes, rule, initialParameters);
