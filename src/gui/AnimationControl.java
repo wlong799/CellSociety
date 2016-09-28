@@ -51,15 +51,10 @@ public class AnimationControl extends VBox {
                 runAnimation.setRate(newValue.doubleValue());
                 });
 
-        Slider parameterSlider = new Slider(MIN_RATE, MAX_RATE, 1);
-        parameterSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        	cellGrid.updateParameterMap("lifetime", (int) newValue.doubleValue()); //how do you get the text from dropdown?
-                });
-        
         buttonBox = new HBox(PADDING);
         buttonBox.getChildren().addAll(stepButton, runButton);
         
-        getChildren().addAll(buttonBox, runSpeedSlider, parameterSlider);
+        getChildren().addAll(buttonBox, runSpeedSlider);
     }
 
     private void step() {

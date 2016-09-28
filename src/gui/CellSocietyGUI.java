@@ -106,11 +106,7 @@ public class CellSocietyGUI {
             createInputPanel();
         };
 
-        List<String> paramsList = new ArrayList<>();
-        for (GameParameter gp : gameInfoReader.getGameParameters()) {
-            paramsList.add(gp.getName());
-        }
-        String[] params = paramsList.toArray(new String[0]);
+        List<GameParameter> params = gameInfoReader.getGameParameters();
 
         inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);

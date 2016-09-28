@@ -1,12 +1,15 @@
 package gui;
 
 import cellsociety_team13.CellGrid;
+import cellsociety_team13.GameParameter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.List;
 
 public class InputPanel extends Group {
     private static final Color BACKGROUND_COLOR = Color.LIGHTBLUE;
@@ -15,11 +18,11 @@ public class InputPanel extends Group {
     private Rectangle background;
     private XMLFileControl xmlFileControl;
     private AnimationControl animationControl;
-    private ComboBox parameterAdjustmentBox;
+    private ParameterAdjustmentControl parameterAdjustmentControl;
 
     public InputPanel(double x, double y, double width, double height,
                       EventHandler<ActionEvent> submitFileHandler,
-                      CellGrid cellGrid, String[] params) {
+                      CellGrid cellGrid, List<GameParameter> params) {
         setLayoutX(x);
         setLayoutY(y);
 
@@ -32,25 +35,14 @@ public class InputPanel extends Group {
 
         animationControl = new AnimationControl(225, 0, 100, height, cellGrid);
 
-        parameterAdjustmentBox = new ComboBox();
-        parameterAdjustmentBox.setLayoutX(350);
-        parameterAdjustmentBox.setMinWidth(width - 350);
-        parameterAdjustmentBox.setMaxWidth(width - 350);
-        for (String param : params) {
-            parameterAdjustmentBox.getItems().add(param);
-        }
+        parameterAdjustmentControl = new ParameterAdjustmentControl(350, 0, width - 350, height,
+                params, cellGrid);
+
         getChildren().addAll(background, xmlFileControl,
-                animationControl, parameterAdjustmentBox);
+                animationControl, parameterAdjustmentControl);
     }
 
     public String getXMLFilename() {
         return xmlFileControl.getFilename();
     }
-    
-    
-    public String getSelectedString(){
-    	return (String) parameterAdjustmentBox.getValue();
-    }
-
-
 }
