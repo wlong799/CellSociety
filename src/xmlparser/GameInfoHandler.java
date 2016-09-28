@@ -1,5 +1,6 @@
 package xmlparser;
 
+import cellsociety_team13.GameParameter;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -13,15 +14,16 @@ import java.util.*;
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
+
     private Stack<String> elementStack;
-
-    private String title, ruleClassName, author;
-
-    private Map<String, Integer> parameterMap;
     private String nextParameterName;
-
+    private int[] nextParameterVals;
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
+    private String nextCellTypeName;
+
+    private Map<String, String> metadataMap;
+    private List<GameParameter> gameParameterList;
 
     private List<String> initialCellTypes;
     private int gridWidth, gridHeight;
@@ -30,7 +32,13 @@ class GameInfoHandler extends DefaultHandler {
 
     GameInfoHandler() {
         elementStack = new Stack<>();
-        parameterMap = new HashMap<>();
+        nextParameterName = null;
+        nextParameterVals = new int[]{-1, -1, -1};
+        nextCellTypeID = -1;
+        nextCellTypeName = null;
+
+        metadataMap = new HashMap<>();
+        gameParameterList = new ArrayList<>();
         cellTypeMap = new HashMap<>();
         initialCellTypes = new ArrayList<>();
     }
@@ -39,12 +47,24 @@ class GameInfoHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
         updateCurrentSection(qName, ADD);
+        if (qName.equalsIgnoreCase("PARAMETER")) {
+            nextParameterName = null;
+            nextParameterVals = new int[]{-1, -1, -1};
+        } else if (qName.equalsIgnoreCase("CELLTYPE")) {
+            nextCellTypeID = -1;
+            nextCellTypeName = null;
+        }
     }
 
     @Override
     public void endElement(String uri, String localName,
                            String qName) throws SAXException {
         updateCurrentSection(qName, REMOVE);
+        if (qName.equalsIgnoreCase("PARAMETER")) {
+            addParameter();
+        } else if (qName.equalsIgnoreCase("CELLTYPE")) {
+            addCellType();
+        }
     }
 
     @Override
@@ -52,11 +72,11 @@ class GameInfoHandler extends DefaultHandler {
         String information = new String(ch, start, length);
 
         if (elementStack.contains("MAIN")) {
-            getMainInfo(information);
+            parseMetadata(information);
         } else if (elementStack.contains("PARAMETER")) {
-            getParameterInfo(information);
+            parseParameter(information);
         } else if (elementStack.contains("CELLTYPE")) {
-            getCellTypeInfo(information);
+            parseCellType(information);
         } else if (elementStack.contains("GRID")) {
             getGridInfo(information);
         }
@@ -70,32 +90,62 @@ class GameInfoHandler extends DefaultHandler {
         }
     }
 
-    private void getMainInfo(String information) {
-        if (elementStack.peek().equals("TITLE")) {
-            title = information;
-        } else if (elementStack.peek().equals("RULE")) {
-            ruleClassName = information;
-        } else if (elementStack.peek().equals("AUTHOR")) {
-            author = information;
-        }
+    private void parseMetadata(String information) {
+        String metadataName = elementStack.peek();
+        metadataMap.put(metadataName, information);
     }
 
-    private void getParameterInfo(String information) {
+    private void parseParameter(String information) {
         if (elementStack.peek().equals("NAME")) {
             nextParameterName = information;
-        } else if (elementStack.peek().equals("VALUE")) {
+        } else if (elementStack.peek().equals("MIN")) {
             int val = Integer.parseInt(information);
-            parameterMap.put(nextParameterName, val);
+            nextParameterVals[0] = val;
+        } else if (elementStack.peek().equals("MAX")) {
+            int val = Integer.parseInt(information);
+            nextParameterVals[1] = val;
+        } else if (elementStack.peek().equals("CURRENT")) {
+            int val = Integer.parseInt(information);
+            nextParameterVals[2] = val;
         }
     }
 
-    private void getCellTypeInfo(String information) {
+    private void addParameter() {
+        String name = nextParameterName;
+        int min = nextParameterVals[0];
+        int max = nextParameterVals[1];
+        int current = nextParameterVals[2];
+        if (name == null) {
+            return;
+        }
+        if (min == -1 || max == -1 || min > max) {
+            return;
+        }
+        if (current != -1 && current >= min && current <= max) {
+            gameParameterList.add(new GameParameter(name, min, max, current));
+        } else {
+            gameParameterList.add(new GameParameter(name, min, max));
+        }
+    }
+
+    private void parseCellType(String information) {
         if (elementStack.peek().equals("ID")) {
             int id = Integer.parseInt(information);
             nextCellTypeID = id;
         } else if (elementStack.peek().equals("NAME")) {
-            cellTypeMap.put(nextCellTypeID, information);
+            nextCellTypeName = information;
         }
+    }
+
+    private void addCellType() {
+        if (nextCellTypeID == -1 || nextCellTypeName == null) {
+
+            return;
+        }
+        if (cellTypeMap.containsKey(nextCellTypeID)) {
+            return;
+        }
+        cellTypeMap.put(nextCellTypeID, nextCellTypeName);
     }
 
     private void getGridInfo(String information) {
@@ -132,20 +182,12 @@ class GameInfoHandler extends DefaultHandler {
         }
     }
 
-    String getTitle() {
-        return title;
+    String getMetadata(String metadataName) {
+        return metadataMap.get(metadataName);
     }
 
-    String getRuleClassName() {
-        return ruleClassName;
-    }
-
-    String getAuthor() {
-        return author;
-    }
-
-    Map<String, Integer> getParameterMap() {
-        return parameterMap;
+    List<GameParameter> getGameParameters() {
+        return gameParameterList;
     }
 
     int getGridWidth() {

@@ -22,7 +22,7 @@ public class CellGrid extends Group {
 	private Rule rule;
 
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
-			List<String> initialCellTypes, Rule rule) {
+			List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
 		setLayoutX(xPos);
 		setLayoutY(yPos);
 		this.drawWidth = drawWidth;
@@ -45,7 +45,7 @@ public class CellGrid extends Group {
  			}
  		}
 		this.rule = rule;
-		rule.initialize(this);
+		rule.initialize(this, initialParameters);
 	}
 
 	public int getGridWidth() {
@@ -126,7 +126,6 @@ public class CellGrid extends Group {
 	}
 
 	public void updateParameterMap(String param, int value) {
-		rule.addParameter(param, value);
-		
+		rule.setParameter(param, value);
 	}
 }

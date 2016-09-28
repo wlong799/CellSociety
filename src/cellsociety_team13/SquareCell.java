@@ -19,11 +19,11 @@ public class SquareCell extends Cell {
 		currentState = new HashMap<>();
 		nextState = new HashMap<>();
 	}
-
+/**
 	@Override
 	public Shape impl_configShape() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+*/
 }

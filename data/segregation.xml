@@ -8,7 +8,9 @@
 
     <parameter>
         <name>similar</name>
-        <value>30</value>
+        <min>0</min>
+        <max>100</max>
+        <current>30</current>
     </parameter>
 
     <celltype>

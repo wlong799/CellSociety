@@ -1,9 +1,11 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cellsociety_team13.CellGrid;
 
+import cellsociety_team13.GameParameter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -25,8 +27,8 @@ public class CellSocietyGUI {
 
     private static final Color BACKGROUND_COLOR = Color.DARKBLUE;
     private static final String DEFAULT_XML_FILE = "data/fire.xml";
-	private static final double MIN_RATE = 0;
-	private static final double MAX_RATE = 100;
+    private static final double MIN_RATE = 0;
+    private static final double MAX_RATE = 100;
 
     private Group sceneRoot;
     private Scene scene;
@@ -76,7 +78,7 @@ public class CellSocietyGUI {
         titleBox = new TitleBox(x, y, width, height, title);
         sceneRoot.getChildren().add(titleBox);
     }
-   
+
 
     private void createCellGrid() {
         double xPos = PADDING;
@@ -86,8 +88,9 @@ public class CellSocietyGUI {
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypes();
+        List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         cellGrid = new CellGrid(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                gridHeight, initialCellTypes, rule);
+                gridHeight, initialCellTypes, rule, initialParameters);
         sceneRoot.getChildren().add(cellGrid);
     }
 
@@ -106,16 +109,13 @@ public class CellSocietyGUI {
             createInputPanel();
         };
 
-        createParameterDropDown(x, y, width, height, submitFileHandler);
-    }
-
-	private void createParameterDropDown(double x, double y, double width, double height,
-			EventHandler<ActionEvent> submitFileHandler) {
-		String[] params = gameInfoReader.getParameterMap().keySet().toArray(new String[0]);
+        List<String> paramsList = new ArrayList<>();
+        for (GameParameter gp : gameInfoReader.getGameParameters()) {
+            paramsList.add(gp.getName());
+        }
+        String[] params = paramsList.toArray(new String[0]);
 
         inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);
-       
-
-	}
+    }
 }

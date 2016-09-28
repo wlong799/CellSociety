@@ -8,15 +8,21 @@
 
     <parameter>
         <name>fish_breed</name>
-        <value>2</value>
+        <min>0</min>
+        <max>10</max>
+        <current>2</current>
     </parameter>
     <parameter>
         <name>shark_breed</name>
-        <value>4</value>
+        <min>0</min>
+        <max>10</max>
+        <current>4</current>
     </parameter>
     <parameter>
         <name>shark_starve</name>
-        <value>6</value>
+        <min>0</min>
+        <max>10</max>
+        <current>6</current>
     </parameter>
 
     
