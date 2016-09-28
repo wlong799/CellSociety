@@ -15,10 +15,10 @@ public class SpreadingOfFire extends Rule {
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
-		double myRandomValue = Math.random();
+		double myRandomValue = Math.random() * 100;
 		boolean hasFire = checkForFire();
 		if (myCell.getCurrentType().equals("TREE") && hasFire ) {
-			if (myRandomValue < 0.55) {		//instead of number should be parameterMap.get("probCatch")
+			if (myRandomValue < getParameter("probCatch")) {
 				myCell.setNextType("FIRE");
 			} else {
 				myCell.setNextType("TREE");

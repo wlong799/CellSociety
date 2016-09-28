@@ -6,11 +6,6 @@
         <author>Will Long</author>
     </main>
 
-    <parameter>
-        <name></name>
-        <value></value>
-    </parameter>
-
     <celltype>
         <id>0</id>
         <name>DEAD</name>

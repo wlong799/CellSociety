@@ -86,8 +86,9 @@ public class CellSocietyGUI {
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypes();
+        List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         cellGrid = new CellGrid(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                gridHeight, initialCellTypes, rule);
+                gridHeight, initialCellTypes, rule, initialParameters);
         sceneRoot.getChildren().add(cellGrid);
     }
 

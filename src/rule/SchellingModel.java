@@ -58,8 +58,8 @@ public class SchellingModel extends Rule {
 				count++;
 			}
 		}
-		int myT = count / myNeighbours.size();
-		return myT > 0.5;		//parameterMap.get("t")
+		double myT = 100.0 * count / myNeighbours.size();
+		return myT > getParameter("similar");
 	}
 
 	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
