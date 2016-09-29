@@ -15,15 +15,15 @@ import java.util.Map;
  * different situations. The Rule class for a given name is responsible for
  * properly interpreting and setting the Cell's type and state.
  */
-public class Cell extends Rectangle {
+public class CellTriangle extends Polygon {
 	protected static final Color DEFAULT_COLOR = Color.GRAY;
 
 	protected String currentType, nextType;
 	protected Map<String, Integer> currentState, nextState;
 	protected int myRow, myCol;
 
-	public Cell(String cellType, double xPos, double yPos, double width, double height, int row, int col) {
-		super(xPos, yPos, width, height);
+	public CellTriangle(String cellType,  double[] xpoints, double[] ypoints, int row, int col) {
+		super(xpoints, ypoints, 2);
 		setFill(DEFAULT_COLOR);
 
 		myRow = row;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cellsociety_team13.CellGrid;
-
+import cellsociety_team13.CellGridSquare;
 import cellsociety_team13.GameParameter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -86,7 +86,7 @@ public class CellSocietyGUI {
         int gridHeight = gameInfoReader.getGridHeight();
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
-        cellGrid = new CellGrid(xPos, yPos, drawWidth, drawHeight, gridWidth,
+        cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
                 gridHeight, initialCellTypes, rule, initialParameters);
         sceneRoot.getChildren().add(cellGrid);
     }

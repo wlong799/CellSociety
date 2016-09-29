@@ -62,7 +62,7 @@ public class WatorWorld extends Rule {
 		nextCell.setNextType(attacker);
 
 		// if it has lived the lifetime required it can reproduce
-		if (myCell.getCurrentState("lifetime") < 4) { // parameterMap.get("lifetime")
+		if (myCell.getCurrentState("lifetime") < getParameter("lifetime")) { 
 			// set the lifetime to the previous one +1
 			nextCell.setNextState("lifetime", myCell.getCurrentState("lifetime") + 1);
 			myCell.setNextType("KELP");

@@ -12,14 +12,14 @@ import rule.Rule;
  * to update the Cells when specified.
  */
 
-public class CellGrid extends Group {
-	private double drawWidth, drawHeight;
-	private double drawCellWidth, drawCellHeight;
+public abstract class CellGrid extends Group {
+	protected double drawWidth, drawHeight;
+	protected double drawCellWidth, drawCellHeight;
 
-	private int gridWidth, gridHeight;
+	protected int gridWidth, gridHeight;
 
-	private List<Cell> cells = new ArrayList<>();
-	private Rule rule;
+	protected List<Cell> cells = new ArrayList<>();
+	protected Rule rule;
 
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
 			List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
@@ -33,20 +33,12 @@ public class CellGrid extends Group {
 		this.gridWidth = gridWidth;
 		this.gridHeight = gridHeight;
 
-		for (int row = 0; row < gridHeight; row++){
- 			for (int col = 0; col < gridWidth; col++){
- 				int arrayPos = row*gridWidth + col;
-				double cellXPos = row * drawCellWidth;
-				double cellYPos = col * drawCellHeight;
- 				Cell cell = new Cell(initialCellTypes.get(arrayPos), cellXPos, cellYPos,
-								     drawCellWidth, drawCellHeight, row, col);
- 				cells.add(cell);
- 				getChildren().add(cell);
- 			}
- 		}
+		addItemsToGrid(gridWidth, gridHeight, initialCellTypes);
 		this.rule = rule;
 		rule.initialize(this, initialParameters);
 	}
+
+	public abstract void addItemsToGrid(int gridWidth, int gridHeight, List<String> initialCellTypes); 
 
 	public int getGridWidth() {
 		return gridWidth;
