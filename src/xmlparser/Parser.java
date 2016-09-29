@@ -2,8 +2,10 @@ package xmlparser;
 
 public interface Parser {
 
-    public abstract void addInfo(String infoName, String infoValue);
+    public abstract void reset();
 
-    public abstract String getInfo(String infoName);
+    public abstract void update();
+
+    public abstract void parseInfo(String infoName, String infoValue);
 
 }

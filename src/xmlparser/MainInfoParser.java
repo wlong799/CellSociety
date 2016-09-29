@@ -11,11 +11,21 @@ public class MainInfoParser implements Parser {
         mainInfoMap = new HashMap<>();
     }
 
-    public void addInfo(String infoName, String infoValue) {
+    @Override
+    public void reset() {
+        return;
+    }
+
+    @Override
+    public void update() {
+        return;
+    }
+
+    public void parseInfo(String infoName, String infoValue) {
         mainInfoMap.put(infoName, infoValue);
     }
 
-    public String getInfo(String infoName) {
+    public String getMainInfo(String infoName) {
         if (mainInfoMap.containsKey(infoName)) {
             return mainInfoMap.get(infoName);
         }

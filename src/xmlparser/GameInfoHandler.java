@@ -15,15 +15,15 @@ import java.util.*;
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
     private Stack<String> elementStack;
+
     private Map<String, Parser> parserMap;
     private MainInfoParser mainInfoParser;
+    private ParameterParser parameterParser;
+    private CellTypeParser cellTypeParser;
 
 
-    private String nextParameterName;
-    private int[] nextParameterVals;
-    private Map<Integer, String> cellTypeMap;
-    private int nextCellTypeID;
-    private String nextCellTypeName;
+
+
     String gridFillMethod;
     private String nextCellType;
     private int nextCellRow, nextCellCol;
@@ -37,15 +37,15 @@ class GameInfoHandler extends DefaultHandler {
 
     GameInfoHandler() {
         elementStack = new Stack<>();
+
         parserMap = new HashMap<>();
         mainInfoParser = new MainInfoParser();
         parserMap.put("MAIN", mainInfoParser);
+        parameterParser = new ParameterParser();
+        parserMap.put("PARAMETER", parameterParser);
+        cellTypeParser = new CellTypeParser();
+        parserMap.put("CELLTYPE", cellTypeParser);
 
-
-        nextParameterName = null;
-        nextParameterVals = new int[]{-1, -1, -1};
-        nextCellTypeID = -1;
-        nextCellTypeName = null;
         gridFillMethod = null;
         nextCellType = null;
         nextCellRow = -1;
@@ -127,41 +127,11 @@ class GameInfoHandler extends DefaultHandler {
     }
 
     private void addParameter() {
-        String name = nextParameterName;
-        int min = nextParameterVals[0];
-        int max = nextParameterVals[1];
-        int current = nextParameterVals[2];
-        if (name == null) {
-            return;
-        }
-        if (min == -1 || max == -1 || min > max) {
-            return;
-        }
-        if (current != -1 && current >= min && current <= max) {
-            gameParameterList.add(new GameParameter(name, min, max, current));
-        } else {
-            gameParameterList.add(new GameParameter(name, min, max));
-        }
-    }
 
-    private void parseCellType(String information) {
-        if (elementStack.peek().equals("ID")) {
-            int id = Integer.parseInt(information);
-            nextCellTypeID = id;
-        } else if (elementStack.peek().equals("NAME")) {
-            nextCellTypeName = information;
-        }
     }
 
     private void addCellType() {
-        if (nextCellTypeID == -1 || nextCellTypeName == null) {
 
-            return;
-        }
-        if (cellTypeMap.containsKey(nextCellTypeID)) {
-            return;
-        }
-        cellTypeMap.put(nextCellTypeID, nextCellTypeName);
     }
 
     private void parseGrid(String information) {
