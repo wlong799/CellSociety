@@ -14,12 +14,19 @@ import java.util.*;
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
+    private static final String MAIN_SECTION = "MAIN";
+    private static final String PARAMETER_SECTION = "PARAMETER";
+    private static final String CELL_TYPE_SECTION = "CELLTYPE";
+    private static final String GRID_SECTION = "GRID";
+    private static final String LOCATION_SECTION = "LOCATIONS";
+
     private Stack<String> elementStack;
 
     private Map<String, Parser> parserMap;
     private MainInfoParser mainInfoParser;
     private ParameterParser parameterParser;
     private CellTypeParser cellTypeParser;
+    private GridParser gridParser;
 
 
 
@@ -40,11 +47,13 @@ class GameInfoHandler extends DefaultHandler {
 
         parserMap = new HashMap<>();
         mainInfoParser = new MainInfoParser();
-        parserMap.put("MAIN", mainInfoParser);
+        parserMap.put(MAIN_SECTION, mainInfoParser);
         parameterParser = new ParameterParser();
-        parserMap.put("PARAMETER", parameterParser);
+        parserMap.put(PARAMETER_SECTION, parameterParser);
         cellTypeParser = new CellTypeParser();
-        parserMap.put("CELLTYPE", cellTypeParser);
+        parserMap.put(CELL_TYPE_SECTION, cellTypeParser);
+        gridParser = new GridParser();
+        parserMap.put(GRID_SECTION, gridParser);
 
         gridFillMethod = null;
         nextCellType = null;
