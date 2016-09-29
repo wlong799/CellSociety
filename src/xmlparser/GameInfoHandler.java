@@ -14,8 +14,11 @@ import java.util.*;
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
-
     private Stack<String> elementStack;
+    private Map<String, Parser> parserMap;
+    private MainInfoParser mainInfoParser;
+
+
     private String nextParameterName;
     private int[] nextParameterVals;
     private Map<Integer, String> cellTypeMap;
@@ -34,6 +37,11 @@ class GameInfoHandler extends DefaultHandler {
 
     GameInfoHandler() {
         elementStack = new Stack<>();
+        parserMap = new HashMap<>();
+        mainInfoParser = new MainInfoParser();
+        parserMap.put("MAIN", mainInfoParser);
+
+
         nextParameterName = null;
         nextParameterVals = new int[]{-1, -1, -1};
         nextCellTypeID = -1;
@@ -52,7 +60,8 @@ class GameInfoHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
-        updateCurrentSection(qName, ADD);
+        String section = qName.toUpperCase();
+        updateCurrentSection(section, ADD);
         if (qName.equalsIgnoreCase("PARAMETER")) {
             nextParameterName = null;
             nextParameterVals = new int[]{-1, -1, -1};
@@ -76,6 +85,7 @@ class GameInfoHandler extends DefaultHandler {
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
         String information = new String(ch, start, length);
+        String section = elementStack.get(0);
 
         if (elementStack.contains("MAIN")) {
             parseMetadata(information);
