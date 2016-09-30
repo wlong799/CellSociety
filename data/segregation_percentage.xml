@@ -1,46 +1,50 @@
 <?xml version="1.0"?>
 <game>
     <main>
-        <title>Spreading Fire</title>
-        <rule>SpreadingOfFire</rule>
+        <title>Schelling Segregation Model</title>
+        <rule>SchellingModel</rule>
         <author>Will Long</author>
     </main>
 
     <parameter>
-        <name>probCatch</name>
+        <name>similar</name>
         <min>0</min>
         <max>100</max>
-        <current>55</current>
+        <current>30</current>
     </parameter>
 
     <celltype>
         <id>0</id>
-        <name>TREE</name>
+        <name>EMPTY</name>
     </celltype>
     <celltype>
         <id>1</id>
-        <name>FIRE</name>
+        <name>X</name>
     </celltype>
     <celltype>
         <id>2</id>
-        <name>EMPTY</name>
+        <name>O</name>
     </celltype>
 
+
     <grid>
-        <width>10</width>
-        <height>10</height>
+        <width>50</width>
+        <height>50</height>
         <defaultid>0</defaultid>
         <fillmethod>percentage</fillmethod>
     </grid>
 
     <location>
         <id>0</id>
-        <percent>90</percent>
+        <percent>50</percent>
     </location>
     <location>
         <id>1</id>
-        <percent>10</percent>
+        <percent>15</percent>
     </location>
-
+    <location>
+        <id>2</id>
+        <percent>35</percent>
+    </location>
 
 </game>
