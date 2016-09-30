@@ -25,7 +25,7 @@
         <current>6</current>
     </parameter>
 
-    
+
     <celltype>
         <id>0</id>
         <name>KELP</name>
@@ -43,41 +43,42 @@
         <width>10</width>
         <height>10</height>
         <defaultid>0</defaultid>
-        <cell>
-            <id>1</id>
-            <row>0</row>
-            <col>0</col>
-        </cell>
-        <cell>
-            <id>1</id>
-            <row>1</row>
-            <col>2</col>
-        </cell>
-        <cell>
-            <id>1</id>
-            <row>3</row>
-            <col>4</col>
-        </cell>
-        <cell>
-            <id>1</id>
-            <row>4</row>
-            <col>5</col>
-        </cell>
-        <cell>
-            <id>2</id>
-            <row>3</row>
-            <col>5</col>
-        </cell>
-        <cell>
-            <id>2</id>
-            <row>4</row>
-            <col>4</col>
-        </cell>
-        <cell>
-            <id>2</id>
-            <row>4</row>
-            <col>6</col>
-        </cell>
+        <fillmethod>manual</fillmethod>
     </grid>
 
+    <location>
+        <id>1</id>
+        <row>0</row>
+        <col>0</col>
+    </location>
+    <location>
+        <id>1</id>
+        <row>1</row>
+        <col>2</col>
+    </location>
+    <location>
+        <id>1</id>
+        <row>3</row>
+        <col>4</col>
+    </location>
+    <location>
+        <id>1</id>
+        <row>4</row>
+        <col>5</col>
+    </location>
+    <location>
+        <id>2</id>
+        <row>3</row>
+        <col>5</col>
+    </location>
+    <location>
+        <id>2</id>
+        <row>4</row>
+        <col>4</col>
+    </location>
+    <location>
+        <id>2</id>
+        <row>4</row>
+        <col>6</col>
+    </location>
 </game>

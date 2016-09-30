@@ -35,15 +35,15 @@ public class GameInfoReader {
     }
 
     public String getTitle() {
-        return gameInfoHandler.getMetadata("TITLE");
+        return gameInfoHandler.getMainInfo("TITLE");
     }
 
     public String getRuleClassName() {
-        return gameInfoHandler.getMetadata("RULE");
+        return gameInfoHandler.getMainInfo("RULE");
     }
 
     public String getAuthor() {
-        return gameInfoHandler.getMetadata("AUTHOR");
+        return gameInfoHandler.getMainInfo("AUTHOR");
     }
 
     public List<GameParameter> getGameParameters() {
