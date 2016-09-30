@@ -31,26 +31,27 @@
         <height>10</height>
         <defaultid>0</defaultid>
         <fillmethod>manual</fillmethod>
-        <cell>
-            <id>1</id>
-            <row>0</row>
-            <col>0</col>
-        </cell>
-        <cell>
-            <id>1</id>
-            <row>1</row>
-            <col>2</col>
-        </cell>
-        <cell>
-            <id>1</id>
-            <row>3</row>
-            <col>4</col>
-        </cell>
-        <cell>
-            <id>1</id>
-            <row>4</row>
-            <col>5</col>
-        </cell>
     </grid>
+
+    <location>
+        <id>1</id>
+        <row>0</row>
+        <col>0</col>
+    </location>
+    <location>
+        <id>1</id>
+        <row>1</row>
+        <col>2</col>
+    </location>
+    <location>
+        <id>1</id>
+        <row>3</row>
+        <col>4</col>
+    </location>
+    <location>
+        <id>1</id>
+        <row>4</row>
+        <col>5</col>
+    </location>
 
 </game>
