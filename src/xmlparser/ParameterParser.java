@@ -1,16 +1,12 @@
 package xmlparser;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.GameParameter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParameterParser implements Parser {
-    private static final String NAME_SECTION = "NAME";
-    private static final String MIN_SECTION = "MIN";
-    private static final String MAX_SECTION = "MAX";
-    private static final String VAL_SECTION = "CURRENT";
-
     private String nextParameterName;
     private int nextParameterMin, nextParameterMax, nextParameterVal;
 
@@ -46,13 +42,13 @@ public class ParameterParser implements Parser {
 
     @Override
     public void parseInfo(String infoName, String infoValue) {
-        if (infoName.equals(NAME_SECTION)) {
+        if (infoName.equals(AppResources.XML_PARAMETER_NAME.getResource())) {
             nextParameterName = infoValue;
-        } else if (infoName.equals(MIN_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_PARAMETER_MIN.getResource())) {
             nextParameterMin = Integer.parseInt(infoValue);
-        } else if (infoName.equals(MAX_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_PARAMETER_MAX.getResource())) {
             nextParameterMax = Integer.parseInt(infoValue);
-        } else if (infoName.equals(VAL_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_PARAMETER_VAL.getResource())) {
             nextParameterVal = Integer.parseInt(infoValue);
         }
     }
