@@ -22,8 +22,9 @@ public class CellTriangle extends Polygon {
 	protected Map<String, Integer> currentState, nextState;
 	protected int myRow, myCol;
 
-	public CellTriangle(String cellType,  double[] xpoints, double[] ypoints, int row, int col) {
-		//super(xpoints, ypoints, 2);
+	public CellTriangle(String cellType, double xPos, double yPos, double width, double height, int row, int col) {
+		super();
+		getPoints().addAll(xPos, yPos, xPos + width, yPos, xPos + width, yPos +width);
 		setFill(DEFAULT_COLOR);
 
 		myRow = row;

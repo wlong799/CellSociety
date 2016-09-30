@@ -16,6 +16,7 @@ public class CellGridTriangle extends CellGrid {
 
 	public CellGridTriangle(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight, List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
 		super(xPos, yPos, drawWidth, drawHeight, gridWidth, gridHeight, initialCellTypes, rule, initialParameters);
+
 	}
 
 	public void addItemsToGrid(int gridWidth, int gridHeight, List<String> initialCellTypes) {
@@ -28,9 +29,22 @@ public class CellGridTriangle extends CellGrid {
 			double[] ypoints = {cellYPos, cellYPos + drawCellHeight};
 				CellTriangle cell = new CellTriangle(initialCellTypes.get(arrayPos), xpoints,ypoints, row, col);
 				//cells.add(cell);
+
 				getChildren().add(cell);
 			}
 		}
 }
+
+	@Override
+	public List<Cell> getNonDiagNeighbours(Cell myCell) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Cell> getNeighbours(Cell myCell) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
