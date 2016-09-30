@@ -48,7 +48,7 @@ public class LocationParser implements Parser {
             return;
         }
         int pos = gridWidth * nextCellRow + nextCellCol;
-        initialCellTypeIDLocations.remove(0);
+        initialCellTypeIDLocations.remove(pos);
         initialCellTypeIDLocations.add(pos, nextCellID);
     }
 

@@ -23,7 +23,7 @@ public class CellTriangle extends Polygon {
 	protected int myRow, myCol;
 
 	public CellTriangle(String cellType,  double[] xpoints, double[] ypoints, int row, int col) {
-		super(xpoints, ypoints, 2);
+		//super(xpoints, ypoints, 2);
 		setFill(DEFAULT_COLOR);
 
 		myRow = row;
