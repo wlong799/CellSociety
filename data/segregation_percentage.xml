@@ -10,7 +10,7 @@
         <name>similar</name>
         <min>0</min>
         <max>100</max>
-        <current>30</current>
+        <current>60</current>
     </parameter>
 
     <celltype>
@@ -36,15 +36,15 @@
 
     <location>
         <id>0</id>
-        <percent>50</percent>
+        <percent>10</percent>
     </location>
     <location>
         <id>1</id>
-        <percent>15</percent>
+        <percent>45</percent>
     </location>
     <location>
         <id>2</id>
-        <percent>35</percent>
+        <percent>45</percent>
     </location>
 
 </game>

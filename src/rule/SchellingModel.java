@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * SchellingModel moves cells to a random "EMPTY" position on the grid whenever
  * they are not "satisfied" a cell is satisfied when its surrounded by at lead t
@@ -18,20 +21,38 @@ public class SchellingModel extends Rule {
 	/* evaluate cell finds the next state for the current grid and current cell
 	 * @param myCell is the current cell being analysed
 	 */
+	private List<Cell> emptyCellList;
+
+	@Override
+	public void evaluateGrid(CellGrid myGrid) {
+		emptyCellList = myGrid.getCellsByType("EMPTY");
+		for (int i = 0; i < myGrid.getGridHeight(); i++) {
+            for (int j = 0; j < myGrid.getGridWidth(); j++) {
+                if (myGrid.getCell(i, j).getNextType() == null) {
+                    evaluateCell(myGrid.getCell(i, j), myGrid);
+                }
+            }
+        }
+	}
+
 	public void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 		if (!satisfiedCell(myCell, myGrid)) {
-			findAnEmptyValidCell(myCell, myGrid).setNextType(myCell.getCurrentType());
-			myCell.setNextType("EMPTY");
+			Cell nextCell = findAnEmptyValidCell(myCell, myGrid);
+			if (nextCell != null) {
+				nextCell.setNextType(myCell.getCurrentType());
+				emptyCellList.remove(nextCell);
+				myCell.setNextType("EMPTY");
+				emptyCellList.add(myCell);
+			}
 		} else {
 			myCell.setNextType(myCell.getCurrentType());
 		}
-		return;
 	}
 
 	public void setStatesInMap(Cell myCell) {
-
+		return;
 	}
 
 	public void setColor(Cell myCell) {
@@ -62,25 +83,13 @@ public class SchellingModel extends Rule {
 		return myT > getParameter("similar");
 	}
 
-	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
-		boolean emptyTest = false;
-		int numLoops = 0;
-		while (!emptyTest){
-			int i = (int) (20*Math.random());
-			int j = (int) (20*Math.random());
-			Cell testCell = myGrid.getCell(i, j);
-			String cellCurrentType = testCell.getCurrentType();
-			String cellNextType = testCell.getNextType();
-			// This needs to be shortened but wasn't working with other methods...
-			if ((cellCurrentType == null || cellCurrentType.equals("EMPTY")) && 
-					(cellNextType == null || cellNextType.equals("EMPTY"))) {
-				return testCell;
-			} else if (numLoops > 100){
-				break;
-			}
-			numLoops++;
-		}
-		return null;
-	}
 
+
+	private Cell findAnEmptyValidCell(Cell myCell, CellGrid myGrid) {
+		if (emptyCellList == null || emptyCellList.size() == 0) {
+			return null;
+		}
+		int choice = (int)(Math.random()*emptyCellList.size());
+		return emptyCellList.get(choice);
+	}
 }
