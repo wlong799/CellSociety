@@ -80,6 +80,8 @@ public abstract class CellGrid extends Group {
 	}
 
 	abstract public List<Cell> getNonDiagNeighbours(Cell myCell);
+	
+	abstract public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell);
 
 	abstract public List<Cell> getNeighbours(Cell myCell);
 

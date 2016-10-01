@@ -31,20 +31,16 @@ public class CellGridSquare extends CellGrid {
 	public List<Cell> getNonDiagNeighbours(Cell myCell) {
 		List<Cell> nonDiagNeighbours = new ArrayList<Cell>();
 		if (getCell(myCell.getMyRow() + 1, myCell.getMyCol()) != null) {
-			Cell myRightCell = getCell(myCell.getMyRow() + 1, myCell.getMyCol());
-			nonDiagNeighbours.add(myRightCell);
+			nonDiagNeighbours.add(getCell(myCell.getMyRow() + 1, myCell.getMyCol()));
 		}
 		if (getCell(myCell.getMyRow() - 1, myCell.getMyCol()) != null) {
-			Cell myBottomCell = getCell(myCell.getMyRow() - 1, myCell.getMyCol());
-			nonDiagNeighbours.add(myBottomCell);
+			nonDiagNeighbours.add(getCell(myCell.getMyRow() - 1, myCell.getMyCol()));
 		}
 		if (getCell(myCell.getMyRow(), myCell.getMyCol() + 1) != null) {
-			Cell myTopCell = getCell(myCell.getMyRow(), myCell.getMyCol() + 1);
-			nonDiagNeighbours.add(myTopCell);
+			nonDiagNeighbours.add(getCell(myCell.getMyRow(), myCell.getMyCol() + 1));
 		}
 		if (getCell(myCell.getMyRow(), myCell.getMyCol() - 1) != null) {
-			Cell myLeftCell = getCell(myCell.getMyRow(), myCell.getMyCol() - 1);
-			nonDiagNeighbours.add(myLeftCell);
+			nonDiagNeighbours.add(getCell(myCell.getMyRow(), myCell.getMyCol() - 1));
 		}
 		return nonDiagNeighbours;
 	}
@@ -64,6 +60,13 @@ public class CellGridSquare extends CellGrid {
 			myNeighbours.add(getCell(myCell.getMyRow() - 1, myCell.getMyCol() + 1));
 		}
 		return myNeighbours;
+	}
+
+	@Override
+	public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell) {
+		// TODO Auto-generated method stub
+
+		return null;
 	}
 
 	

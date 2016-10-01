@@ -25,12 +25,12 @@ public class CellGridTriangle extends CellGrid {
 				int arrayPos = row*gridWidth + col;
 			double cellXPos = row * drawCellWidth;
 			double cellYPos = col * drawCellHeight;
-			double[] xpoints = {cellXPos, cellXPos + drawCellWidth};
-			double[] ypoints = {cellYPos, cellYPos + drawCellHeight};
-				CellTriangle cell = new CellTriangle(initialCellTypes.get(arrayPos), xpoints,ypoints, row, col);
-				//cells.add(cell);
-
+		
+			Cell cell = new Cell("square", initialCellTypes.get(arrayPos), cellXPos, cellYPos,
+				     drawCellWidth, drawCellHeight, row, col);
+				cells.add(cell);
 				getChildren().add(cell);
+
 			}
 		}
 }

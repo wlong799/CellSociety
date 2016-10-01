@@ -15,16 +15,28 @@ import java.util.Map;
  * different situations. The Rule class for a given name is responsible for
  * properly interpreting and setting the Cell's type and state.
  */
-public class CellTriangle extends Polygon {
+public class Cell2 extends Shape {
 	protected static final Color DEFAULT_COLOR = Color.GRAY;
 
 	protected String currentType, nextType;
 	protected Map<String, Integer> currentState, nextState;
 	protected int myRow, myCol;
+	protected Shape myShape;
 
-	public CellTriangle(String cellType, double xPos, double yPos, double width, double height, int row, int col) {
-		super();
-		getPoints().addAll(xPos, yPos, xPos + width, yPos, xPos + width, yPos +width);
+	public Cell(String shapeType, String cellType, double xPos, double yPos, double width, double height, int row, int col) {
+		//super();
+		if(shapeType.equals("square")){
+			myShape = new Rectangle(xPos, yPos, width, height);
+		}
+		else if(shapeType.equals("triangle")){
+			myShape = new Polygon();
+			((Polygon) myShape).getPoints().addAll(new Double[]{
+			        xPos, yPos,
+			        xPos+width, yPos,
+			        xPos + width, yPos + height}
+			    );
+		}
+
 		setFill(DEFAULT_COLOR);
 
 		myRow = row;
@@ -62,7 +74,7 @@ public class CellTriangle extends Polygon {
 	public int getNextState(String stateName) {
 		return nextState.get(stateName);
 	}
-	
+
 	public boolean containsNextState(String stateName) {
 		return nextState.containsKey(stateName);
 	}
@@ -74,11 +86,11 @@ public class CellTriangle extends Polygon {
 	public String getNextType() {
 		return nextType;
 	}
-	
+
 	public void stepToNextStateAndType() {
 		currentType = nextType;
 		nextType = null;
-		for(String stateName :nextState.keySet()){
+		for (String stateName : nextState.keySet()) {
 			int stateVal = nextState.get(stateName);
 			currentState.put(stateName, stateVal);
 		}
@@ -100,5 +112,11 @@ public class CellTriangle extends Polygon {
 
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
+	}
+
+	@Override
+	public com.sun.javafx.geom.Shape impl_configShape() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
