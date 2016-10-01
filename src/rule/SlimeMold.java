@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 //TODO diffusion of the chemical in cellgrid class?
 public class SlimeMold extends Rule {
 	
+	
 	public SlimeMold() {
 		// TODO Auto-generated constructor stub
 	}
@@ -34,9 +35,9 @@ public class SlimeMold extends Rule {
 	}
 
 	private void spreadChemicalToCellAndNeighbours(BackgroundCell myBackgroundCell) {
-		myBackgroundCell.setNextBackgroundState("CHEMICAL",myBackgroundCell.getNextBackgroundState("CHEMICAL") +1);
+		myBackgroundCell.setNextBackgroundState("CHEMICAL",myBackgroundCell.getNextBackgroundState("CHEMICAL") +getParameter("diffusion"));
 		for(BackgroundCell myBackgroundNeighbour:myBackgroundNeighbours){
-			myBackgroundNeighbour.setNextBackgroundState("CHEMICAL",myBackgroundNeighbour.getNextBackgroundState("CHEMICAL") +1);
+			myBackgroundNeighbour.setNextBackgroundState("CHEMICAL",myBackgroundNeighbour.getNextBackgroundState("CHEMICAL") +getParameter("diffusion"));
 		}
 	}
 
@@ -58,11 +59,11 @@ public class SlimeMold extends Rule {
 	}
 
 	@Override
-	public void setColor(Cell myCell, CellGrid myCellGrid) {
+	public void setColor(Cell myCell, BackgroundCell myBackgroundCell) {
 		if (myCell.getCurrentType().equals("TURTLE")) {
 			myCell.setFill(Color.RED);
 		} else if (myCell.getCurrentType().equals("EMPTY")) {
-			BackgroundCell myBackgroundCell= myCellGrid.getBackgroundCell(myCell.getMyCol(), myCell.getMyRow());
+		//	BackgroundCell myBackgroundCell= myCellGrid.getBackgroundCell(myCell.getMyCol(), myCell.getMyRow());
 			if(myBackgroundCell.getCurrentBackgroundState("CHEMICAL") > 0 && myBackgroundCell.getCurrentBackgroundState("CHEMICAL") < 5){
 				myCell.setFill(Color.GREEN);
 			}
@@ -73,6 +74,12 @@ public class SlimeMold extends Rule {
 				myCell.setFill(Color.BLACK);
 			}
 		}
+	}
+	
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell){
+		//account for diffusion
+		//TODO CHANGE MAP TO DOUBLE! 
+		myBackgroundCell.setNextBackgroundState("CHEMICAL", myBackgroundCell.getNextBackgroundState("CHEMICAL")*getParameter("evaporation"));
 	}
 
 	@Override

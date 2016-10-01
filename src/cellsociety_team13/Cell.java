@@ -100,4 +100,7 @@ public class Cell extends Rectangle {
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
 	}
+	public BackgroundCell getBackgroundCellofCell(Cell myCell){			
+		return getBackgroundCell(myCell.getMyRow(), myCell.getMyCol());	
+	}
 }
