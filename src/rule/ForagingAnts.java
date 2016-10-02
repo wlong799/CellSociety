@@ -192,23 +192,32 @@ public class ForagingAnts extends Rule {
 	
 	void setStatesInMap(Cell myCell, CellGrid myGrid) {
 		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-		myCell.setCurrentState(XOrientation, 0);
-		myCell.setCurrentState(YOrientation, 0);
-		if (myCell.getCurrentState(FOOD) == 1){
-			bgCell.setCurrentBGState(FOOD, 1);
-			bgCell.setCurrentBGState(FOODSOURCE, 1);
-			myCell.setCurrentState(FOOD, 0);
-		}
+		
+//		if (myCell.getCurrentState(FOOD) == 1){
+//			bgCell.setCurrentBGState(FOOD, 1);
+//			bgCell.setCurrentBGState(FOODSOURCE, 1);
+//			myCell.setCurrentState(FOOD, 0);
+//		}
 		bgCell.setCurrentBGState(HOMEPHERO, 0);
 		bgCell.setCurrentBGState(FOODPHERO, 0);
-		if (myCell.getCurrentState(NEST) == 1){
-			bgCell.setCurrentBGState(NESTFOOD, 0);
-		}
+//		if (myCell.getCurrentState(NEST) == 1){
+//			
+//			myCell.setCurrentState(NEST, 0);
+//		}
 	}
 
 	
 	void setStatesInMap(Cell myCell) {
-		// Bleh		
+		myCell.setCurrentState(XOrientation, 0);
+		myCell.setCurrentState(YOrientation, 0);
+	}
+
+	void setBGStatesInMap(BackgroundCell myBGCell) {
+		myBGCell.setCurrentBGState(NEST, 0);
+		myBGCell.setCurrentBGState(NESTFOOD, 0);
+		myBGCell.setCurrentBGState(HOMEPHERO, 0);
+		myBGCell.setCurrentBGState(FOODPHERO, 0);
+		
 	}
 
 }

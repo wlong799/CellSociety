@@ -89,6 +89,8 @@ public class CellSocietyGUI {
             rule = new WatorWorld();
         } else if (ruleName.equals("SpreadingOfFire")) {
             rule = new SpreadingOfFire();
+        } else if (ruleName.equals("ForagingAnts")) {
+            rule = new ForagingAnts();
         }
     }
 

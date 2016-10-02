@@ -19,7 +19,7 @@
         <name>FOOD</name>
     </celltype>
     <celltype>
-        <id>2</id>
+        <id>3</id>
         <name>NEST</name>
     </celltype>
 
@@ -32,11 +32,19 @@
 
     <location>
         <id>0</id>
-        <percent>85</percent>
+        <percent>69</percent>
+    </location>
+    <location>
+        <id>1</id>
+        <percent>15</percent>
     </location>
     <location>
         <id>2</id>
         <percent>15</percent>
+    </location>
+    <location>
+        <id>3</id>
+        <percent>1</percent>
     </location>
 
 
