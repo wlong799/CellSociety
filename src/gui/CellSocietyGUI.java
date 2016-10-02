@@ -74,7 +74,7 @@ public class CellSocietyGUI {
         EventHandler<ActionEvent> startButtonHandler = event -> {
             loadGame();
         };
-        titleScreen = new TitleScreen(1280, 960, startButtonHandler);
+        titleScreen = new TitleScreen(appWidth, appHeight, startButtonHandler);
         sceneRoot.getChildren().add(titleScreen);
     }
 
