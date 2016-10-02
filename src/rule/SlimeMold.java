@@ -87,14 +87,13 @@ public class SlimeMold extends Rule {
 
 	@Override
 	void setStatesInMap(Cell myCell) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
 	void setBGStatesInMap(BackgroundCell myBGCell) {
 		Random rn = new Random();
-		myBGCell.setCurrentBGState("CHEMICAL",rn.nextInt(9) + 1);
+		myBGCell.setCurrentBGState("CHEMICAL",rn.nextInt(10));
 	}
 
 }
