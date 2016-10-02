@@ -1,7 +1,7 @@
 package rule;
 
 import javafx.scene.paint.Color;
-
+import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 
@@ -91,5 +91,11 @@ public class SchellingModel extends Rule {
 		}
 		int choice = (int)(Math.random()*emptyCellList.size());
 		return emptyCellList.get(choice);
+	}
+
+	@Override
+	void setBGStatesInMap(BackgroundCell myBGCell) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -63,7 +63,10 @@ public enum AppResources {
 	FA_YOrientation("YOrientation"),
 	FA_NEST("NEST"),
 	FA_NESTFOOD("NESTFOOD"),
-	FA_PATCH("PATCH");
+	FA_PATCH("PATCH"),
+
+    GOL_LIVE_TYPE("LIVE"),
+    GOL_DEAD_TYPE("DEAD");
 
     private double resourceDouble;
     private String resourceString;
