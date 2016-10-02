@@ -32,11 +32,11 @@
     </celltype>
     <celltype>
         <id>1</id>
-        <name>TURTLE</name>
+        <name>AGENT</name>
     </celltype>
     <celltype>
         <id>2</id>
-        <name>TURTLE</name>
+        <name>AGENT</name>
     </celltype>
 
 
