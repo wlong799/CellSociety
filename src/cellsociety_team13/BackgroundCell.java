@@ -31,6 +31,10 @@ public class BackgroundCell {
 		return nextBGState.get(myState);
 	}
 	
+	public void setCurrentBGState(String myState, Integer value){
+		nextBGState.put(myState,value);
+	}
+	
 	public void setNextBGState(String myState, Integer value){
 		nextBGState.put(myState,value);
 	}

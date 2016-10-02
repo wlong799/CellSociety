@@ -52,8 +52,18 @@ public enum AppResources {
     XML_LOCATION_COL("COL"),
     XML_LOCATION_PERCENT("PERCENT"),
     XML_LOCATION_MANUAL_METHOD("manual"),
-    XML_LOCATION_PERCENTAGE_METHOD("percentage");
-
+    XML_LOCATION_PERCENTAGE_METHOD("percentage"),
+	
+	FA_FOOD("FOOD"),
+	FA_FOODSOURCE("FOODSOURCE"),
+	FA_ANT("ANT"),
+	FA_HOMEPHERO("HOMEPHERO"),
+	FA_FOODPHERO("FOODPHERO"),
+	FA_XOrientation("XOrientation"),
+	FA_YOrientation("YOrientation"),
+	FA_NEST("NEST"),
+	FA_NESTFOOD("NESTFOOD"),
+	FA_PATCH("PATCH");
 
     private double resourceDouble;
     private String resourceString;

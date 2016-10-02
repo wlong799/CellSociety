@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<game>
+    <main>
+        <title>Foraging Ants</title>
+        <rule>ForagingAnts</rule>
+        <author>John Martin</author>
+    </main>
+
+    <celltype>
+        <id>0</id>
+        <name>PATCH</name>
+    </celltype>
+    <celltype>
+        <id>1</id>
+        <name>ANT</name>
+    </celltype>
+    <celltype>
+        <id>2</id>
+        <name>FOOD</name>
+    </celltype>
+    <celltype>
+        <id>2</id>
+        <name>NEST</name>
+    </celltype>
+
+    <grid>
+        <width>10</width>
+        <height>10</height>
+        <defaultid>0</defaultid>
+        <fillmethod>percentage</fillmethod>
+    </grid>
+
+    <location>
+        <id>0</id>
+        <percent>85</percent>
+    </location>
+    <location>
+        <id>2</id>
+        <percent>15</percent>
+    </location>
+
+
+</game>
