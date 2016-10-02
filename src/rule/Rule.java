@@ -25,14 +25,18 @@ public abstract class Rule {
     abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
     public void initialize(CellGrid myGrid, List<GameParameter> initialParameters) {
-    	for (int i = 0; i < myGrid.getGridHeight(); i++) {
+    	/*for (int i = 0; i < myGrid.getGridHeight(); i++) {
             for (int j = 0; j < myGrid.getGridWidth(); j++) {
-//            	setColor(myGrid.getCell(i, j), myGrid);
                 setStatesInMap(myGrid.getCell(i, j));
                 setBGStatesInMap(myGrid.getBGCell(i, j));
                 setColor(myGrid.getCell(i, j), myGrid);
             }
-        }   
+        }*/
+    	for (Cell cell : myGrid.getCells()) {
+            setStatesInMap(cell);
+            setBGStatesInMap(myGrid.getBGCellofCell(cell));
+            setColor(cell, myGrid);
+        }
     	initializeParameters(initialParameters);
     }
 
