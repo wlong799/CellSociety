@@ -1,5 +1,6 @@
 package gui;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.CellGrid;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -12,8 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class AnimationControl extends VBox {
-    private static final double PADDING = 25;
-
     private static final double DEFAULT_RUN_SPEED_MILLI = 100;
     private static final double MIN_RATE = 0.25;
     private static final double MAX_RATE = 2.5;
@@ -25,33 +24,37 @@ public class AnimationControl extends VBox {
     private Button stepButton, runButton;
     private Slider runSpeedSlider;
 
-    public AnimationControl(double xPos, double yPos, double width, double height, CellGrid cellGrid) {
-        super(PADDING);
-        setLayoutX(xPos);
-        setLayoutY(yPos);
-        setWidth(width);
-        setHeight(height);
+    public AnimationControl(CellGrid cellGrid) {
+        super(AppResources.ANIMATION_CONTROL_PADDING.getDoubleResource());
         setAlignment(Pos.CENTER);
         targetCellGrid = cellGrid;
 
-        stepButton = new Button("STEP");
+        stepButton = new Button(AppResources.STEP_TITLE.getResource());
+        stepButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
         stepButton.setOnAction(e -> targetCellGrid.step());
 
-        KeyFrame frame = new KeyFrame(Duration.millis(DEFAULT_RUN_SPEED_MILLI),
+        KeyFrame frame = new KeyFrame(Duration.millis(AppResources.ANIMATION_SPEED.getDoubleResource()),
                 e -> step());
         runAnimation = new Timeline();
         runAnimation.setCycleCount(Timeline.INDEFINITE);
         runAnimation.getKeyFrames().add(frame);
 
-        runButton = new Button("RUN");
+        runButton = new Button(AppResources.RUN_TITLE.getResource());
+        runButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
         runButton.setOnAction(e -> toggleRunning());
 
-        runSpeedSlider = new Slider(MIN_RATE, MAX_RATE, 1);
+        double minRate = AppResources.ANIMATION_MIN_RATE.getDoubleResource();
+        double maxRate = AppResources.ANIMATION_MAX_RATE.getDoubleResource();
+        double defaultRate = 1;
+        runSpeedSlider = new Slider(minRate, maxRate, defaultRate);
         runSpeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
                 runAnimation.setRate(newValue.doubleValue());
                 });
+        double sliderWidth = (2 * AppResources.INPUT_BUTTON_WIDTH.getDoubleResource()) +
+                AppResources.ANIMATION_CONTROL_PADDING.getDoubleResource();
+        runSpeedSlider.setPrefWidth(sliderWidth);
 
-        buttonBox = new HBox(PADDING);
+        buttonBox = new HBox(AppResources.ANIMATION_CONTROL_PADDING.getDoubleResource());
         buttonBox.getChildren().addAll(stepButton, runButton);
         
         getChildren().addAll(buttonBox, runSpeedSlider);
@@ -64,10 +67,10 @@ public class AnimationControl extends VBox {
     private void toggleRunning() {
         if (runAnimation.getStatus().equals(Animation.Status.RUNNING)) {
             runAnimation.pause();
-            runButton.setText("RUN");
+            runButton.setText(AppResources.RUN_TITLE.getResource());
         } else {
             runAnimation.play();
-            runButton.setText("PAUSE");
+            runButton.setText(AppResources.PAUSE_TITLE.getResource());
         }
     }
 
