@@ -14,20 +14,13 @@ public class CellGridSquare extends CellGrid {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void addItemsToGrid(int gridWidth, int gridHeight, List<String> initialCellTypes) {
-		for (int row = 0; row < gridHeight; row++){
- 			for (int col = 0; col < gridWidth; col++){
- 				int arrayPos = row*gridWidth + col;
-				double cellXPos = row * drawCellWidth;
-				double cellYPos = col * drawCellHeight;
- 				Cell cell = new Cell(initialCellTypes.get(arrayPos), cellXPos, cellYPos,
-								     drawCellWidth, drawCellHeight, row, col);
- 				cells.add(cell);
- 				getChildren().add(cell);
- 				BackgroundCell bgCell = new BackgroundCell(row, col);
- 				bgCells.add(bgCell);
- 			}
- 		}
+
+	public Cell getVerticesAndMakeCell(List<String> initialCellTypes, int row, int col, int arrayPos, double cellXPos,
+			double cellYPos) {
+		double[] myVertices = new double[]{cellXPos, cellYPos, cellXPos+drawCellWidth, cellYPos, cellXPos + drawCellWidth, cellYPos+drawCellHeight, cellXPos, cellYPos+drawCellHeight};
+		Cell cell = new Cell(myVertices, initialCellTypes.get(arrayPos), cellXPos, cellYPos,
+						     drawCellWidth, drawCellHeight, row, col);
+		return cell;
 	}
 	
 	public List<Cell> getNonDiagNeighbours(Cell myCell) {
