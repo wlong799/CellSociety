@@ -55,7 +55,7 @@ public class SchellingModel extends Rule {
 		return;
 	}
 
-	public void setColor(Cell myCell) {
+	public void setColor(Cell myCell, CellGrid myGrid) {
 		try {
 			if (myCell.getCurrentType().equals("EMPTY")) {
 				myCell.setFill(Color.WHITE);

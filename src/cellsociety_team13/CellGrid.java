@@ -19,6 +19,7 @@ public abstract class CellGrid extends Group {
 	protected int gridWidth, gridHeight;
 
 	protected List<Cell> cells = new ArrayList<>();
+	protected List<BackgroundCell> bgCells = new ArrayList<>();
 	protected Rule rule;
 
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
@@ -38,7 +39,23 @@ public abstract class CellGrid extends Group {
 		rule.initialize(this, initialParameters);
 	}
 
-	public abstract void addItemsToGrid(int gridWidth, int gridHeight, List<String> initialCellTypes); 
+	public void addItemsToGrid(int gridWidth, int gridHeight, List<String> initialCellTypes){
+			for (int row = 0; row < gridHeight; row++){
+	 			for (int col = 0; col < gridWidth; col++){
+	 				int arrayPos = row*gridWidth + col;
+					double cellXPos = row * drawCellWidth;
+					double cellYPos = col * drawCellHeight;
+					Cell cell = getVerticesAndMakeCell(initialCellTypes, row, col, arrayPos, cellXPos, cellYPos);
+	 				cells.add(cell);
+	 				getChildren().add(cell);
+	 				BackgroundCell bgCell = new BackgroundCell(row, col);
+	 				bgCells.add(bgCell);
+	 			}
+	 		}
+		}
+	
+	public abstract Cell getVerticesAndMakeCell(List<String> initialCellTypes, int row, int col, int arrayPos, double cellXPos,
+			double cellYPos);
 
 	public int getGridWidth() {
 		return gridWidth;
@@ -66,6 +83,15 @@ public abstract class CellGrid extends Group {
 			return cells.get(arrayPos);
 		}
 	}
+	
+	public BackgroundCell getBGCell(int row, int col){
+		if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)) {
+			return null;
+		} else {
+			int arrayPos = row * gridWidth + col;
+			return bgCells.get(arrayPos);
+		}
+	}
 
 	public void step() {
 		rule.evaluateGrid(this);
@@ -75,15 +101,20 @@ public abstract class CellGrid extends Group {
 	private void stepToNextStatesAndTypes() {
 		for(Cell cell : cells){
 			cell.stepToNextStateAndType();
-			this.rule.setColor(cell);
+			rule.setColor(cell, this);
 		}
 	}
 
 	abstract public List<Cell> getNonDiagNeighbours(Cell myCell);
+	
+	abstract public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell);
 
 	abstract public List<Cell> getNeighbours(Cell myCell);
 
 	public void updateParameter(String param, int value) {
 		rule.setParameter(param, value);
+	}
+	public BackgroundCell getBGCellofCell(Cell myCell){			
+		return getBGCell(myCell.getMyRow(), myCell.getMyCol());	
 	}
 }

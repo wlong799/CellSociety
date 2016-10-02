@@ -94,7 +94,7 @@ public class WatorWorld extends Rule {
 		myCell.setCurrentState("lifetime", 0);
 	}
 
-	public void setColor(Cell myCell) {
+	public void setColor(Cell myCell, CellGrid myGrid) {
 		if (myCell.getCurrentType().equals("FISH")) {
 			myCell.setFill(Color.BLUE);
 		} else if (myCell.getCurrentType().equals("KELP")) {

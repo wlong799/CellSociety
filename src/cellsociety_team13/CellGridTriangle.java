@@ -19,21 +19,7 @@ public class CellGridTriangle extends CellGrid {
 
 	}
 
-	public void addItemsToGrid(int gridWidth, int gridHeight, List<String> initialCellTypes) {
-	for (int row = 0; row < gridHeight; row++){
-			for (int col = 0; col < gridWidth; col++){
-				int arrayPos = row*gridWidth + col;
-			double cellXPos = row * drawCellWidth;
-			double cellYPos = col * drawCellHeight;
-			double[] xpoints = {cellXPos, cellXPos + drawCellWidth};
-			double[] ypoints = {cellYPos, cellYPos + drawCellHeight};
-				CellTriangle cell = new CellTriangle(initialCellTypes.get(arrayPos), xpoints,ypoints, row, col);
-				//cells.add(cell);
 
-				getChildren().add(cell);
-			}
-		}
-}
 
 	@Override
 	public List<Cell> getNonDiagNeighbours(Cell myCell) {
@@ -43,6 +29,26 @@ public class CellGridTriangle extends CellGrid {
 
 	@Override
 	public List<Cell> getNeighbours(Cell myCell) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public Cell getVerticesAndMakeCell(List<String> initialCellTypes, int row, int col, int arrayPos, double cellXPos,
+			double cellYPos) {
+		// TODO Auto-generated method stub NEED TO CHANGE TO TRIANGLE COORDS.
+	//	double[] myVertices = new double[]{cellXPos, cellYPos, cellXPos+drawCellWidth, cellYPos, cellXPos + drawCellWidth, cellYPos+drawCellHeight, cellXPos, cellYPos+drawCellHeight};
+	//	Cell cell = new Cell(myVertices, initialCellTypes.get(arrayPos), cellXPos, cellYPos,
+	//					     drawCellWidth, drawCellHeight, row, col);
+		return cell;
+	}
+
+
+
+	@Override
+	public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell) {
 		// TODO Auto-generated method stub
 		return null;
 	}
