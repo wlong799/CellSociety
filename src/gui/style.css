@@ -15,6 +15,31 @@
     -fx-background-color: #2aa198;
 }
 
+.combo-box-base {
+    -fx-text-base-color: #fdf6e3;
+    -fx-background-color: #6c71c4;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.combo-box-base:hover {
+    -fx-background-color: #2aa198;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #6c71c4;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: #6c71c4;
+    -fx-text-fill: #fdf6e3;
+
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #2aa198;
+}
+
 #main-bg {
     -fx-fill: #eee8d5;
 }
@@ -29,14 +54,8 @@
     -fx-fill: #fdf6e3;
 }
 
-.combo-box-base {
-    -fx-text-base-color: #006464;
-    -fx-background-color: #DFB951;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
+#input-panel-bg {
+    -fx-fill: #073642;
 }
 
-.combo-box-base:hover {
-    -fx-background-color: #3a3a3a;
-}
 
