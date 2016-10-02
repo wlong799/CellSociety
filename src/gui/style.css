@@ -53,6 +53,11 @@
     -fx-font-size: 36pt;
     -fx-fill: #fdf6e3;
 }
+#parameter-value-text {
+    -fx-text-alignment: center;
+    -fx-fill: #fdf6e3;
+    -fx-font-size: 24pt;
+}
 
 #input-panel-bg {
     -fx-fill: #073642;

@@ -1,36 +1,36 @@
 package gui;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.CellGrid;
 import cellsociety_team13.GameParameter;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.util.List;
 
 public class ParameterAdjustmentControl extends VBox {
-    private static final double PADDING = 10;
-
-    private ComboBox parameterComboBox;
+    private ComboBox<String> parameterComboBox;
     private Slider parameterAdjustmentSlider;
+    private Text currentParameterValue;
     private String currentParameterName;
 
-    public ParameterAdjustmentControl(double xPos, double yPos, double width, double height,
-                                      List<GameParameter> parameters, CellGrid targetCellGrid) {
-        super(PADDING);
-        setLayoutX(xPos);
-        setLayoutY(yPos);
-        setWidth(width);
-        setHeight(height);
+    public ParameterAdjustmentControl(double height, List<GameParameter> parameters, CellGrid targetCellGrid) {
+        super(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
+        setAlignment(Pos.CENTER);
+        setPrefHeight(height);
 
         currentParameterName = null;
 
         parameterComboBox = new ComboBox();
+        parameterComboBox.setPrefWidth(AppResources.PARAMETER_COMBO_BOX_WIDTH.getDoubleResource());
         for (GameParameter param : parameters) {
             parameterComboBox.getItems().add(param.getName());
         }
         parameterComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            currentParameterName = newValue.toString();
+            currentParameterName = newValue;
             for (GameParameter parameter : parameters) {
                 if (parameter.getName().equals(currentParameterName)) {
                     parameterAdjustmentSlider.setMin(parameter.getMinVal());
@@ -42,13 +42,20 @@ public class ParameterAdjustmentControl extends VBox {
         });
 
         parameterAdjustmentSlider = new Slider();
+        parameterAdjustmentSlider.setPrefWidth(AppResources.PARAMETER_COMBO_BOX_WIDTH.getDoubleResource());
         parameterAdjustmentSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (currentParameterName == null) {
+                currentParameterValue.setText(AppResources.PARAMETER_DEFAULT_MESSAGE.getResource());
                 return;
             }
+            currentParameterValue.setText(newValue.intValue()+ " ");
             targetCellGrid.updateParameter(currentParameterName, newValue.intValue());
         });
 
-        getChildren().addAll(parameterComboBox, parameterAdjustmentSlider);
+        currentParameterValue = new Text(AppResources.PARAMETER_DEFAULT_MESSAGE.getResource());
+        currentParameterValue.setId("parameter-value-text");
+        currentParameterValue.setWrappingWidth(AppResources.PARAMETER_COMBO_BOX_WIDTH.getDoubleResource());
+
+        getChildren().addAll(parameterComboBox, parameterAdjustmentSlider, currentParameterValue);
     }
 }

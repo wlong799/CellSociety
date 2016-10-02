@@ -33,20 +33,25 @@ public class InputPanel extends Group {
         gameSelectButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
         gameSelectButton.setOnAction(gameSelectHandler);
 
-        animationControl = new AnimationControl(cellGrid);
+        animationControl = new AnimationControl(height, cellGrid);
 
-        parameterAdjustmentControl = new ParameterAdjustmentControl(350, 0, width - 350, height,
-                params, cellGrid);
+        parameterAdjustmentControl = new ParameterAdjustmentControl(height, params, cellGrid);
 
-        panelBox = new HBox(calculatePadding(), gameSelectButton, animationControl, parameterAdjustmentControl);
-
+        panelBox = new HBox(calculatePadding(width), gameSelectButton, animationControl, parameterAdjustmentControl);
         panelBox.setAlignment(Pos.CENTER);
         panelBox.setPrefWidth(width);
 
         getChildren().addAll(background, panelBox);
     }
 
-    private double calculatePadding() {
-        return 100;
+    private double calculatePadding(double width) {
+        double usedSpace = AppResources.INPUT_BUTTON_WIDTH.getDoubleResource();
+        usedSpace += (2 * AppResources.INPUT_BUTTON_WIDTH.getDoubleResource()) +
+                AppResources.INPUT_PANEL_PADDING.getDoubleResource();
+        usedSpace += AppResources.PARAMETER_COMBO_BOX_WIDTH.getDoubleResource();
+
+        double freeSpace = width - usedSpace;
+
+        return freeSpace / 4;
     }
 }

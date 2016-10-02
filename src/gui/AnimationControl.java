@@ -24,8 +24,9 @@ public class AnimationControl extends VBox {
     private Button stepButton, runButton;
     private Slider runSpeedSlider;
 
-    public AnimationControl(CellGrid cellGrid) {
-        super(AppResources.ANIMATION_CONTROL_PADDING.getDoubleResource());
+    public AnimationControl(double height, CellGrid cellGrid) {
+        super(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
+        setPrefHeight(height);
         setAlignment(Pos.CENTER);
         targetCellGrid = cellGrid;
 
@@ -51,10 +52,10 @@ public class AnimationControl extends VBox {
                 runAnimation.setRate(newValue.doubleValue());
                 });
         double sliderWidth = (2 * AppResources.INPUT_BUTTON_WIDTH.getDoubleResource()) +
-                AppResources.ANIMATION_CONTROL_PADDING.getDoubleResource();
+                AppResources.INPUT_PANEL_PADDING.getDoubleResource();
         runSpeedSlider.setPrefWidth(sliderWidth);
 
-        buttonBox = new HBox(AppResources.ANIMATION_CONTROL_PADDING.getDoubleResource());
+        buttonBox = new HBox(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
         buttonBox.getChildren().addAll(stepButton, runButton);
         
         getChildren().addAll(buttonBox, runSpeedSlider);
