@@ -52,8 +52,10 @@ public enum AppResources {
     XML_LOCATION_COL("COL"),
     XML_LOCATION_PERCENT("PERCENT"),
     XML_LOCATION_MANUAL_METHOD("manual"),
-    XML_LOCATION_PERCENTAGE_METHOD("percentage");
+    XML_LOCATION_PERCENTAGE_METHOD("percentage"),
 
+    GOL_LIVE_TYPE("LIVE"),
+    GOL_DEAD_TYPE("DEAD");
 
     private double resourceDouble;
     private String resourceString;

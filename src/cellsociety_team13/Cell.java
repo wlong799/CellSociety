@@ -30,7 +30,7 @@ public class Cell extends Polygon {
 		myRow = row;
 		myCol = col;
 		currentType = cellType;
-		nextType = cellType;
+		nextType = null;
 		currentState = new HashMap<>();
 		nextState = new HashMap<>();
 	}
