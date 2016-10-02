@@ -7,17 +7,10 @@ import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
 
-//TODO diffusion of the chemical in cellgrid class?
 public class SlimeMold extends Rule {
-	
-	
-	public SlimeMold() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
-		// TODO Auto-generated method stub
 		myNeighbours = myGrid.getNeighbours(myCell);
 		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
 		myBGNeighbours = myGrid.getNeighbours(myBackgroundCell);
@@ -87,13 +80,12 @@ public class SlimeMold extends Rule {
 
 	@Override
 	void setStatesInMap(Cell myCell) {
-		// TODO Auto-generated method stub	
+		return;
 	}
 
 	@Override
 	void setBGStatesInMap(BackgroundCell myBGCell) {
-		Random rn = new Random();
-		myBGCell.setCurrentBGState("CHEMICAL",rn.nextInt(10));
+		myBGCell.setCurrentBGState("CHEMICAL", (int)(Math.random() * 10));
 	}
 
 }
