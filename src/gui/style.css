@@ -1,20 +1,32 @@
 #root {
     -fx-font-family: "Monospace";
     -fx-font-size: 14pt;
-    -fx-base: #002b36;
-    -fx-background: #002b36;
 }
 
 .button {
-    -fx-text-fill: #fdf6e3;
     -fx-background-color: #268bd2;
     -fx-background-radius: 20;
     -fx-padding: 20;
-    -fx-text-alignment: center;
+    -fx-text-fill: #fdf6e3;
+    -fx-alignment: center;
 }
 
 .button:hover {
     -fx-background-color: #2aa198;
+}
+
+#main-bg {
+    -fx-fill: #eee8d5;
+}
+
+#title-bg {
+    -fx-fill: #073642;
+}
+
+#title-text {
+    -fx-text-alignment: center;
+    -fx-font-size: 36pt;
+    -fx-fill: #fdf6e3;
 }
 
 .combo-box-base {
@@ -26,10 +38,5 @@
 
 .combo-box-base:hover {
     -fx-background-color: #3a3a3a;
-}
-
-.text-field {
-    -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI Semibold";
 }
 

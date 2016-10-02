@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import rule.*;
 import xmlparser.GameInfoReader;
 
@@ -53,6 +54,9 @@ public class CellSocietyGUI {
 
     private void loadGame() {
         sceneRoot.getChildren().clear();
+        Rectangle background = new Rectangle(appWidth, appHeight);
+        background.setId("main-bg");
+        sceneRoot.getChildren().add(background);
         loadRule();
         createTitleBox();
         createCellGrid();
@@ -83,12 +87,9 @@ public class CellSocietyGUI {
     }
 
     private void createTitleBox() {
-        double x = PADDING;
-        double y = PADDING;
-        double width = SCENE_WIDTH - (2 * PADDING);
-        double height = TITLE_BOX_HEIGHT;
+        double height = AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
         String title = gameInfoReader.getTitle();
-        titleBox = new TitleBox(x, y, width, height, title);
+        titleBox = new TitleBox(appWidth, height, title);
         sceneRoot.getChildren().add(titleBox);
     }
 

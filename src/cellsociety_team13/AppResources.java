@@ -10,6 +10,7 @@ public enum AppResources {
     TITLE_IMAGE_ERROR("Title image not found: "),
     TITLE_BUTTON_WIDTH(250),
     TITLE_BUTTON_OFFSET(200),
+    TITLE_BOX_HEIGHT(100),
 
     XML_MAIN("MAIN"),
     XML_PARAMETER("PARAMETER"),
