@@ -19,6 +19,7 @@ public abstract class CellGrid extends Group {
 	protected int gridWidth, gridHeight;
 
 	protected List<Cell> cells = new ArrayList<>();
+	protected List<BackgroundCell> bgCells = new ArrayList<>();
 	protected Rule rule;
 
 	public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
@@ -64,6 +65,15 @@ public abstract class CellGrid extends Group {
 		} else {
 			int arrayPos = row * gridWidth + col;
 			return cells.get(arrayPos);
+		}
+	}
+	
+	public BackgroundCell getBGCell(int row, int col){
+		if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)) {
+			return null;
+		} else {
+			int arrayPos = row * gridWidth + col;
+			return bgCells.get(arrayPos);
 		}
 	}
 

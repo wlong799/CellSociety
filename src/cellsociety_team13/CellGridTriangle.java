@@ -28,8 +28,9 @@ public class CellGridTriangle extends CellGrid {
 		
 			Cell cell = new Cell("square", initialCellTypes.get(arrayPos), cellXPos, cellYPos,
 				     drawCellWidth, drawCellHeight, row, col);
-				cells.add(cell);
-				getChildren().add(cell);
+			cells.add(cell);
+			getChildren().add(cell);
+			
 
 			}
 		}

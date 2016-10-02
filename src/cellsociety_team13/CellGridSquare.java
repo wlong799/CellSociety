@@ -24,6 +24,8 @@ public class CellGridSquare extends CellGrid {
 								     drawCellWidth, drawCellHeight, row, col);
  				cells.add(cell);
  				getChildren().add(cell);
+ 				BackgroundCell bgCell = new BackgroundCell(row, col);
+ 				bgCells.add(bgCell);
  			}
  		}
 	}
