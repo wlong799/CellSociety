@@ -101,10 +101,13 @@ public class CellSocietyGUI {
 
 
     private void createCellGrid() {
-        double xPos = PADDING;
-        double yPos = PADDING * 2 + TITLE_BOX_HEIGHT;
-        double drawWidth = SCENE_WIDTH - PADDING * 2;
-        double drawHeight = drawWidth;
+        double drawHeight = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
+                (2 * AppResources.APP_PADDING.getDoubleResource());
+        double drawWidth = drawHeight;
+        double xPos = (appWidth / 2) - (drawWidth / 2);
+        double yPos = (appHeight / 2) - (drawHeight / 2);
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();

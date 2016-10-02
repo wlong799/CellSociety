@@ -4,6 +4,7 @@ public enum AppResources {
     APP_TITLE("Cell Society"),
     APP_WIDTH(1280),
     APP_HEIGHT(960),
+    APP_PADDING(50),
     APP_CSS("style.css"),
     APP_DATA("data/"),
 
@@ -22,7 +23,7 @@ public enum AppResources {
     STEP_TITLE("Step"),
     RUN_TITLE("Run"),
     PAUSE_TITLE("Pause"),
-    ANIMATION_SPEED(1000),
+    ANIMATION_SPEED(100),
     ANIMATION_MIN_RATE(0.25),
     ANIMATION_MAX_RATE(2.5),
     PARAMETER_COMBO_BOX_WIDTH(350),
