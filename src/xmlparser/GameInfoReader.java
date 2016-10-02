@@ -1,5 +1,6 @@
 package xmlparser;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.GameParameter;
 
 import javax.xml.parsers.SAXParser;
@@ -35,15 +36,15 @@ public class GameInfoReader {
     }
 
     public String getTitle() {
-        return gameInfoHandler.getMainInfo("TITLE");
+        return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_TITLE.getResource());
     }
 
     public String getRuleClassName() {
-        return gameInfoHandler.getMainInfo("RULE");
+        return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_RULE.getResource());
     }
 
     public String getAuthor() {
-        return gameInfoHandler.getMainInfo("AUTHOR");
+        return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_AUTHOR.getResource());
     }
 
     public List<GameParameter> getGameParameters() {

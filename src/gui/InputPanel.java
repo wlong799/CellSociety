@@ -1,48 +1,57 @@
 package gui;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.CellGrid;
 import cellsociety_team13.GameParameter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.ComboBox;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
 public class InputPanel extends Group {
-    private static final Color BACKGROUND_COLOR = Color.LIGHTBLUE;
-    private static final double ARC_SIZE = 50;
-
     private Rectangle background;
-    private XMLFileControl xmlFileControl;
+    private HBox panelBox;
+    private Button gameSelectButton;
     private AnimationControl animationControl;
     private ParameterAdjustmentControl parameterAdjustmentControl;
 
-    public InputPanel(double x, double y, double width, double height,
-                      EventHandler<ActionEvent> submitFileHandler,
+    public InputPanel(double xPos, double yPos, double width, double height,
+                      EventHandler<ActionEvent> gameSelectHandler,
                       CellGrid cellGrid, List<GameParameter> params) {
-        setLayoutX(x);
-        setLayoutY(y);
+        setLayoutX(xPos);
+        setLayoutY(yPos);
 
         background = new Rectangle(width, height);
-        background.setFill(BACKGROUND_COLOR);
-        background.setArcWidth(ARC_SIZE);
-        background.setArcHeight(ARC_SIZE);
+        background.setId("input-panel-bg");
 
-        xmlFileControl = new XMLFileControl(0, 0, 200, height, submitFileHandler);
+        gameSelectButton = new Button(AppResources.GAME_SELECT_TITLE.getResource());
+        gameSelectButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
+        gameSelectButton.setOnAction(gameSelectHandler);
 
-        animationControl = new AnimationControl(225, 0, 100, height, cellGrid);
+        animationControl = new AnimationControl(height, cellGrid);
 
-        parameterAdjustmentControl = new ParameterAdjustmentControl(350, 0, width - 350, height,
-                params, cellGrid);
+        parameterAdjustmentControl = new ParameterAdjustmentControl(height, params, cellGrid);
 
-        getChildren().addAll(background, xmlFileControl,
-                animationControl, parameterAdjustmentControl);
+        panelBox = new HBox(calculatePadding(width), gameSelectButton, animationControl, parameterAdjustmentControl);
+        panelBox.setAlignment(Pos.CENTER);
+        panelBox.setPrefWidth(width);
+
+        getChildren().addAll(background, panelBox);
     }
 
-    public String getXMLFilename() {
-        return xmlFileControl.getFilename();
+    private double calculatePadding(double width) {
+        double usedSpace = AppResources.INPUT_BUTTON_WIDTH.getDoubleResource();
+        usedSpace += (2 * AppResources.INPUT_BUTTON_WIDTH.getDoubleResource()) +
+                AppResources.INPUT_PANEL_PADDING.getDoubleResource();
+        usedSpace += AppResources.PARAMETER_COMBO_BOX_WIDTH.getDoubleResource();
+
+        double freeSpace = width - usedSpace;
+
+        return freeSpace / 4;
     }
 }

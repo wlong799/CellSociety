@@ -1,12 +1,11 @@
 package xmlparser;
 
+import cellsociety_team13.AppResources;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class CellTypeParser implements Parser {
-    private static final String ID_SECTION = "ID";
-    private static final String NAME_SECTION = "NAME";
-
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;
     private String nextCellTypeName;
@@ -35,9 +34,9 @@ public class CellTypeParser implements Parser {
 
     @Override
     public void parseInfo(String infoName, String infoValue) {
-        if (infoName.equals(ID_SECTION)) {
+        if (infoName.equals(AppResources.XML_CELLTYPE_ID.getResource())) {
             nextCellTypeID = Integer.parseInt(infoValue);
-        } else if (infoName.equals(NAME_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_CELLTYPE_NAME.getResource())) {
             nextCellTypeName = infoValue;
         }
     }

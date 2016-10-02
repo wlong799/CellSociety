@@ -1,8 +1,9 @@
 package gui;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.CellGrid;
 import cellsociety_team13.CellGridSquare;
 import cellsociety_team13.GameParameter;
@@ -11,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import rule.*;
 import xmlparser.GameInfoReader;
 
@@ -30,28 +32,52 @@ public class CellSocietyGUI {
     private Group sceneRoot;
     private Scene scene;
 
+    private double appWidth, appHeight;
+
     private GameInfoReader gameInfoReader;
     private Rule rule;
+    private TitleScreen titleScreen;
     private TitleBox titleBox;
     private CellGrid cellGrid;
     private InputPanel inputPanel;
 
     public CellSocietyGUI() {
         sceneRoot = new Group();
-        scene = new Scene(sceneRoot, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.setFill(BACKGROUND_COLOR);
-
+        appWidth = AppResources.APP_WIDTH.getDoubleResource();
+        appHeight = AppResources.APP_HEIGHT.getDoubleResource();
+        scene = new Scene(sceneRoot, appWidth, appHeight);
+        scene.getStylesheets().add(getClass().getResource(AppResources.APP_CSS.getResource()).toExternalForm());
+        sceneRoot.setId("root");
         gameInfoReader = new GameInfoReader(DEFAULT_XML_FILE);
-        loadRule();
+        loadTitleScreen();
+    }
 
+    private void loadGame() {
+        String gameFilename = titleScreen.getXMLFilename();
+        if (gameFilename == null) {
+            return;
+        }
+        gameFilename = AppResources.APP_DATA.getResource() + gameFilename;
+        gameInfoReader = new GameInfoReader(gameFilename);
+        sceneRoot.getChildren().clear();
+        Rectangle background = new Rectangle(appWidth, appHeight);
+        background.setId("main-bg");
+        sceneRoot.getChildren().add(background);
+        loadRule();
         createTitleBox();
         createCellGrid();
         createInputPanel();
     }
 
-    public Scene getScene() {
-        return scene;
+    private void loadTitleScreen() {
+        sceneRoot.getChildren().clear();
+        EventHandler<ActionEvent> startButtonHandler = event -> {
+            loadGame();
+        };
+        titleScreen = new TitleScreen(1280, 960, startButtonHandler);
+        sceneRoot.getChildren().add(titleScreen);
     }
+
 
     private void loadRule() {
         String ruleName = gameInfoReader.getRuleClassName();
@@ -67,21 +93,21 @@ public class CellSocietyGUI {
     }
 
     private void createTitleBox() {
-        double x = PADDING;
-        double y = PADDING;
-        double width = SCENE_WIDTH - (2 * PADDING);
-        double height = TITLE_BOX_HEIGHT;
+        double height = AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
         String title = gameInfoReader.getTitle();
-        titleBox = new TitleBox(x, y, width, height, title);
+        titleBox = new TitleBox(appWidth, height, title);
         sceneRoot.getChildren().add(titleBox);
     }
 
 
     private void createCellGrid() {
-        double xPos = PADDING;
-        double yPos = PADDING * 2 + TITLE_BOX_HEIGHT;
-        double drawWidth = SCENE_WIDTH - PADDING * 2;
-        double drawHeight = drawWidth;
+        double drawHeight = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
+                (2 * AppResources.APP_PADDING.getDoubleResource());
+        double drawWidth = drawHeight;
+        double xPos = (appWidth / 2) - (drawWidth / 2);
+        double yPos = (appHeight / 2) - (drawHeight / 2);
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
@@ -92,23 +118,18 @@ public class CellSocietyGUI {
     }
 
     private void createInputPanel() {
-        double x = PADDING;
-        double y = cellGrid.getBoundsInParent().getMaxY() + PADDING;
-        double width = SCENE_WIDTH - (PADDING * 2);
-        double height = INPUT_PANEL_HEIGHT;
-
-        EventHandler<ActionEvent> submitFileHandler = event -> {
-            String filename = inputPanel.getXMLFilename();
-            gameInfoReader = new GameInfoReader(filename);
-            loadRule();
-            createTitleBox();
-            createCellGrid();
-            createInputPanel();
+        EventHandler<ActionEvent> gameSelectHandler = event -> {
+            loadTitleScreen();
         };
 
         List<GameParameter> params = gameInfoReader.getGameParameters();
 
-        inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
+        double height = AppResources.INPUT_PANEL_HEIGHT.getDoubleResource();
+        inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }

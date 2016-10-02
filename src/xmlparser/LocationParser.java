@@ -1,18 +1,13 @@
 package xmlparser;
 
+import cellsociety_team13.AppResources;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LocationParser implements Parser {
-    private static final String ID_SECTION = "ID";
-    private static final String ROW_SECTION = "ROW";
-    private static final String COL_SECTION = "COL";
-    private static final String PERCENTAGE_SECTION = "PERCENT";
-    private static final String MANUAL_METHOD = "manual";
-    private static final String PERCENTAGE_METHOD = "percentage";
-
     private int nextCellRow, nextCellCol, nextCellID, nextCellPercent;
     private int currentProbabilityPosition;
     private List<Integer> probabilities;
@@ -60,9 +55,9 @@ public class LocationParser implements Parser {
 
     @Override
     public void update() {
-        if (fillMethod.equals(MANUAL_METHOD)) {
+        if (fillMethod.equals(AppResources.XML_LOCATION_MANUAL_METHOD.getResource())) {
             updateManual();
-        } else if (fillMethod.equals(PERCENTAGE_METHOD)) {
+        } else if (fillMethod.equals(AppResources.XML_LOCATION_PERCENTAGE_METHOD.getResource())) {
             updatePercentage();
         }
     }
@@ -93,13 +88,13 @@ public class LocationParser implements Parser {
 
     @Override
     public void parseInfo(String infoName, String infoValue) {
-        if (infoName.equals(ID_SECTION)) {
+        if (infoName.equals(AppResources.XML_LOCATION_ID.getResource())) {
             nextCellID = Integer.parseInt(infoValue);
-        } else if (infoName.equals(ROW_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_LOCATION_ROW.getResource())) {
             nextCellRow = Integer.parseInt(infoValue);
-        } else if (infoName.equals(COL_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_LOCATION_COL.getResource())) {
             nextCellCol = Integer.parseInt(infoValue);
-        } else if (infoName.equals(PERCENTAGE_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_LOCATION_PERCENT.getResource())) {
             nextCellPercent = Integer.parseInt(infoValue);
         }
     }

@@ -1,14 +1,11 @@
 package xmlparser;
 
+import cellsociety_team13.AppResources;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GridParser implements Parser {
-    private static final String WIDTH_SECTION = "WIDTH";
-    private static final String HEIGHT_SECTION = "HEIGHT";
-    private static final String DEFAULT_TYPE_SECTION = "DEFAULTID";
-    private static final String FILL_METHOD_SECTION = "FILLMETHOD";
-
     private int gridWidth, gridHeight, defaultID;
     private LocationParser locationParser;
     private String fillMethod;
@@ -40,13 +37,13 @@ public class GridParser implements Parser {
 
     @Override
     public void parseInfo(String infoName, String infoValue) {
-        if (infoName.equals(WIDTH_SECTION)) {
+        if (infoName.equals(AppResources.XML_GRID_WIDTH.getResource())) {
             gridWidth = Integer.parseInt(infoValue);
-        } else if (infoName.equals(HEIGHT_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_GRID_HEIGHT.getResource())) {
             gridHeight = Integer.parseInt(infoValue);
-        } else if (infoName.equals(DEFAULT_TYPE_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_GRID_DEFAULTID.getResource())) {
             defaultID = Integer.parseInt(infoValue);
-        } else if (infoName.equals(FILL_METHOD_SECTION)) {
+        } else if (infoName.equals(AppResources.XML_GRID_FILLMETHOD.getResource())) {
             fillMethod = infoValue;
         }
     }

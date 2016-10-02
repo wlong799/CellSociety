@@ -1,0 +1,66 @@
+#root {
+    -fx-font-family: "Monospace";
+    -fx-font-size: 14pt;
+}
+
+.button {
+    -fx-background-color: #268bd2;
+    -fx-background-radius: 20;
+    -fx-padding: 20;
+    -fx-text-fill: #fdf6e3;
+    -fx-alignment: center;
+}
+
+.button:hover {
+    -fx-background-color: #2aa198;
+}
+
+.combo-box-base {
+    -fx-text-base-color: #fdf6e3;
+    -fx-background-color: #6c71c4;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.combo-box-base:hover {
+    -fx-background-color: #2aa198;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #6c71c4;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: #6c71c4;
+    -fx-text-fill: #fdf6e3;
+
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #2aa198;
+}
+
+#main-bg {
+    -fx-fill: #eee8d5;
+}
+
+#title-bg {
+    -fx-fill: #073642;
+}
+
+#title-text {
+    -fx-text-alignment: center;
+    -fx-font-size: 36pt;
+    -fx-fill: #fdf6e3;
+}
+#parameter-value-text {
+    -fx-text-alignment: center;
+    -fx-fill: #fdf6e3;
+    -fx-font-size: 24pt;
+}
+
+#input-panel-bg {
+    -fx-fill: #073642;
+}
+
+

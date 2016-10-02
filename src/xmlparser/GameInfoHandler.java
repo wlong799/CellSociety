@@ -1,5 +1,6 @@
 package xmlparser;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.GameParameter;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -15,11 +16,6 @@ import java.util.*;
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
-    private static final String MAIN_SECTION = "MAIN";
-    private static final String PARAMETER_SECTION = "PARAMETER";
-    private static final String CELL_TYPE_SECTION = "CELLTYPE";
-    private static final String GRID_SECTION = "GRID";
-    private static final String LOCATION_SECTION = "LOCATION";
 
     private String currentSection;
     private Parser currentParser;
@@ -42,11 +38,11 @@ class GameInfoHandler extends DefaultHandler {
         cellTypeParser = new CellTypeParser();
         gridParser = new GridParser();
 
-        parserMap.put(MAIN_SECTION, mainInfoParser);
-        parserMap.put(PARAMETER_SECTION, parameterParser);
-        parserMap.put(CELL_TYPE_SECTION, cellTypeParser);
-        parserMap.put(GRID_SECTION, gridParser);
-        parserMap.put(LOCATION_SECTION, gridParser.getLocationParser());
+        parserMap.put(AppResources.XML_MAIN.getResource(), mainInfoParser);
+        parserMap.put(AppResources.XML_PARAMETER.getResource(), parameterParser);
+        parserMap.put(AppResources.XML_CELLTYPE.getResource(), cellTypeParser);
+        parserMap.put(AppResources.XML_GRID.getResource(), gridParser);
+        parserMap.put(AppResources.XML_LOCATION.getResource(), gridParser.getLocationParser());
     }
 
     @Override

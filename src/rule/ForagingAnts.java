@@ -26,60 +26,64 @@ public class ForagingAnts extends Rule {
 //	YOrientation = int (will be 1, 0 or -1)
 //	NEST = 1: is nest, 0: isn't
 //	NESTFOOD: int count of food at nest
-	
-	private List<BackgroundCell> patchGrid;	
-	public ForagingAnts(CellGrid myGrid){
-		patchGrid = new ArrayList<BackgroundCell>();
-		for (Cell cell : myGrid.copyCells()){ // Either reimplement copy cells or change this thing up
-			patchGrid.add(new BackgroundCell());
-		}
-	}
 
 	void evaluateCell(Cell myCell, CellGrid myGrid) { // Pseudo Ant-Forage
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
-		if (myCell.getCurrentState("FOOD") == 1){
+		BackgroundCell currentBGCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		if (myCell.getCurrentState("ANT") == 1 && myCell.getCurrentState("FOOD") == 1 && currentBGCell.getCurrentBGState("NEST") == 0){
 			this.returnToNest(myCell, myGrid);
-		} else {
-			this.findFoodSource(myCell);
+		} else if (myCell.getCurrentState("ANT") == 1 && myCell.getCurrentState("FOOD") == 1 && currentBGCell.getCurrentBGState("NEST") == 1){
+			dropFood(myCell, myGrid);
+			this.returnToNest(myCell, myGrid);
+		} else if(myCell.getCurrentState("ANT") == 1 && myCell.getCurrentState("FOOD") == 0 && currentBGCell.getCurrentBGState("FOOD") == 1){
+			pickUpFood(myCell, myGrid);
+			this.returnToNest(myCell, myGrid); 
+		} else if(myCell.getCurrentState("ANT") == 1){
+			this.findFoodSource(myCell, myGrid); 
 		}
-		
 	}
 
 	private void returnToNest(Cell myCell, CellGrid myGrid) {
-		int gridWidth = myGrid.getGridWidth();
-		int myCellIndex = myCell.getMyRow() * gridWidth + myCell.getMyCol();
-		int atFoodSource = patchGrid.get(myCellIndex).getCurrentBackgroundState("FOODSOURCE");
+		int atFoodSource = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol()).getCurrentBGState("FOODSOURCE");
 		if (atFoodSource == 1){
-			setHomeOrientation(myCell);
+			setHomeOrientation(myCell, myGrid);
 		};
 		int nextCol = myCell.getMyCol() + myCell.getCurrentState("XOrientation");
 		int nextRow = myCell.getMyRow() + myCell.getCurrentState("YOrientation");
-		Cell nextCell = myGrid.getCell(nextCol, nextRow);
-		if (nextCell == null){
-			setHomeOrientation(myCell);
+		Cell nextCell = myGrid.getCell(nextCol, nextRow); // At the moment just identifying next cell, not doing anything with it
+		if (nextCell == null || nextCell.getNextState("ANT") != 0){
+			setHomeOrientation(myCell, myGrid);
 		}
 		if (nextCell != null){
-			dropFoodPheromones(myCell);
-//			Given how orientation is implemented I think it's already set up
-//			for next line.
-//			Orientation ← heading to nextCell from current location
-			
+			dropFoodPheromones(myCell, myGrid);
+			setNextCellStates(myCell, nextCell);
+			// Set nextCells next states
 //			Move to nextCell
 		}
-		if (myCell.getCurrentState("NEST") == 1){
-			dropFood(myCell);
+		if (myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol()).getCurrentBGState("NEST") == 1){
+			dropFood(myCell, myGrid);
 		}
 	}
 	
-	private void findFoodSource(Cell myCell) {
-//		If ant located at nest
-//		Orientation ← neighbor location with max food
-//		pheromones
-//		X ← Select-Location(forward locations)
-//		If X = NULL
-//		X ← Select-Location(neighbor locations)
-//		If X 6= NULL
+	private void findFoodSource(Cell myCell, CellGrid myGrid) {
+		int atNest = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol()).getCurrentBGState("NEST");
+		if (atNest == 1){
+			setFoodOrientation(myCell, myGrid);
+		};
+		int nextCol = myCell.getMyCol() + myCell.getCurrentState("XOrientation");
+		int nextRow = myCell.getMyRow() + myCell.getCurrentState("YOrientation");
+		Cell nextCell = myGrid.getCell(nextCol, nextRow); // At the moment just identifying next cell, not doing anything with it
+		if (nextCell == null || nextCell.getNextState("ANT") != 0){
+			setHomeOrientation(myCell, myGrid);
+			nextCol = myCell.getMyCol() + myCell.getCurrentState("XOrientation");
+			nextRow = myCell.getMyRow() + myCell.getCurrentState("YOrientation");
+			nextCell = myGrid.getCell(nextCol, nextRow);
+		}
+		if (nextCell != null){
+			dropHomePheromones(myCell, myGrid);
+			setNextCellStates(myCell, nextCell);
+		}
 //		Drop-Home-Pheromones
 //		Orientation ← heading to X from current location
 //		Move to X
@@ -88,8 +92,20 @@ public class ForagingAnts extends Rule {
 //		HasFoodItem ← TRUE
 	}
 	
-	private void setHomeOrientation(Cell myCell){
-		Cell homeNeighbour = findFoodPheromones(myCell);
+	private void setNextCellStates(Cell myCell, Cell nextCell){
+		nextCell.setNextState("ANT", 1);
+		nextCell.setNextState("FOOD", myCell.getCurrentState("FOOD"));
+		nextCell.setNextState("XOrientation", myCell.getCurrentState("XOrientation"));
+		nextCell.setNextState("YOrientation", myCell.getCurrentState("YOrientation"));
+		
+		myCell.setNextState("ANT", 0);
+		myCell.setNextState("FOOD", 0);
+		myCell.setNextState("XOrientation", 0);
+		myCell.setNextState("YOrientation", 0);
+	}
+	
+	private void setHomeOrientation(Cell myCell, CellGrid myGrid){
+		Cell homeNeighbour = findHomePheromones(myCell, myGrid);
 		int myCol = myCell.getMyCol(); int myRow = myCell.getMyRow();
 		int homeCol = homeNeighbour.getMyCol(); int homeRow = homeNeighbour.getMyRow();
 		int xDir = myCol - homeCol;
@@ -98,52 +114,66 @@ public class ForagingAnts extends Rule {
 		myCell.setNextState("YOrientation", yDir);
 	}
 	
-	private void dropFood(Cell myCell){
-		int incrementFood = myCell.getCurrentState("NESTFOOD") + 1;
-		myCell.setCurrentState("NESTFOOD", incrementFood);
-		myCell.setCurrentState("FOOD", 0);
+	private void setFoodOrientation(Cell myCell, CellGrid myGrid){
+		Cell foodNeighbour = findFoodPheromones(myCell, myGrid);
+		int myCol = myCell.getMyCol(); int myRow = myCell.getMyRow();
+		int homeCol = foodNeighbour.getMyCol(); int homeRow = foodNeighbour.getMyRow();
+		int xDir = myCol - homeCol;
+		int yDir = myRow - homeRow;
+		myCell.setNextState("XOrientation", xDir);
+		myCell.setNextState("YOrientation", yDir);
 	}
 	
-	private Cell findHomePheromones(Cell myCell){
+	private Cell findHomePheromones(Cell myCell, CellGrid myGrid){
 		int mostPheroNum = 0;
 		Cell mostPheroCell = null;
 		for(Cell testCell : myNeighbours){
-			if (testCell.getCurrentState("HOMEPHERO") > mostPheroNum){
+			BackgroundCell testBG = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+			if (testBG.getCurrentBGState("HOMEPHERO") >= mostPheroNum && testCell.getNextState("ANT") == 0){
 				mostPheroCell = testCell;
 			}
-		} if (mostPheroCell == null){
-			int choice = (int) (myNeighbours.size()*Math.random());
-			mostPheroCell = myNeighbours.get(choice);
 		}
 		return mostPheroCell;
 	}
 	
-	private Cell findFoodPheromones(Cell myCell){
+	private Cell findFoodPheromones(Cell myCell, CellGrid myGrid){
 		int mostPheroNum = 0;
 		Cell mostPheroCell = null;
 		for(Cell testCell : myNeighbours){
-			if (testCell.getCurrentState("FOODPHERO") > mostPheroNum){
+			BackgroundCell testBG = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+			if (testBG.getCurrentBGState("FOODPHERO") >= mostPheroNum && testCell.getNextState("ANT") == 0){
 				mostPheroCell = testCell;
 			}
-		} if (mostPheroCell == null){
-			int choice = (int) (myNeighbours.size()*Math.random());
-			mostPheroCell = myNeighbours.get(choice);
 		}
 		return mostPheroCell;
 	}
 	
-	private void dropHomePheromones(Cell myCell) {
-		int nextPhero = myCell.getCurrentState("HOMEPHERO") + 1;
-		myCell.setNextState("HOMEPHERO", nextPhero);
+	private void dropHomePheromones(Cell myCell, CellGrid myGrid) {
+		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		int nextPhero = bgCell.getCurrentBGState("HOMEPHERO") + 1;
+		bgCell.setNextBGState("HOMEPHERO", nextPhero);
 	}
 	
-	private void dropFoodPheromones(Cell myCell) {
-		int nextPhero = myCell.getCurrentState("FOODPHERO") + 1;
-		myCell.setNextState("FOODPHERO", nextPhero);
+	private void dropFoodPheromones(Cell myCell, CellGrid myGrid) {
+		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		int nextPhero = bgCell.getCurrentBGState("FOODPHERO") + 1;
+		bgCell.setNextBGState("FOODPHERO", nextPhero);
 	}
 	
 	private void LocSet(Cell myCell) {
 		
+	}
+	
+	private void dropFood(Cell myCell, CellGrid myGrid){
+		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		bgCell.setNextBGState("NESTFOOD", bgCell.getCurrentBGState("NESTFOOD") + 1);
+		myCell.setNextState("FOOD", 0);
+	}
+	
+	private void pickUpFood(Cell myCell, CellGrid myGrid){
+		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		bgCell.setNextBGState("FOOD", 0);
+		myCell.setNextState("FOOD", 1);
 	}
 	
 	int countNeigboursOfType(String type){
@@ -156,7 +186,7 @@ public class ForagingAnts extends Rule {
 		return count;
 	}
 
-	public void setColor(Cell myCell) {
+	public void setColor(Cell myCell, CellGrid myGrid) {
 		if (myCell.getCurrentType().equals("ANT")) {
 			myCell.setFill(Color.BROWN);
 		} else if (myCell.getCurrentType().equals("NEST")) {
@@ -169,6 +199,7 @@ public class ForagingAnts extends Rule {
 			myCell.setFill(Color.GREEN);
 		}
 	}
+	
 	void setStatesInMap(Cell myCell) {	
-	}	
+	}
 }
