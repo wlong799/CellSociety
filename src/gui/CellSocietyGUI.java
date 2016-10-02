@@ -1,8 +1,9 @@
 package gui;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
+import cellsociety_team13.AppResources;
 import cellsociety_team13.CellGrid;
 import cellsociety_team13.CellGridSquare;
 import cellsociety_team13.GameParameter;
@@ -30,28 +31,43 @@ public class CellSocietyGUI {
     private Group sceneRoot;
     private Scene scene;
 
+    private double appWidth, appHeight;
+
     private GameInfoReader gameInfoReader;
     private Rule rule;
+    private TitleScreen titleScreen;
     private TitleBox titleBox;
     private CellGrid cellGrid;
     private InputPanel inputPanel;
 
     public CellSocietyGUI() {
         sceneRoot = new Group();
-        scene = new Scene(sceneRoot, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.setFill(BACKGROUND_COLOR);
-
+        appWidth = AppResources.APP_WIDTH.getDoubleResource();
+        appHeight = AppResources.APP_HEIGHT.getDoubleResource();
+        scene = new Scene(sceneRoot, appWidth, appHeight);
+        scene.getStylesheets().add(getClass().getResource(AppResources.APP_CSS.getResource()).toExternalForm());
+        sceneRoot.setId("root");
         gameInfoReader = new GameInfoReader(DEFAULT_XML_FILE);
-        loadRule();
+        loadTitleScreen();
+    }
 
+    private void loadGame() {
+        sceneRoot.getChildren().clear();
+        loadRule();
         createTitleBox();
         createCellGrid();
         createInputPanel();
     }
 
-    public Scene getScene() {
-        return scene;
+    private void loadTitleScreen() {
+        sceneRoot.getChildren().clear();
+        EventHandler<ActionEvent> startButtonHandler = event -> {
+            loadGame();
+        };
+        titleScreen = new TitleScreen(1280, 960, startButtonHandler);
+        sceneRoot.getChildren().add(titleScreen);
     }
+
 
     private void loadRule() {
         String ruleName = gameInfoReader.getRuleClassName();
@@ -100,15 +116,16 @@ public class CellSocietyGUI {
         EventHandler<ActionEvent> submitFileHandler = event -> {
             String filename = inputPanel.getXMLFilename();
             gameInfoReader = new GameInfoReader(filename);
-            loadRule();
-            createTitleBox();
-            createCellGrid();
-            createInputPanel();
+            loadGame();
         };
 
         List<GameParameter> params = gameInfoReader.getGameParameters();
 
         inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }

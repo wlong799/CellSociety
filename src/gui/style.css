@@ -1,0 +1,35 @@
+#root {
+    -fx-font-family: "Monospace";
+    -fx-font-size: 14pt;
+    -fx-base: #002b36;
+    -fx-background: #002b36;
+}
+
+.button {
+    -fx-text-fill: #fdf6e3;
+    -fx-background-color: #268bd2;
+    -fx-background-radius: 20;
+    -fx-padding: 20;
+    -fx-text-alignment: center;
+}
+
+.button:hover {
+    -fx-background-color: #2aa198;
+}
+
+.combo-box-base {
+    -fx-text-base-color: #006464;
+    -fx-background-color: #DFB951;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.combo-box-base:hover {
+    -fx-background-color: #3a3a3a;
+}
+
+.text-field {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+

@@ -2,6 +2,14 @@ package cellsociety_team13;
 
 public enum AppResources {
     APP_TITLE("Cell Society"),
+    APP_WIDTH(1280),
+    APP_HEIGHT(960),
+    APP_CSS("style.css"),
+
+    TITLE_IMAGE_LOCATION("resources/title_screen_image.png"),
+    TITLE_IMAGE_ERROR("Title image not found: "),
+    TITLE_BUTTON_WIDTH(250),
+    TITLE_BUTTON_OFFSET(200),
 
     XML_MAIN("MAIN"),
     XML_PARAMETER("PARAMETER"),
@@ -29,13 +37,24 @@ public enum AppResources {
     XML_LOCATION_PERCENTAGE_METHOD("percentage");
 
 
-    private String resource;
+    private double resourceDouble;
+    private String resourceString;
 
-    AppResources(String resourceName) {
-        resource = resourceName;
+    AppResources(String resource) {
+        resourceString = resource;
+        resourceDouble = -1;
+    }
+
+    AppResources(double resource) {
+        resourceString = null;
+        resourceDouble = resource;
     }
 
     public String getResource() {
-        return resource;
+        return resourceString;
+    }
+
+    public double getDoubleResource() {
+        return resourceDouble;
     }
 }
