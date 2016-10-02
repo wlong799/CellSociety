@@ -29,6 +29,7 @@ public abstract class Rule {
             for (int j = 0; j < myGrid.getGridWidth(); j++) {
                 setColor(myGrid.getCell(i, j), myGrid);
                 setStatesInMap(myGrid.getCell(i, j));
+                setBGStatesInMap(myGrid.getBGCell(i, j));
             }
         }
         initializeParameters(initialParameters);
@@ -37,6 +38,8 @@ public abstract class Rule {
     public abstract void setColor(Cell myCell, CellGrid myGrid);
 
     abstract void setStatesInMap(Cell myCell);
+    
+    abstract void setBGStatesInMap(BackgroundCell myBGCell);
 
     public void evaluateGrid(CellGrid myGrid) {
         for (int i = 0; i < myGrid.getGridHeight(); i++) {

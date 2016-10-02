@@ -2,6 +2,7 @@ package rule;
 
 import java.util.List;
 
+import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
@@ -124,6 +125,12 @@ public class WatorWorld extends Rule {
 		}
 
 		return null;
+	}
+
+	@Override
+	void setBGStatesInMap(BackgroundCell myBGCell) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

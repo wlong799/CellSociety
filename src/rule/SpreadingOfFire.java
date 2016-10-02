@@ -1,7 +1,7 @@
 package rule;
 
 import javafx.scene.paint.Color;
-
+import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 
@@ -52,6 +52,12 @@ public class SpreadingOfFire extends Rule {
 		} else if (myCell.getCurrentType().equals("EMPTY")) {
 			myCell.setFill(Color.WHITE);
 		}
+	}
+
+	@Override
+	void setBGStatesInMap(BackgroundCell myBGCell) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
