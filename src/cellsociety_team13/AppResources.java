@@ -5,12 +5,19 @@ public enum AppResources {
     APP_WIDTH(1280),
     APP_HEIGHT(960),
     APP_CSS("style.css"),
+    APP_DATA("data/"),
 
     TITLE_IMAGE_LOCATION("resources/title_screen_image.png"),
     TITLE_IMAGE_ERROR("Title image not found: "),
     TITLE_BUTTON_WIDTH(250),
     TITLE_BUTTON_OFFSET(200),
+    TITLE_FILESELECT_WIDTH(350),
+    TITLE_FILESELECT_OFFSET(100),
+
     TITLE_BOX_HEIGHT(100),
+    INPUT_PANEL_HEIGHT(100),
+    INPUT_BUTTON_WIDTH(200),
+    GAME_SELECT_TITLE("New Game"),
 
     XML_MAIN("MAIN"),
     XML_PARAMETER("PARAMETER"),

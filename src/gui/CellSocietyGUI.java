@@ -53,6 +53,12 @@ public class CellSocietyGUI {
     }
 
     private void loadGame() {
+        String gameFilename = titleScreen.getXMLFilename();
+        if (gameFilename == null) {
+            return;
+        }
+        gameFilename = AppResources.APP_DATA.getResource() + gameFilename;
+        gameInfoReader = new GameInfoReader(gameFilename);
         sceneRoot.getChildren().clear();
         Rectangle background = new Rectangle(appWidth, appHeight);
         background.setId("main-bg");
@@ -109,20 +115,14 @@ public class CellSocietyGUI {
     }
 
     private void createInputPanel() {
-        double x = PADDING;
-        double y = cellGrid.getBoundsInParent().getMaxY() + PADDING;
-        double width = SCENE_WIDTH - (PADDING * 2);
-        double height = INPUT_PANEL_HEIGHT;
-
-        EventHandler<ActionEvent> submitFileHandler = event -> {
-            String filename = inputPanel.getXMLFilename();
-            gameInfoReader = new GameInfoReader(filename);
-            loadGame();
+        EventHandler<ActionEvent> gameSelectHandler = event -> {
+            loadTitleScreen();
         };
 
         List<GameParameter> params = gameInfoReader.getGameParameters();
 
-        inputPanel = new InputPanel(x, y, width, height, submitFileHandler, cellGrid, params);
+        double height = AppResources.INPUT_PANEL_HEIGHT.getDoubleResource();
+        inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler, cellGrid, params);
         sceneRoot.getChildren().add(inputPanel);
     }
 
