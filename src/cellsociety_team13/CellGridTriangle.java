@@ -42,7 +42,8 @@ public class CellGridTriangle extends CellGrid {
 	//	double[] myVertices = new double[]{cellXPos, cellYPos, cellXPos+drawCellWidth, cellYPos, cellXPos + drawCellWidth, cellYPos+drawCellHeight, cellXPos, cellYPos+drawCellHeight};
 	//	Cell cell = new Cell(myVertices, initialCellTypes.get(arrayPos), cellXPos, cellYPos,
 	//					     drawCellWidth, drawCellHeight, row, col);
-		return cell;
+		//return cell;
+		return null;
 	}
 
 
