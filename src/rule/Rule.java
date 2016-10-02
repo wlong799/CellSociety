@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import cellsociety_team13.GameParameter;
@@ -18,20 +19,22 @@ public abstract class Rule {
     protected Map<String, GameParameter> parameterMap;
     protected List<Cell> nonDiagNeighbours;
     protected List<Cell> myNeighbours;
+    protected List<BackgroundCell> myBGNeighbours;
+
 
     abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
     public void initialize(CellGrid myGrid, List<GameParameter> initialParameters) {
         for (int i = 0; i < myGrid.getGridHeight(); i++) {
             for (int j = 0; j < myGrid.getGridWidth(); j++) {
-                setColor(myGrid.getCell(i, j));
+                setColor(myGrid.getCell(i, j), myGrid);
                 setStatesInMap(myGrid.getCell(i, j));
             }
         }
         initializeParameters(initialParameters);
     }
 
-    public abstract void setColor(Cell myCell);
+    public abstract void setColor(Cell myCell, CellGrid myGrid);
 
     abstract void setStatesInMap(Cell myCell);
 

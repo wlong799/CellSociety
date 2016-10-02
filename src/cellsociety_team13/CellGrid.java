@@ -101,7 +101,7 @@ public abstract class CellGrid extends Group {
 	private void stepToNextStatesAndTypes() {
 		for(Cell cell : cells){
 			cell.stepToNextStateAndType();
-			this.rule.setColor(cell);
+			rule.setColor(cell, this);
 		}
 	}
 
@@ -113,5 +113,8 @@ public abstract class CellGrid extends Group {
 
 	public void updateParameter(String param, int value) {
 		rule.setParameter(param, value);
+	}
+	public BackgroundCell getBGCellofCell(Cell myCell){			
+		return getBGCell(myCell.getMyRow(), myCell.getMyCol());	
 	}
 }

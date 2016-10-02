@@ -14,6 +14,14 @@ public class BackgroundCell {
 		currentBGState = new HashMap<>();
 		nextBGState = new HashMap<>();
 	}
+	
+	public int getMyCol() {
+		return myCol;
+	}
+
+	public int getMyRow() {
+		return myRow;
+	}
 
 	public Integer getCurrentBGState(String myState) {
 		return currentBGState.get(myState);

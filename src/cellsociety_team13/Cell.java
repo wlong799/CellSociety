@@ -101,7 +101,5 @@ public class Cell extends Polygon {
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
 	}
-//	public BackgroundCell getBackgroundCellofCell(Cell myCell){			
-//		return getBackgroundCell(myCell.getMyRow(), myCell.getMyCol());	
-//	}
+	
 }
