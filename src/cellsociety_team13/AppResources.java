@@ -61,7 +61,6 @@ public enum AppResources {
     XML_LOCATION_PERCENTAGE_METHOD("percentage"),
 	
 	FA_FOOD("FOOD"),
-	FA_FOODSOURCE("FOODSOURCE"),
 	FA_ANT("ANT"),
 	FA_ANTS("ANTS"),
 	FA_HOMEPHERO("HOMEPHERO"),
@@ -71,6 +70,7 @@ public enum AppResources {
 	FA_NEST("NEST"),
 	FA_NESTFOOD("NESTFOOD"),
 	FA_PATCH("PATCH"),
+	FA_DISPLACEMENT("DISPLACEMENT"),
 
     GOL_LIVE_TYPE("LIVE"),
     GOL_DEAD_TYPE("DEAD");

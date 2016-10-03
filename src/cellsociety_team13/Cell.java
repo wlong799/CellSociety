@@ -52,20 +52,20 @@ public class Cell extends Polygon {
 	}
 
 	public int getCurrentState(String stateName) {
-		try { int state = currentState.get(stateName);
-		} catch (NullPointerException npe){
-			StateValueException sve = new StateValueException("Current State Value Exception");
-			sve.printStackTrace();
-		}
+//		try { int state = currentState.get(stateName);
+//		} catch (NullPointerException npe){
+//			StateValueException sve = new StateValueException("Current State Value Exception");
+//			sve.printStackTrace();
+//		}
 		return currentState.get(stateName);
 	}
 
 	public int getNextState(String stateName) {
-		try { int state = nextState.get(stateName);
-		} catch (NullPointerException npe){
-			StateValueException sve = new StateValueException("Next State Value Exception");
-			sve.printStackTrace();
-		}
+//		try { int state = nextState.get(stateName);
+//		} catch (NullPointerException npe){
+//			StateValueException sve = new StateValueException("Next State Value Exception");
+//			sve.printStackTrace();
+//		}
 		return nextState.get(stateName);
 	}
 	

@@ -16,6 +16,7 @@ public class ForagingAnts extends Rule {
 	private static final String NEST = AppResources.FA_NEST.getResource(); //	NEST = 1: is nest, 0: isn't
 	private static final String NESTFOOD = AppResources.FA_NESTFOOD.getResource(); //	NESTFOOD: int count of food at nest
 	private static final String PATCH = AppResources.FA_PATCH.getResource();
+	private static final String DISPLACEMENT = AppResources.FA_DISPLACEMENT.getResource();
 
 	@Override
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
@@ -39,7 +40,7 @@ public class ForagingAnts extends Rule {
 		myCell.setNextType(myCell.getCurrentType());	
 	}
 	
-	private void reinitializeCellStates(Cell myCell, BackgroundCell myBGCell){
+	public void reinitializeCellStates(Cell myCell, BackgroundCell myBGCell){
 		transferBGStates(myBGCell);
 		try { myCell.setNextState(ANTS, myCell.getNextState(ANTS)); 
 		} catch (NullPointerException npe){
@@ -47,7 +48,7 @@ public class ForagingAnts extends Rule {
 		} try { myCell.setNextState(FOOD, myCell.getNextState(FOOD)); 
 		} catch (NullPointerException npe){
 			myCell.setNextState(FOOD, myCell.getCurrentState(FOOD));
-		}
+		} myCell.setNextState(DISPLACEMENT, myCell.getCurrentState(DISPLACEMENT));
 	}
 	
 	private void transferBGStates(BackgroundCell myBGCell){
@@ -60,9 +61,9 @@ public class ForagingAnts extends Rule {
 		if (myBGCell.getNextBGState(FOOD) == null){
 			myBGCell.setNextBGState(FOOD, myBGCell.getCurrentBGState(FOOD));
 		} 
-		if (myBGCell.getMyRow() == 0 && myBGCell.getMyCol() == 0){
-			myBGCell.setNextBGState(FOOD, myBGCell.getCurrentBGState(FOOD));
-		}
+		if (myBGCell.getNextBGState(NESTFOOD) == null){
+			myBGCell.setNextBGState(NESTFOOD, myBGCell.getCurrentBGState(NESTFOOD));
+		} 
 	}
 
 	private void returnToNest(Cell myCell, CellGrid myGrid) {
@@ -70,6 +71,10 @@ public class ForagingAnts extends Rule {
 		if (atFoodSource == 1){
 			setHomeOrientation(myCell, myGrid);
 		};
+		double probability = Math.random();
+		if (probability > 0.75){
+			setHomeOrientation(myCell, myGrid);
+		}
 		int nextCol = myCell.getMyCol() + myCell.getCurrentState(XOrientation);
 		int nextRow = myCell.getMyRow() + myCell.getCurrentState(YOrientation);
 		Cell nextCell = myGrid.getCell(nextRow, nextCol);
@@ -83,7 +88,11 @@ public class ForagingAnts extends Rule {
 	private void findFoodSource(Cell myCell, CellGrid myGrid) {
 		if (myCell.getCurrentType().equals(NEST)){
 			setFoodOrientation(myCell, myGrid);
-		};
+		}
+		double probability = Math.random();
+		if (probability > 0.75){
+			setFoodOrientation(myCell, myGrid);
+		}
 		int nextCol = myCell.getMyCol() + myCell.getCurrentState(XOrientation);
 		int nextRow = myCell.getMyRow() + myCell.getCurrentState(YOrientation);
 		Cell nextCell = null;
@@ -93,8 +102,22 @@ public class ForagingAnts extends Rule {
 			System.out.println("\n");
 			nextCell = findFoodPheromones(myCell, myGrid);
 		}
-		dropHomePheromones(myCell, myGrid);
+		
 		setNextAntStates(myCell, nextCell, myGrid);
+	}
+	
+	private void displacePheromones(Cell myCell, CellGrid myGrid){
+		if (myCell.getCurrentState(DISPLACEMENT) < 2){
+			for (int i = 0; i < 2; i++ ){
+				dropHomePheromones(myCell, myGrid);
+			}
+		} else if (myCell.getCurrentState(DISPLACEMENT) < 5){
+			for (int i = 0; i < 1; i++ ){
+				dropHomePheromones(myCell, myGrid);
+			}
+		} else if (myCell.getCurrentState(DISPLACEMENT) < 10){
+			dropHomePheromones(myCell, myGrid);
+		}
 	}
 	
 	private void setHomeOrientation(Cell myCell, CellGrid myGrid){
@@ -137,7 +160,9 @@ public class ForagingAnts extends Rule {
 			myCell.setCurrentState(FOOD, myCell.getCurrentState(FOOD) - 1);
 		}
 		nextCell.setNextState(XOrientation, myCell.getCurrentState(XOrientation));
-		nextCell.setNextState(YOrientation, myCell.getCurrentState(YOrientation));		
+		nextCell.setNextState(YOrientation, myCell.getCurrentState(YOrientation));
+		nextCell.setNextState(DISPLACEMENT, myCell.getCurrentState(DISPLACEMENT));
+		myCell.setNextState(DISPLACEMENT, 0);
 		myCell.setNextState(XOrientation, 0);
 		myCell.setNextState(YOrientation, 0);
 	}
@@ -200,6 +225,7 @@ public class ForagingAnts extends Rule {
 		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
 		bgCell.setNextBGState(NESTFOOD, bgCell.getCurrentBGState(NESTFOOD) + 1);
 		myCell.setCurrentState(FOOD, myCell.getCurrentState(FOOD) - 1);
+		myCell.setCurrentState(DISPLACEMENT, 0);
 	}
 	
 	private void pickUpFood(Cell myCell, CellGrid myGrid){
@@ -235,14 +261,13 @@ public class ForagingAnts extends Rule {
 		}
 		myCell.setCurrentState(FOOD, 0);
 		myCell.setCurrentState(XOrientation, 0);
-		myCell.setCurrentState(YOrientation, 0);		
+		myCell.setCurrentState(YOrientation, 0);	
+		myCell.setCurrentState(DISPLACEMENT, 0);
 	}
 	
 	void setBGStatesInMap(BackgroundCell myBGCell) {
-		if (myBGCell.getMyRow() == 0 && myBGCell.getMyCol() == 0){
-			myBGCell.setCurrentBGState(NESTFOOD, 0);
-		}
-		if (Math.random() < 0.3){ // Percentage of Map To Create Food In
+		myBGCell.setCurrentBGState(NESTFOOD, 0);
+		if (Math.random() < 0.3){ // Probability of area being a food source, hard-coded for testing simplicity
 			myBGCell.setCurrentBGState(FOOD, 1);
 		} else {
 			myBGCell.setCurrentBGState(FOOD, 0);
