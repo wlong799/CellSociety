@@ -47,7 +47,8 @@ public abstract class CellGrid extends Group {
                 int arrayPos = row * gridWidth + col;
                 double cellXPos = col * drawCellWidth;
                 double cellYPos = row * drawCellHeight;
-                Cell cell = getVerticesAndMakeCell(initialCellTypes, row, col, arrayPos, cellXPos, cellYPos);
+                String cellType = initialCellTypes.get(arrayPos);
+                Cell cell = getVerticesAndMakeCell(cellType, row, col, cellXPos, cellYPos);
                 cells.add(cell);
                 getChildren().add(cell);
                 BackgroundCell bgCell = new BackgroundCell(row, col);
@@ -56,8 +57,7 @@ public abstract class CellGrid extends Group {
         }
     }
 
-    public abstract Cell getVerticesAndMakeCell(List<String> initialCellTypes, int row, int col, int arrayPos, double cellXPos,
-                                                double cellYPos);
+    public abstract Cell getVerticesAndMakeCell(String cellType, int row, int col, double cellXPos, double cellYPos);
 
     public int getGridWidth() {
         return gridWidth;
@@ -89,7 +89,7 @@ public abstract class CellGrid extends Group {
         int numCells = cells.size();
         Map<String, Double> result = new HashMap<>();
         for (String type : cellCounts.keySet()) {
-            double count = (double)cellCounts.get(type);
+            double count = (double) cellCounts.get(type);
             result.put(type, count / numCells);
         }
         return result;

@@ -2,10 +2,7 @@ package gui;
 
 import java.util.List;
 
-import cellsociety_team13.AppResources;
-import cellsociety_team13.CellGrid;
-import cellsociety_team13.CellGridSquare;
-import cellsociety_team13.GameParameter;
+import cellsociety_team13.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -117,7 +114,7 @@ public class CellSocietyGUI {
         double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
-        cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
+        cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
                 gridHeight, initialCellTypes, rule, initialParameters);
         sceneRoot.getChildren().add(cellGrid);
     }
