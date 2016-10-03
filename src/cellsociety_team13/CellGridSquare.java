@@ -58,8 +58,6 @@ public class CellGridSquare extends CellGrid {
 
     @Override
     public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell) {
-        // TODO Auto-generated method stub
-
         return null;
     }
 

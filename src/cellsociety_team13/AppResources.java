@@ -4,7 +4,7 @@ public enum AppResources {
     APP_TITLE("Cell Society"),
     APP_WIDTH(1000),
     APP_HEIGHT(750),
-    APP_PADDING(50),
+    APP_PADDING(25),
     APP_CSS("style.css"),
     APP_DATA("data/"),
 

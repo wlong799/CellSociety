@@ -43,8 +43,8 @@ public abstract class CellGrid extends Group {
         for (int row = 0; row < gridHeight; row++) {
             for (int col = 0; col < gridWidth; col++) {
                 int arrayPos = row * gridWidth + col;
-                double cellXPos = row * drawCellWidth;
-                double cellYPos = col * drawCellHeight;
+                double cellXPos = col * drawCellWidth;
+                double cellYPos = row * drawCellHeight;
                 Cell cell = getVerticesAndMakeCell(initialCellTypes, row, col, arrayPos, cellXPos, cellYPos);
                 cells.add(cell);
                 getChildren().add(cell);

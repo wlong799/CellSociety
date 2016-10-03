@@ -27,8 +27,8 @@
     </celltype>
 
     <grid>
-        <width>10</width>
-        <height>10</height>
+        <width>128</width>
+        <height>64</height>
         <defaultid>0</defaultid>
         <fillmethod>percentage</fillmethod>
     </grid>

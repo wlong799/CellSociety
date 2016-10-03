@@ -96,11 +96,20 @@ public class CellSocietyGUI {
                 AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
                 AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
                 (2 * AppResources.APP_PADDING.getDoubleResource());
-        double drawWidth = drawHeight;
-        double xPos = (appWidth / 2) - (drawWidth / 2);
-        double yPos = (appHeight / 2) - (drawHeight / 2);
+        double drawWidth = appHeight - (2 * AppResources.APP_PADDING.getDoubleResource());
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
+        if (drawWidth / gridWidth > drawHeight / gridHeight) {
+            drawWidth = drawHeight * gridWidth / gridHeight;
+        } else {
+            drawHeight = drawWidth * gridHeight / gridWidth;
+        }
+        double ySpace = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
+
+        double xPos = (appWidth / 2) - (drawWidth / 2);
+        double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
