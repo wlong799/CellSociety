@@ -43,8 +43,8 @@
 
 
     <grid>
-        <width>20</width>
-        <height>20</height>
+        <width>60</width>
+        <height>60</height>
         <defaultid>0</defaultid>
         <tiling>hexagon</tiling>
         <toroidal>true</toroidal>

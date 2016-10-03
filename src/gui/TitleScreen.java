@@ -16,6 +16,8 @@ public class TitleScreen extends Group {
     private Button startButton;
     private ComboBox<String> fileSelect;
     private String selectedFilename;
+    private String selectShape; 
+    private ComboBox<String> shapeSelect;
 
     public TitleScreen(double width, double height, EventHandler<ActionEvent> startButtonHandler) {
         backgroundImage = new ImageView();
@@ -50,15 +52,32 @@ public class TitleScreen extends Group {
             fileSelect.getItems().add(file.getName());
         }
 
+
         selectedFilename = null;
         fileSelect.valueProperty().addListener((observable, oldValue, newValue) -> {
                     selectedFilename = newValue;
                 });
-
-        getChildren().addAll(backgroundImage, startButton, fileSelect);
+        
+        shapeSelect = new ComboBox<>();
+        shapeSelect.setPrefWidth(AppResources.TITLE_FILESELECT_WIDTH.getDoubleResource());
+        shapeSelect.setLayoutX(fileSelectX);
+        shapeSelect.setLayoutY(fileSelectY+50);
+        shapeSelect.getItems().add("Hexagons");
+        shapeSelect.getItems().add("Squares");
+        
+        selectShape = null; 
+        shapeSelect.valueProperty().addListener((observable, oldValue, newValue) -> {
+        	selectShape = newValue;
+        });
+        
+        getChildren().addAll(backgroundImage, startButton, fileSelect, shapeSelect);
     }
 
     public String getXMLFilename() {
         return selectedFilename;
+    }
+    
+    public String getShapeType() {
+        return selectShape;
     }
 }

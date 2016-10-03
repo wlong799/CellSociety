@@ -35,9 +35,9 @@ public class AnimationControl extends VBox {
         targetCellGrid = cellGrid;
         targetChart = cellTypeChart;
         
-        hexOrSquare = new Button(AppResources.HEX_TITLE.getResource());
-        hexOrSquare.setPrefWidth(AppResources.HEX_OR_SQR_WIDTH.getDoubleResource());
-        hexOrSquare.setOnAction(e -> step());
+//        hexOrSquare = new Button(AppResources.HEX_TITLE.getResource());
+//        hexOrSquare.setPrefWidth(AppResources.HEX_OR_SQR_WIDTH.getDoubleResource());
+//        hexOrSquare.setOnAction(e -> step());
 
         stepButton = new Button(AppResources.STEP_TITLE.getResource());
         stepButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
@@ -65,7 +65,7 @@ public class AnimationControl extends VBox {
         runSpeedSlider.setPrefWidth(sliderWidth);
 
         buttonBox = new HBox(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
-        buttonBox.getChildren().addAll(stepButton, runButton, hexOrSquare);
+        buttonBox.getChildren().addAll(stepButton, runButton); //, hexOrSquare
         
         getChildren().addAll(buttonBox, runSpeedSlider);
     }
@@ -85,9 +85,7 @@ public class AnimationControl extends VBox {
         }
     }
     
-    public String getShapeType(){
-    	return typeShape;
-    }
+
 
 
 }

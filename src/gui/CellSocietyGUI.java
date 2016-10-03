@@ -151,22 +151,17 @@ public class CellSocietyGUI {
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         boolean toroidal = gameInfoReader.isToroidal();
+        
+        typeShape = titleScreen.getShapeType();
 
-        if (gameInfoReader.getGridTiling().equals(AppResources.XML_TILING_SQUARE.getResource())) {
-            cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                    gridHeight, initialCellTypes, rule, initialParameters, toroidal);
-        } else {
-            cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                gridHeight, initialCellTypes, rule, initialParameters, toroidal);
+        if(typeShape.equals("Squares")){
+        	 cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                  gridHeight, initialCellTypes, rule, initialParameters, toroidal);
         }
-       // if(typeShape.equals("square")){
-//        cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
-//                gridHeight, initialCellTypes, rule, initialParameters);
-        //}
-       // else{
-        	//cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                 //   gridHeight, initialCellTypes, rule, initialParameters);
-       // }
+       else{
+    	   cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                 gridHeight, initialCellTypes, rule, initialParameters, toroidal);
+        }
         sceneRoot.getChildren().add(cellGrid);
     }
 
