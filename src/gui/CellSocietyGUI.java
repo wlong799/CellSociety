@@ -40,6 +40,9 @@ public class CellSocietyGUI {
     }
 
     private void handleMouseInput(double x, double y) {
+        if (sceneRoot.getChildren().contains(titleScreen)) {
+            return;
+        }
     	Rectangle mousePos = new Rectangle(x, y, 1, 1);
     	double xOrigin = cellGrid.getLayoutX();
     	double yOrigin = cellGrid.getLayoutY();
@@ -65,7 +68,6 @@ public class CellSocietyGUI {
 		        	cell.setCurrentType("AGENT");
 		        }
 				rule.setColor(cell, cellGrid);
-				System.out.println("HIT");
 			}
 		}
 	}
@@ -130,7 +132,7 @@ public class CellSocietyGUI {
                 AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
                 AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
                 (2 * AppResources.APP_PADDING.getDoubleResource());
-        double drawWidth = appHeight - (2 * AppResources.APP_PADDING.getDoubleResource());
+        double drawWidth = appWidth - (2 * AppResources.APP_PADDING.getDoubleResource());
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
         if (drawWidth / gridWidth > drawHeight / gridHeight) {
