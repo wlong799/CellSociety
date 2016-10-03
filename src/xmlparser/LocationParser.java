@@ -54,26 +54,28 @@ public class LocationParser implements Parser {
     }
 
     @Override
-    public void update() {
+    public void update() throws XMLGameInfoException {
         if (fillMethod.equals(AppResources.XML_LOCATION_MANUAL_METHOD.getResource())) {
             updateManual();
         } else if (fillMethod.equals(AppResources.XML_LOCATION_PERCENTAGE_METHOD.getResource())) {
             updatePercentage();
+        } else {
+            throw new XMLGameInfoException("Fill method not specified");
         }
     }
 
-    private void updateManual() {
+    private void updateManual() throws XMLGameInfoException{
         if (!initialized || nextCellRow == -1 || nextCellCol == -1 || nextCellID == -1) {
-            return;
+            throw new XMLGameInfoException("Manual cell parameters not provided");
         }
         int pos = gridWidth * nextCellRow + nextCellCol;
         initialCellTypeIDLocations.remove(pos);
         initialCellTypeIDLocations.add(pos, nextCellID);
     }
 
-    private void updatePercentage() {
+    private void updatePercentage() throws XMLGameInfoException{
         if (!initialized || nextCellPercent == -1 || nextCellID == -1) {
-            return;
+            throw new XMLGameInfoException("Percentage fill parameters not provided");
         }
         int nextProbabilityPosition = currentProbabilityPosition + nextCellPercent;
         for (int i = 0; i < initialCellTypeIDLocations.size(); i++) {
@@ -87,7 +89,7 @@ public class LocationParser implements Parser {
     }
 
     @Override
-    public void parseInfo(String infoName, String infoValue) {
+    public void parseInfo(String infoName, String infoValue) throws XMLGameInfoException{
         if (infoName.equals(AppResources.XML_LOCATION_ID.getResource())) {
             nextCellID = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_LOCATION_ROW.getResource())) {
@@ -96,6 +98,8 @@ public class LocationParser implements Parser {
             nextCellCol = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_LOCATION_PERCENT.getResource())) {
             nextCellPercent = Integer.parseInt(infoValue);
+        } else {
+            throw new XMLGameInfoException("Invalid element provided");
         }
     }
 }
