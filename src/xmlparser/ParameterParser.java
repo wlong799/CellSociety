@@ -26,12 +26,12 @@ public class ParameterParser implements Parser {
     }
 
     @Override
-    public void update() {
+    public void update() throws XMLGameInfoException {
         if (nextParameterName == null) {
-            return;
+            throw new XMLGameInfoException("Parameter name not provided");
         }
         if (nextParameterMin == -1 || nextParameterMax == -1 || nextParameterMin > nextParameterMax) {
-            return;
+            throw new XMLGameInfoException("Parameter values not available");
         }
         if (nextParameterVal != -1 && nextParameterVal >= nextParameterMin && nextParameterVal <= nextParameterMax) {
             gameParameterList.add(new GameParameter(nextParameterName, nextParameterMin, nextParameterMax, nextParameterVal));

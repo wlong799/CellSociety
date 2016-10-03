@@ -19,7 +19,7 @@ public class LocationParser implements Parser {
 
     public LocationParser() {
         reset();
-        initialized =false;
+        initialized = false;
         initialCellTypeIDLocations = null;
 
         gridWidth = -1;
@@ -38,7 +38,7 @@ public class LocationParser implements Parser {
         initialCellTypeIDLocations = cellTypeIDLocations;
         probabilities = new ArrayList<>();
         for (int i = 0; i < cellTypeIDLocations.size(); i++) {
-            probabilities.add((int)(Math.random()*100));
+            probabilities.add((int) (Math.random() * 100));
         }
         gridWidth = gWidth;
         gridHeight = gHeight;
@@ -54,26 +54,28 @@ public class LocationParser implements Parser {
     }
 
     @Override
-    public void update() {
+    public void update() throws XMLGameInfoException {
         if (fillMethod.equals(AppResources.XML_LOCATION_MANUAL_METHOD.getResource())) {
             updateManual();
         } else if (fillMethod.equals(AppResources.XML_LOCATION_PERCENTAGE_METHOD.getResource())) {
             updatePercentage();
+        } else {
+            throw new XMLGameInfoException("Fill method not specified");
         }
     }
 
-    private void updateManual() {
+    private void updateManual() throws XMLGameInfoException {
         if (!initialized || nextCellRow == -1 || nextCellCol == -1 || nextCellID == -1) {
-            return;
+            throw new XMLGameInfoException("Manual cell parameters not provided");
         }
         int pos = gridWidth * nextCellRow + nextCellCol;
         initialCellTypeIDLocations.remove(pos);
         initialCellTypeIDLocations.add(pos, nextCellID);
     }
 
-    private void updatePercentage() {
+    private void updatePercentage() throws XMLGameInfoException {
         if (!initialized || nextCellPercent == -1 || nextCellID == -1) {
-            return;
+            throw new XMLGameInfoException("Percentage fill parameters not provided");
         }
         int nextProbabilityPosition = currentProbabilityPosition + nextCellPercent;
         for (int i = 0; i < initialCellTypeIDLocations.size(); i++) {

@@ -52,10 +52,20 @@ public class Cell extends Polygon {
 	}
 
 	public int getCurrentState(String stateName) {
+//		try { int state = currentState.get(stateName);
+//		} catch (NullPointerException npe){
+//			StateValueException sve = new StateValueException("Current State Value Exception");
+//			sve.printStackTrace();
+//		}
 		return currentState.get(stateName);
 	}
 
 	public int getNextState(String stateName) {
+//		try { int state = nextState.get(stateName);
+//		} catch (NullPointerException npe){
+//			StateValueException sve = new StateValueException("Next State Value Exception");
+//			sve.printStackTrace();
+//		}
 		return nextState.get(stateName);
 	}
 	
@@ -74,9 +84,10 @@ public class Cell extends Polygon {
 	public void stepToNextStateAndType() {
 		currentType = nextType;
 		nextType = null;
-		for(String stateName :nextState.keySet()){
+		for(String stateName : nextState.keySet()){
 			int stateVal = nextState.get(stateName);
 			currentState.put(stateName, stateVal);
+			nextState.put(stateName, stateVal);
 		}
 	}
 
@@ -96,6 +107,10 @@ public class Cell extends Polygon {
 
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
+	}
+
+	public void setCurrentType(String setCurrent) {
+		currentType = setCurrent;
 	}
 	
 }

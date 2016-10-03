@@ -4,7 +4,7 @@ public interface Parser {
 
     public abstract void reset();
 
-    public abstract void update();
+    public abstract void update() throws XMLGameInfoException;
 
     public abstract void parseInfo(String infoName, String infoValue);
 

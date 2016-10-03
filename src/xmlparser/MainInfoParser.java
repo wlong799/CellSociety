@@ -25,10 +25,12 @@ public class MainInfoParser implements Parser {
         mainInfoMap.put(infoName, infoValue);
     }
 
-    public String getMainInfo(String infoName) {
+    public String getMainInfo(String infoName) throws XMLGameInfoException{
         if (mainInfoMap.containsKey(infoName)) {
             return mainInfoMap.get(infoName);
         }
-        return null;
+        else {
+            throw new XMLGameInfoException("Information not provided in main");
+        }
     }
 }
