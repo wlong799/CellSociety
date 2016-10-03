@@ -120,6 +120,10 @@ public abstract class CellGrid extends Group {
         return bgCells.get(cells.indexOf(myCell));
     }
 
+    public Cell getCellofBG(BackgroundCell myBGCell) {
+        return cells.get(bgCells.indexOf(myBGCell));
+    }
+
     public List<Cell> getCells() {
         return cells;
     }

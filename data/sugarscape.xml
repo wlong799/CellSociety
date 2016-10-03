@@ -9,14 +9,14 @@
     <parameter>
         <name>sugarMetabolism</name>
         <min>1</min>
-        <max>4</max>
-        <current>2</current>
+        <max>10</max>
+        <current>4</current>
     </parameter>
     <parameter>
         <name>initialsugar</name>
         <min>5</min>
         <max>25</max>
-        <current>10</current>
+        <current>15</current>
     </parameter>
     <parameter>
         <name>vision</name>
@@ -24,7 +24,18 @@
         <max>6</max>
         <current>3</current>
     </parameter>
-    
+    <parameter>
+        <name>sugarGrowBackInterval</name>
+        <min>1</min>
+        <max>6</max>
+        <current>2</current>
+    </parameter>
+    <parameter>
+        <name>sugarGrowBackRate</name>
+        <min>1</min>
+        <max>6</max>
+        <current>2</current>
+    </parameter>
     
     <celltype>
         <id>0</id>
