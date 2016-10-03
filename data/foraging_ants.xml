@@ -12,14 +12,6 @@
     </celltype>
     <celltype>
         <id>1</id>
-        <name>ANT</name>
-    </celltype>
-    <celltype>
-        <id>2</id>
-        <name>FOOD</name>
-    </celltype>
-    <celltype>
-        <id>3</id>
         <name>NEST</name>
     </celltype>
 
@@ -27,24 +19,13 @@
         <width>10</width>
         <height>10</height>
         <defaultid>0</defaultid>
-        <fillmethod>percentage</fillmethod>
+        <fillmethod>manual</fillmethod>
     </grid>
 
     <location>
-        <id>0</id>
-        <percent>69</percent>
-    </location>
-    <location>
         <id>1</id>
-        <percent>15</percent>
-    </location>
-    <location>
-        <id>2</id>
-        <percent>15</percent>
-    </location>
-    <location>
-        <id>3</id>
-        <percent>1</percent>
+        <row>0</row>
+        <col>0</col>
     </location>
 
 

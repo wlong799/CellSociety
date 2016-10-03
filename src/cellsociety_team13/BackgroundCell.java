@@ -29,10 +29,13 @@ public class BackgroundCell {
 	}
 	
 	public void stepToNextBGStateAndType() {
-		for(String stateName :nextBGState.keySet()){
-			int stateVal = nextBGState.get(stateName);
+		for(String stateName : nextBGState.keySet()){
+			try{ int stateVal = nextBGState.get(stateName);
 			currentBGState.put(stateName, stateVal);
-			nextBGState.put(stateName, null);
+			nextBGState.put(stateName, null); }
+			catch (NullPointerException npe){
+				System.out.println(stateName);
+			}
 		}
 	}
 
