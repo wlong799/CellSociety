@@ -21,6 +21,25 @@ public class ForagingAnts extends Rule {
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		BackgroundCell myBGCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		reinitializeCellStates(myCell, myBGCell);
+		int numAnts = myCell.getCurrentState(ANTS);
+		for (int ant = 0; ant < myCell.getCurrentState(ANTS); ant++){
+			if (myCell.getCurrentState(FOOD) >= 1 && myCell.getCurrentType().equals(NEST)){
+				dropFood(myCell, myGrid);
+				findFoodSource(myCell, myGrid);
+			} else if(myCell.getCurrentState(FOOD) >= 1){
+				returnToNest(myCell, myGrid);
+			} else if(myCell.getCurrentState(FOOD) < numAnts - ant && myBGCell.getCurrentBGState(FOOD) == 1){
+				pickUpFood(myCell, myGrid);
+				returnToNest(myCell, myGrid);
+			} else {
+				findFoodSource(myCell, myGrid);
+			}
+		}
+		myCell.setNextType(myCell.getCurrentType());	
+	}
+	
+	private void reinitializeCellStates(Cell myCell, BackgroundCell myBGCell){
 		transferBGStates(myBGCell);
 		try { myCell.setNextState(ANTS, myCell.getNextState(ANTS)); 
 		} catch (NullPointerException npe){
@@ -29,25 +48,6 @@ public class ForagingAnts extends Rule {
 		} catch (NullPointerException npe){
 			myCell.setNextState(FOOD, myCell.getCurrentState(FOOD));
 		}
-		int numAnts = myCell.getCurrentState(ANTS);
-		for (int ant = 0; ant < myCell.getCurrentState(ANTS); ant++){
-			if (myCell.getCurrentState(FOOD) >= 1 && myCell.getCurrentType().equals(NEST)){
-				System.out.println(1);
-				dropFood(myCell, myGrid);
-				findFoodSource(myCell, myGrid);
-			} else if(myCell.getCurrentState(FOOD) >= 1){
-				System.out.println(0);
-				returnToNest(myCell, myGrid);
-			} else if(myCell.getCurrentState(FOOD) < numAnts - ant && myBGCell.getCurrentBGState(FOOD) == 1){
-				System.out.println(2);
-				pickUpFood(myCell, myGrid);
-				returnToNest(myCell, myGrid);
-			} else {
-				System.out.println(3);
-				findFoodSource(myCell, myGrid);
-			}
-		}
-		myCell.setNextType(myCell.getCurrentType());	
 	}
 	
 	private void transferBGStates(BackgroundCell myBGCell){
@@ -221,9 +221,9 @@ public class ForagingAnts extends Rule {
 		} else if (myCell.getCurrentType().equals(PATCH)) {
 			myCell.setFill(Color.GREEN);
 		} if (bgCell.getCurrentBGState(FOODPHERO) > 3) {
-			myCell.setStroke(Color.LIGHTBLUE);
+			myCell.setStroke(Color.PINK);
 		} if (bgCell.getCurrentBGState(HOMEPHERO) > 3) {
-			myCell.setStroke(Color.LIGHTGREEN);
+			myCell.setStroke(Color.AQUA);
 		}	
 	}
 	
@@ -242,7 +242,7 @@ public class ForagingAnts extends Rule {
 		if (myBGCell.getMyRow() == 0 && myBGCell.getMyCol() == 0){
 			myBGCell.setCurrentBGState(NESTFOOD, 0);
 		}
-		if (Math.random() > 0.7){
+		if (Math.random() < 0.3){ // Percentage of Map To Create Food In
 			myBGCell.setCurrentBGState(FOOD, 1);
 		} else {
 			myBGCell.setCurrentBGState(FOOD, 0);
