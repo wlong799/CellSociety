@@ -121,6 +121,7 @@ public abstract class CellGrid extends Group {
     private void stepToNextStatesAndTypes() {
         for (Cell cell : cells) {
             cell.stepToNextStateAndType();
+            this.getBGCellofCell(cell).stepToNextBGStateAndType();
             rule.setColor(cell, this);
         }
     }

@@ -32,12 +32,12 @@ public abstract class Rule {
                 setColor(myGrid.getCell(i, j), myGrid);
             }
         }*/
+    	initializeParameters(initialParameters);
     	for (Cell cell : myGrid.getCells()) {
             setStatesInMap(cell);
             setBGStatesInMap(myGrid.getBGCellofCell(cell));
             setColor(cell, myGrid);
         }
-    	initializeParameters(initialParameters);
     }
 
     public abstract void setColor(Cell myCell, CellGrid myGrid);
@@ -51,6 +51,8 @@ public abstract class Rule {
             for (int j = 0; j < myGrid.getGridWidth(); j++) {
                 if (myGrid.getCell(i, j).getNextType() == null) {
                     evaluateCell(myGrid.getCell(i, j), myGrid);
+                }
+                if(myGrid.getBGCell(i, j).getNextBGStateMap().containsValue(null)){//THIS IS BAD
                     evaluateBackgroundCell(myGrid.getBGCell(i, j));
                 }
             }

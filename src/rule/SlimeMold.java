@@ -1,5 +1,6 @@
 package rule;
 
+import java.util.List;
 import java.util.Random;
 
 import cellsociety_team13.BackgroundCell;
@@ -14,11 +15,11 @@ import javafx.scene.paint.Color;
  * Following these simple, decentralized rules, the turtles aggregate into
  * clusters.
  * 
- * @author LuciaMartos
+ * @author Lucia Martos
  */
 
 public class SlimeMold extends Rule {
-
+	
 	@Override
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
@@ -29,7 +30,6 @@ public class SlimeMold extends Rule {
 		// conc cell of chemical
 		if (myCell.getCurrentType().equals("TURTLE")
 				&& myBackgroundCell.getCurrentBGState("CHEMICAL") > getParameter("SNIFF_THRESH")) {
-			System.out.println("SNIFFER");
 			int[] nextLocationCordinates = findHighestConcCell(myCell);
 			Cell nextLocation = myGrid.getCell(nextLocationCordinates[0], nextLocationCordinates[1]);
 			nextLocation.setNextType("TURTLE");
@@ -49,10 +49,10 @@ public class SlimeMold extends Rule {
 
 	private void spreadChemicalToCellAndNeighbours(BackgroundCell myBackgroundCell) {
 		myBackgroundCell.setNextBGState("CHEMICAL",
-				myBackgroundCell.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION"));
+				myBackgroundCell.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION") -getParameter("EVAPORATION"));
 		for (BackgroundCell myBackgroundNeighbour : myBGNeighbours) {
 			myBackgroundNeighbour.setNextBGState("CHEMICAL",
-					myBackgroundNeighbour.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION"));
+					myBackgroundNeighbour.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION")-getParameter("EVAPORATION"));
 		}
 	}
 

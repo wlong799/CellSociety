@@ -98,4 +98,10 @@ public class SchellingModel extends Rule {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		// TODO Auto-generated method stub
+		
+	}
 }
