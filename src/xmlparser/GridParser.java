@@ -41,7 +41,7 @@ public class GridParser implements Parser {
     }
 
     @Override
-    public void parseInfo(String infoName, String infoValue) throws XMLGameInfoException {
+    public void parseInfo(String infoName, String infoValue) {
         if (infoName.equals(AppResources.XML_GRID_WIDTH.getResource())) {
             gridWidth = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_GRID_HEIGHT.getResource())) {
@@ -56,8 +56,6 @@ public class GridParser implements Parser {
             if (infoValue.equalsIgnoreCase("true")) {
                 toroidal = true;
             }
-        } else {
-            throw new XMLGameInfoException("Invalid element provided.");
         }
     }
 

@@ -65,13 +65,7 @@ class GameInfoHandler extends DefaultHandler {
             return;
         }
         String information = new String(ch, start, length);
-        try {
-            currentParser.parseInfo(currentSection, information);
-        } catch (XMLGameInfoException e) {
-            System.out.println("Error when parsing " + currentSection + ": " + information);
-            e.printStackTrace();
-            return;
-        }
+        currentParser.parseInfo(currentSection, information);
     }
 
     private void updateCurrentSection(String sectionName, int operation) {
@@ -107,11 +101,11 @@ class GameInfoHandler extends DefaultHandler {
         return gridParser.getGridWidth();
     }
 
-    int getGridHeight()throws XMLGameInfoException {
+    int getGridHeight() throws XMLGameInfoException {
         return gridParser.getGridHeight();
     }
 
-    String getGridTiling()throws XMLGameInfoException {
+    String getGridTiling() throws XMLGameInfoException {
         return gridParser.getTiling();
     }
 

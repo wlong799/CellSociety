@@ -33,13 +33,11 @@ public class CellTypeParser implements Parser {
     }
 
     @Override
-    public void parseInfo(String infoName, String infoValue) throws XMLGameInfoException {
+    public void parseInfo(String infoName, String infoValue) {
         if (infoName.equals(AppResources.XML_CELLTYPE_ID.getResource())) {
             nextCellTypeID = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_CELLTYPE_NAME.getResource())) {
             nextCellTypeName = infoValue;
-        } else {
-            throw new XMLGameInfoException("Invalid element in XML file.");
         }
     }
 

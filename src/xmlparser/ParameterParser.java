@@ -26,7 +26,7 @@ public class ParameterParser implements Parser {
     }
 
     @Override
-    public void update() throws XMLGameInfoException{
+    public void update() throws XMLGameInfoException {
         if (nextParameterName == null) {
             throw new XMLGameInfoException("Parameter name not provided");
         }
@@ -41,7 +41,7 @@ public class ParameterParser implements Parser {
     }
 
     @Override
-    public void parseInfo(String infoName, String infoValue) throws XMLGameInfoException {
+    public void parseInfo(String infoName, String infoValue) {
         if (infoName.equals(AppResources.XML_PARAMETER_NAME.getResource())) {
             nextParameterName = infoValue;
         } else if (infoName.equals(AppResources.XML_PARAMETER_MIN.getResource())) {
@@ -50,8 +50,6 @@ public class ParameterParser implements Parser {
             nextParameterMax = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_PARAMETER_VAL.getResource())) {
             nextParameterVal = Integer.parseInt(infoValue);
-        } else {
-            throw new XMLGameInfoException("Invalid element provided");
         }
     }
 
