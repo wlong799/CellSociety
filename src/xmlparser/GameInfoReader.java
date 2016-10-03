@@ -63,6 +63,10 @@ public class GameInfoReader {
         return gameInfoHandler.getGridTiling();
     }
 
+    public boolean isToroidal() {
+        return gameInfoHandler.isToroidal();
+    }
+
     public List<String> getInitialCellTypeLocations() {
         return gameInfoHandler.getInitialCellTypeLocations();
     }

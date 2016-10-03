@@ -49,6 +49,7 @@
         <height>64</height>
         <defaultid>0</defaultid>
         <tiling>hexagon</tiling>
+        <toroidal>true</toroidal>
         <fillmethod>percentage</fillmethod>
     </grid>
 
