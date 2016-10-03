@@ -30,9 +30,9 @@ public class GridParser implements Parser {
     }
 
     @Override
-    public void update() {
+    public void update() throws XMLGameInfoException{
         if (gridWidth == -1 || gridHeight == -1 || defaultID == -1) {
-            return;
+            throw new XMLGameInfoException("Grid parameters not all provided.");
         }
         for (int i = 0; i < gridHeight * gridWidth; i++) {
             initialCellTypeIDLocations.add(defaultID);
@@ -59,15 +59,24 @@ public class GridParser implements Parser {
         }
     }
 
-    public int getGridWidth() {
+    public int getGridWidth() throws XMLGameInfoException{
+        if (gridWidth == -1) {
+            throw new XMLGameInfoException("Grid width not specified");
+        }
         return gridWidth;
     }
 
-    public int getGridHeight() {
+    public int getGridHeight()throws XMLGameInfoException {
+        if (gridHeight == -1) {
+            throw new XMLGameInfoException("Grid height not specified");
+        }
         return gridHeight;
     }
 
-    public String getTiling() {
+    public String getTiling()throws XMLGameInfoException {
+        if (tiling == null) {
+            throw new XMLGameInfoException("Tiling method not provided");
+        }
         return tiling;
     }
 

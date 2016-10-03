@@ -22,12 +22,12 @@ public class CellTypeParser implements Parser {
     }
 
     @Override
-    public void update() {
+    public void update() throws XMLGameInfoException {
         if (nextCellTypeID == -1 || nextCellTypeName == null) {
-            return;
+            throw new XMLGameInfoException("Invalid parameters provided for cell type.");
         }
         if (cellTypeMap.containsKey(nextCellTypeID)) {
-            return;
+            throw new XMLGameInfoException("Cell type ID already used.");
         }
         cellTypeMap.put(nextCellTypeID, nextCellTypeName);
     }
@@ -41,9 +41,9 @@ public class CellTypeParser implements Parser {
         }
     }
 
-    public String getCellType(int id) {
+    public String getCellType(int id) throws XMLGameInfoException{
         if (!cellTypeMap.containsKey(id)) {
-            return null;
+            throw new XMLGameInfoException("Invalid cell ID requested.");
         }
         return cellTypeMap.get(id);
     }

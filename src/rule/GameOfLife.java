@@ -72,9 +72,8 @@ public class GameOfLife extends Rule {
         return;
     }
 
-	@Override
-	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+        return;
+    }
 }

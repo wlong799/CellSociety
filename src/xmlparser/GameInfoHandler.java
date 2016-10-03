@@ -78,13 +78,18 @@ class GameInfoHandler extends DefaultHandler {
         } else if (operation == REMOVE) {
             currentSection = null;
             if (parserMap.containsKey(sectionName)) {
-                currentParser.update();
+                try {
+                    currentParser.update();
+                } catch (XMLGameInfoException e) {
+                    System.out.println("Error when updating parser" + currentParser);
+                    e.printStackTrace();
+                }
                 currentParser = null;
             }
         }
     }
 
-    String getMainInfo(String mainInfoName) {
+    String getMainInfo(String mainInfoName) throws XMLGameInfoException {
         return mainInfoParser.getMainInfo(mainInfoName);
     }
 
@@ -92,15 +97,15 @@ class GameInfoHandler extends DefaultHandler {
         return parameterParser.getGameParameterList();
     }
 
-    int getGridWidth() {
+    int getGridWidth() throws XMLGameInfoException {
         return gridParser.getGridWidth();
     }
 
-    int getGridHeight() {
+    int getGridHeight() throws XMLGameInfoException {
         return gridParser.getGridHeight();
     }
 
-    String getGridTiling() {
+    String getGridTiling() throws XMLGameInfoException {
         return gridParser.getTiling();
     }
 
@@ -108,7 +113,7 @@ class GameInfoHandler extends DefaultHandler {
         return gridParser.isToroidal();
     }
 
-    List<String> getInitialCellTypeLocations() {
+    List<String> getInitialCellTypeLocations() throws XMLGameInfoException {
         List<Integer> idLocations = gridParser.getInitialCellTypeIDLocations();
         List<String> result = new ArrayList<>();
         for (int id : idLocations) {
