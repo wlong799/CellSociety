@@ -126,7 +126,7 @@ public class ForagingAnts extends Rule {
 			nextCell.setNextState(ANTS, nextCell.getCurrentState(ANTS) + 1);
 		}
 		myCell.setNextState(ANTS, myCell.getNextState(ANTS) - 1);
-		if (myCell.getNextState(FOOD) > 0){
+		if (myCell.getCurrentState(FOOD) > 0){
 			try {
 				nextCell.setNextState(FOOD, nextCell.getNextState(FOOD) + 1);
 			}
@@ -215,7 +215,7 @@ public class ForagingAnts extends Rule {
 		} else if (myCell.getCurrentState(FOOD) > 0) {
 			myCell.setFill(Color.MAROON);
 		} else if (myCell.getCurrentState(ANTS) > 0){
-			myCell.setFill(Color.BROWN);
+			myCell.setFill(Color.BLUE);
 		} else if (bgCell.getCurrentBGState(FOOD) != 0){
 				myCell.setFill(Color.RED);
 		} else if (myCell.getCurrentType().equals(PATCH)) {
