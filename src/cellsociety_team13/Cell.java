@@ -98,5 +98,9 @@ public class Cell extends Polygon {
 	public void removeAllNextStates() {
 		nextState = new HashMap<>();
 	}
+
+	public void setCurrentType(String setCurrent) {
+		currentType = setCurrent;
+	}
 	
 }
