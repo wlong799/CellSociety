@@ -1,6 +1,7 @@
 package rule;
 
 import java.util.List;
+import java.util.Random;
 
 import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
@@ -106,29 +107,19 @@ public class WatorWorld extends Rule {
 	}
 
 	private Cell chooseRandomNeighbourCell(Cell myCell, CellGrid myGrid, String type) {
-		Cell myRandomCell = null;
 		// not perfectly random or efficient... need to take another look
-		while (myRandomCell == null) {
-			double myRandomValue = Math.random();
-			if (myRandomValue < 0.25 && nonDiagNeighbours.get(0).getCurrentType().equals(type)) {
-				return nonDiagNeighbours.get(0);
-			} else if (myRandomValue > 0.25 && myRandomValue < 0.5 && nonDiagNeighbours.size() > 1
-					&& nonDiagNeighbours.get(1).getCurrentType().equals(type)) {
-				return nonDiagNeighbours.get(1);
-			} else if (myRandomValue > 0.5 && myRandomValue < 0.75 && nonDiagNeighbours.size() > 2
-					&& nonDiagNeighbours.get(2).getCurrentType().equals(type)) {
-				return nonDiagNeighbours.get(2);
-			} else if (myRandomValue > 0.75 && nonDiagNeighbours.size() > 3
-					&& nonDiagNeighbours.get(3).getCurrentType().equals(type)) {
-				return nonDiagNeighbours.get(3);
-			}
-		}
-
-		return null;
+		Random rn = new Random();
+		return nonDiagNeighbours.get(rn.nextInt(nonDiagNeighbours.size()-1));
 	}
 
 	@Override
 	void setBGStatesInMap(BackgroundCell myBGCell) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
 		// TODO Auto-generated method stub
 		
 	}
