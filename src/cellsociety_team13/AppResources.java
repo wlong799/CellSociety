@@ -20,6 +20,8 @@ public enum AppResources {
     INPUT_PANEL_PADDING(15),
     INPUT_BUTTON_WIDTH(200),
     GAME_SELECT_TITLE("New Game"),
+    CHART_VIEW_TITLE("View Chart"),
+    GRID_VIEW_TITLE("View Cells"),
     STEP_TITLE("Step"),
     RUN_TITLE("Run"),
     PAUSE_TITLE("Pause"),

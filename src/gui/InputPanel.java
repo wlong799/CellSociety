@@ -23,7 +23,7 @@ public class InputPanel extends Group {
     public InputPanel(double xPos, double yPos, double width, double height,
                       EventHandler<ActionEvent> gameSelectHandler,
                       EventHandler<ActionEvent> viewToggleHandler,
-                      CellGrid cellGrid, List<GameParameter> params) {
+                      CellGrid cellGrid, CellTypeChart cellTypeChart, List<GameParameter> params) {
         setLayoutX(xPos);
         setLayoutY(yPos);
 
@@ -31,7 +31,7 @@ public class InputPanel extends Group {
         background.setId("input-panel-bg");
 
         gameControl = new GameControl(height, gameSelectHandler, viewToggleHandler);
-        animationControl = new AnimationControl(height, cellGrid);
+        animationControl = new AnimationControl(height, cellGrid, cellTypeChart);
         parameterAdjustmentControl = new ParameterAdjustmentControl(height, params, cellGrid);
 
         panelBox = new HBox(calculatePadding(width), gameControl, animationControl, parameterAdjustmentControl);

@@ -123,8 +123,8 @@ public class CellSocietyGUI {
     }
 
     private void createCellTypeChart() {
-        NumberAxis xAxis = new NumberAxis("Generation", 0, 20, 1);
-        NumberAxis yAxis = new NumberAxis("Proportion", 0, 1, 0.1);
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis(0, 1, 0.1);
 
         double drawHeight = appHeight -
                 AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
@@ -138,6 +138,7 @@ public class CellSocietyGUI {
         double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
 
         cellTypeChart = new CellTypeChart(xAxis, yAxis, xPos, yPos, drawWidth, drawHeight);
+        cellTypeChart.updateCellData(cellGrid.getCellProportions());
     }
 
     private void createInputPanel() {
@@ -159,7 +160,7 @@ public class CellSocietyGUI {
 
         double height = AppResources.INPUT_PANEL_HEIGHT.getDoubleResource();
         inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler,
-                toggleViewHandler, cellGrid, params);
+                toggleViewHandler, cellGrid, cellTypeChart, params);
         sceneRoot.getChildren().add(inputPanel);
     }
 
