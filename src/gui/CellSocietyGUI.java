@@ -114,8 +114,15 @@ public class CellSocietyGUI {
         double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
-        cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
+
+        if (gameInfoReader.getGridTiling().equals(AppResources.XML_TILING_SQUARE.getResource())) {
+            cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                    gridHeight, initialCellTypes, rule, initialParameters);
+        } else {
+            cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
                 gridHeight, initialCellTypes, rule, initialParameters);
+        }
+
         sceneRoot.getChildren().add(cellGrid);
     }
 

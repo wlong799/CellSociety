@@ -48,6 +48,7 @@
         <width>128</width>
         <height>64</height>
         <defaultid>0</defaultid>
+        <tiling>hexagon</tiling>
         <fillmethod>percentage</fillmethod>
     </grid>
 

@@ -27,6 +27,7 @@
         <width>10</width>
         <height>10</height>
         <defaultid>0</defaultid>
+        <tiling>hexagon</tiling>
         <fillmethod>percentage</fillmethod>
     </grid>
 

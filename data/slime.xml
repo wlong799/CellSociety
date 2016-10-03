@@ -52,6 +52,7 @@
         <width>20</width>
         <height>20</height>
         <defaultid>0</defaultid>
+        <tiling>hexagon</tiling>
         <fillmethod>percentage</fillmethod>
     </grid>
 

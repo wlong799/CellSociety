@@ -9,6 +9,7 @@ public class GridParser implements Parser {
     private int gridWidth, gridHeight, defaultID;
     private LocationParser locationParser;
     private String fillMethod;
+    private String tiling;
     private List<Integer> initialCellTypeIDLocations;
 
     public GridParser() {
@@ -45,6 +46,8 @@ public class GridParser implements Parser {
             defaultID = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_GRID_FILLMETHOD.getResource())) {
             fillMethod = infoValue;
+        } else if (infoName.equals(AppResources.XML_GRID_TILING.getResource())) {
+            tiling = infoValue;
         }
     }
 
@@ -54,6 +57,10 @@ public class GridParser implements Parser {
 
     public int getGridHeight() {
         return gridHeight;
+    }
+
+    public String getTiling() {
+        return tiling;
     }
 
     public List<Integer> getInitialCellTypeIDLocations() {

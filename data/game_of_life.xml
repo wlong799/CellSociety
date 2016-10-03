@@ -19,6 +19,7 @@
         <width>10</width>
         <height>10</height>
         <defaultid>0</defaultid>
+        <tiling>square</tiling>
         <fillmethod>manual</fillmethod>
     </grid>
 
