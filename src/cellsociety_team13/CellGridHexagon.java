@@ -3,7 +3,6 @@ package cellsociety_team13;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.Group;
 import rule.Rule;
 
 /**
@@ -15,8 +14,8 @@ import rule.Rule;
 public class CellGridHexagon extends CellGrid {
 
     public CellGridHexagon(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
-                           List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
-        super(xPos, yPos, drawWidth, drawHeight, gridWidth, gridHeight, initialCellTypes, rule, initialParameters);
+                           List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters, boolean toroidal) {
+        super(xPos, yPos, drawWidth, drawHeight, gridWidth, gridHeight, initialCellTypes, rule, initialParameters, toroidal);
     }
 
     @Override

@@ -19,13 +19,14 @@ public abstract class CellGrid extends Group {
     protected double drawCellWidth, drawCellHeight;
 
     protected int gridWidth, gridHeight;
+    protected boolean isToroidal;
 
     protected List<Cell> cells = new ArrayList<>();
     protected List<BackgroundCell> bgCells = new ArrayList<>();
     protected Rule rule;
 
     public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
-                    List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
+                    List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters, boolean toroidal) {
         setLayoutX(xPos);
         setLayoutY(yPos);
         this.drawWidth = drawWidth;
@@ -35,6 +36,7 @@ public abstract class CellGrid extends Group {
 
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        isToroidal = toroidal;
 
         addItemsToGrid(gridWidth, gridHeight, initialCellTypes);
         this.rule = rule;
@@ -97,11 +99,21 @@ public abstract class CellGrid extends Group {
 
     public Cell getCell(int row, int col) {
         if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)) {
-            return null;
-        } else {
-            int arrayPos = row * gridWidth + col;
-            return cells.get(arrayPos);
+            if (isToroidal) {
+                while (col < 0) {
+                    col += gridWidth;
+                }
+                while (row < 0) {
+                    row += gridHeight;
+                }
+                col %= gridWidth;
+                row %= gridHeight;
+            } else {
+                return null;
+            }
         }
+        int arrayPos = row * gridWidth + col;
+        return cells.get(arrayPos);
     }
 
     public BackgroundCell getBGCell(int row, int col) {
