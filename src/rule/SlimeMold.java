@@ -1,5 +1,6 @@
 package rule;
 
+import java.util.List;
 import java.util.Random;
 
 import cellsociety_team13.BackgroundCell;
@@ -7,34 +8,51 @@ import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
 
-public class SlimeMold extends Rule {
+/**
+ * In this model, each turtle drops a chemical pheromone (shown in green). The
+ * turtles also "sniff" ahead, trying to follow the gradient of other turtles'
+ * chemicals. Meanwhile, the patches diffuse and evaporate the pheromone.
+ * Following these simple, decentralized rules, the turtles aggregate into
+ * clusters.
+ * 
+ * @author Lucia Martos
+ */
 
+public class SlimeMold extends Rule {
+	
 	@Override
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
 		myBGNeighbours = myGrid.getNeighbours(myCell, myGrid);
-		
-		//if you are a turtle and you sniff chemical move towards the highest conc cell of chemical 
-		if(myCell.getCurrentType().equals("TURTLE") && myBackgroundCell.getCurrentBGState("CHEMICAL") > getParameter("SNIFF_THRESH") ){
+
+		// if you are a turtle and you sniff chemical move towards the highest
+		// conc cell of chemical
+		if (myCell.getCurrentType().equals("TURTLE")
+				&& myBackgroundCell.getCurrentBGState("CHEMICAL") > getParameter("SNIFF_THRESH")) {
 			int[] nextLocationCordinates = findHighestConcCell(myCell);
 			Cell nextLocation = myGrid.getCell(nextLocationCordinates[0], nextLocationCordinates[1]);
 			nextLocation.setNextType("TURTLE");
 			myCell.setNextType("EMPTY");
 		}
-		
-		//if you are a turtle and you dont sniff chemical simply put the chemical in the current cell and the neighbour 
-		else if(myCell.getCurrentType().equals("TURTLE")){
+
+		// if you are a turtle and you dont sniff chemical simply put the
+		// chemical in the current cell and the neighbour
+		else if (myCell.getCurrentType().equals("TURTLE")) {
 			spreadChemicalToCellAndNeighbours(myBackgroundCell);
+			myCell.setNextType(myCell.getCurrentType());
 		}
-		
-			
+		else{
+			myCell.setNextType(myCell.getCurrentType());
+		}
 	}
 
 	private void spreadChemicalToCellAndNeighbours(BackgroundCell myBackgroundCell) {
-		myBackgroundCell.setNextBGState("CHEMICAL", myBackgroundCell.getCurrentBGState("CHEMICAL") +getParameter("DIFFUSION"));
-		for(BackgroundCell myBackgroundNeighbour:myBGNeighbours){
-			myBackgroundNeighbour.setNextBGState("CHEMICAL",myBackgroundNeighbour.getCurrentBGState("CHEMICAL") +getParameter("DIFFUSION"));
+		myBackgroundCell.setNextBGState("CHEMICAL",
+				myBackgroundCell.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION") -getParameter("EVAPORATION"));
+		for (BackgroundCell myBackgroundNeighbour : myBGNeighbours) {
+			myBackgroundNeighbour.setNextBGState("CHEMICAL",
+					myBackgroundNeighbour.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION")-getParameter("EVAPORATION"));
 		}
 	}
 
@@ -42,41 +60,41 @@ public class SlimeMold extends Rule {
 		int maxPheromoneLevel = 0;
 		int myCol = myCell.getMyCol();
 		int myRow = myCell.getMyRow();
-		
-		for(BackgroundCell myBackgroundNeighbour: myBGNeighbours){
-			if(myBackgroundNeighbour.getCurrentBGState("CHEMICAL") > maxPheromoneLevel){
+
+		for (BackgroundCell myBackgroundNeighbour : myBGNeighbours) {
+			if (myBackgroundNeighbour.getCurrentBGState("CHEMICAL") > maxPheromoneLevel) {
 				myCol = myBackgroundNeighbour.getMyCol();
 				myRow = myBackgroundNeighbour.getMyRow();
 				maxPheromoneLevel = myBackgroundNeighbour.getCurrentBGState("CHEMICAL");
 			}
 		}
-		return new int[]{myCol, myRow};
+		return new int[] { myCol, myRow };
 	}
 
 	@Override
 	public void setColor(Cell myCell, CellGrid myGrid) {
 		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
+		//System.out.println(myCell.getCurrentType());
 		if (myCell.getCurrentType().equals("TURTLE")) {
 			myCell.setFill(Color.RED);
 		} else if (myCell.getCurrentType().equals("EMPTY")) {
-			if(myBackgroundCell.getCurrentBGState("CHEMICAL") > 0 && myBackgroundCell.getCurrentBGState("CHEMICAL") < 5){
+			if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 0
+					&& myBackgroundCell.getCurrentBGState("CHEMICAL") < 5) {
 				myCell.setFill(Color.GREEN);
-			}
-			else if(myBackgroundCell.getCurrentBGState("CHEMICAL") > 5){
+			} else if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 5) {
 				myCell.setFill(Color.WHITE);
-			}
-			else{
+			} else {
 				myCell.setFill(Color.BLACK);
 			}
 		}
 	}
-	
-	void evaluateBackgroundCell(BackgroundCell myBackgroundCell){
-		//account for diffusion
-		if(myBackgroundCell.getCurrentBGState("CHEMICAL") > 0){
-		myBackgroundCell.setNextBGState("CHEMICAL", myBackgroundCell.getCurrentBGState("CHEMICAL")-getParameter("EVAPORATION"));
-		}
-		else{
+
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		// account for diffusion
+		if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 0) {
+			myBackgroundCell.setNextBGState("CHEMICAL",
+					myBackgroundCell.getCurrentBGState("CHEMICAL") - getParameter("EVAPORATION"));
+		} else {
 			myBackgroundCell.setNextBGState("CHEMICAL", myBackgroundCell.getCurrentBGState("CHEMICAL"));
 		}
 	}
@@ -88,7 +106,7 @@ public class SlimeMold extends Rule {
 
 	@Override
 	void setBGStatesInMap(BackgroundCell myBGCell) {
-		myBGCell.setCurrentBGState("CHEMICAL", (int)(Math.random() * 10));
+		myBGCell.setCurrentBGState("CHEMICAL", (int) (Math.random() * 10));
 	}
 
 }

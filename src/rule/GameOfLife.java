@@ -71,4 +71,10 @@ public class GameOfLife extends Rule {
     void setBGStatesInMap(BackgroundCell myBGCell) {
         return;
     }
+
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		// TODO Auto-generated method stub
+		
+	}
 }

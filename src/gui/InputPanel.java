@@ -16,28 +16,25 @@ import java.util.List;
 public class InputPanel extends Group {
     private Rectangle background;
     private HBox panelBox;
-    private Button gameSelectButton;
+    private GameControl gameControl;
     private AnimationControl animationControl;
     private ParameterAdjustmentControl parameterAdjustmentControl;
 
     public InputPanel(double xPos, double yPos, double width, double height,
                       EventHandler<ActionEvent> gameSelectHandler,
-                      CellGrid cellGrid, List<GameParameter> params) {
+                      EventHandler<ActionEvent> viewToggleHandler,
+                      CellGrid cellGrid, CellTypeChart cellTypeChart, List<GameParameter> params) {
         setLayoutX(xPos);
         setLayoutY(yPos);
 
         background = new Rectangle(width, height);
         background.setId("input-panel-bg");
 
-        gameSelectButton = new Button(AppResources.GAME_SELECT_TITLE.getResource());
-        gameSelectButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
-        gameSelectButton.setOnAction(gameSelectHandler);
-
-        animationControl = new AnimationControl(height, cellGrid);
-
+        gameControl = new GameControl(height, gameSelectHandler, viewToggleHandler);
+        animationControl = new AnimationControl(height, cellGrid, cellTypeChart);
         parameterAdjustmentControl = new ParameterAdjustmentControl(height, params, cellGrid);
 
-        panelBox = new HBox(calculatePadding(width), gameSelectButton, animationControl, parameterAdjustmentControl);
+        panelBox = new HBox(calculatePadding(width), gameControl, animationControl, parameterAdjustmentControl);
         panelBox.setAlignment(Pos.CENTER);
         panelBox.setPrefWidth(width);
 

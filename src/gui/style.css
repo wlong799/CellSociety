@@ -6,7 +6,7 @@
 .button {
     -fx-background-color: #268bd2;
     -fx-background-radius: 20;
-    -fx-padding: 20;
+    -fx-padding: 15;
     -fx-text-fill: #fdf6e3;
     -fx-alignment: center;
 }

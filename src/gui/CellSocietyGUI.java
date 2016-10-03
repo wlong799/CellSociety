@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.shape.Rectangle;
 import rule.*;
 import xmlparser.GameInfoReader;
@@ -25,6 +26,7 @@ public class CellSocietyGUI {
     private TitleScreen titleScreen;
     private TitleBox titleBox;
     private CellGrid cellGrid;
+    private CellTypeChart cellTypeChart;
     private InputPanel inputPanel;
 
     public CellSocietyGUI() {
@@ -53,6 +55,7 @@ public class CellSocietyGUI {
         loadRule();
         createTitleBox();
         createCellGrid();
+        createCellTypeChart();
         createInputPanel();
     }
 
@@ -80,8 +83,8 @@ public class CellSocietyGUI {
             rule = new ForagingAnts();
         } else if (ruleName.equals("SlimeMold")) {
             rule = new SlimeMold();
-        } else if (ruleName.equals("SugarScape")){
-        	rule = new SugarScape();
+        } else if (ruleName.equals("SugarScape")) {
+            rule = new SugarScape();
         }
     }
 
@@ -119,15 +122,45 @@ public class CellSocietyGUI {
         sceneRoot.getChildren().add(cellGrid);
     }
 
+    private void createCellTypeChart() {
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis(0, 1, 0.1);
+
+        double drawHeight = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
+                (2 * AppResources.APP_PADDING.getDoubleResource());
+        double drawWidth = appHeight - (2 * AppResources.APP_PADDING.getDoubleResource());
+        double ySpace = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
+        double xPos = (appWidth / 2) - (drawWidth / 2);
+        double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
+
+        cellTypeChart = new CellTypeChart(xAxis, yAxis, xPos, yPos, drawWidth, drawHeight);
+        cellTypeChart.updateCellData(cellGrid.getCellProportions());
+    }
+
     private void createInputPanel() {
         EventHandler<ActionEvent> gameSelectHandler = event -> {
             loadTitleScreen();
         };
 
+        EventHandler<ActionEvent> toggleViewHandler = event -> {
+            if (sceneRoot.getChildren().contains(cellGrid)) {
+                sceneRoot.getChildren().remove(cellGrid);
+                sceneRoot.getChildren().add(cellTypeChart);
+            } else {
+                sceneRoot.getChildren().remove(cellTypeChart);
+                sceneRoot.getChildren().add(cellGrid);
+            }
+        };
+
         List<GameParameter> params = gameInfoReader.getGameParameters();
 
         double height = AppResources.INPUT_PANEL_HEIGHT.getDoubleResource();
-        inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler, cellGrid, params);
+        inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler,
+                toggleViewHandler, cellGrid, cellTypeChart, params);
         sceneRoot.getChildren().add(inputPanel);
     }
 
