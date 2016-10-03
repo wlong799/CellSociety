@@ -7,7 +7,7 @@ import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
 
-/*
+/**
  *Sugar scape: patch grows back sugar at sugarGrowBackRate every sugarGrowBackInterval ticks
  *Agent movement: look at vacant neighbours with the highest sugar values then when you move subtract sugarMetabolism from sugar
  * of the agent. If the sugar of the agent is less than zero the agent dies.

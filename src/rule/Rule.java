@@ -51,10 +51,14 @@ public abstract class Rule {
             for (int j = 0; j < myGrid.getGridWidth(); j++) {
                 if (myGrid.getCell(i, j).getNextType() == null) {
                     evaluateCell(myGrid.getCell(i, j), myGrid);
+                    evaluateBackgroundCell(myGrid.getBGCell(i, j));
                 }
             }
         }
     }
+    
+	abstract void evaluateBackgroundCell(BackgroundCell myBackgroundCell);
+
 
     protected void initializeParameters(List<GameParameter> initialParameters) {
         parameterMap = new HashMap<>();

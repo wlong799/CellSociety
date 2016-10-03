@@ -57,8 +57,13 @@ public class CellGridSquare extends CellGrid {
     }
 
     @Override
-    public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell) {
-        return null;
+    public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid) {
+    	List<BackgroundCell> myBGNeighbours = new ArrayList<BackgroundCell>();
+        List<Cell> myNeighbours = new ArrayList<Cell>(getNonDiagNeighbours(myCell));
+        for(Cell myNeighbour:myNeighbours){
+        	myBGNeighbours.add(myGrid.getBGCellofCell(myNeighbour));
+        }
+        return myBGNeighbours;
     }
 
 

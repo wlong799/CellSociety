@@ -118,4 +118,10 @@ public class WatorWorld extends Rule {
 		
 	}
 
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

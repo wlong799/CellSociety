@@ -13,7 +13,7 @@ public class SlimeMold extends Rule {
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
-		myBGNeighbours = myGrid.getNeighbours(myBackgroundCell);
+		myBGNeighbours = myGrid.getNeighbours(myCell, myGrid);
 		
 		//if you are a turtle and you sniff chemical move towards the highest conc cell of chemical 
 		if(myCell.getCurrentType().equals("TURTLE") && myBackgroundCell.getCurrentBGState("CHEMICAL") > getParameter("SNIFF_THRESH") ){
@@ -27,18 +27,18 @@ public class SlimeMold extends Rule {
 		else if(myCell.getCurrentType().equals("TURTLE")){
 			spreadChemicalToCellAndNeighbours(myBackgroundCell);
 		}
+		
 			
 	}
 
 	private void spreadChemicalToCellAndNeighbours(BackgroundCell myBackgroundCell) {
-		myBackgroundCell.setNextBGState("CHEMICAL",myBackgroundCell.getNextBGState("CHEMICAL") +getParameter("DIFFUSION"));
+		myBackgroundCell.setNextBGState("CHEMICAL", myBackgroundCell.getCurrentBGState("CHEMICAL") +getParameter("DIFFUSION"));
 		for(BackgroundCell myBackgroundNeighbour:myBGNeighbours){
-			myBackgroundNeighbour.setNextBGState("CHEMICAL",myBackgroundNeighbour.getNextBGState("CHEMICAL") +getParameter("DIFFUSION"));
+			myBackgroundNeighbour.setNextBGState("CHEMICAL",myBackgroundNeighbour.getCurrentBGState("CHEMICAL") +getParameter("DIFFUSION"));
 		}
 	}
 
 	private int[] findHighestConcCell(Cell myCell) {
-		//Cell nextPosition = null;
 		int maxPheromoneLevel = 0;
 		int myCol = myCell.getMyCol();
 		int myRow = myCell.getMyRow();
@@ -75,6 +75,9 @@ public class SlimeMold extends Rule {
 		//account for diffusion
 		if(myBackgroundCell.getCurrentBGState("CHEMICAL") > 0){
 		myBackgroundCell.setNextBGState("CHEMICAL", myBackgroundCell.getCurrentBGState("CHEMICAL")-getParameter("EVAPORATION"));
+		}
+		else{
+			myBackgroundCell.setNextBGState("CHEMICAL", myBackgroundCell.getCurrentBGState("CHEMICAL"));
 		}
 	}
 
