@@ -41,7 +41,7 @@
         <width>20</width>
         <height>20</height>
         <defaultid>0</defaultid>
-        <fillmethod>manual</fillmethod>
+        <fillmethod>percentage</fillmethod>
     </grid>
 
 	<location>

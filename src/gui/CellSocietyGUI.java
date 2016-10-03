@@ -80,6 +80,8 @@ public class CellSocietyGUI {
             rule = new ForagingAnts();
         } else if (ruleName.equals("SlimeMold")) {
             rule = new SlimeMold();
+        } else if (ruleName.equals("SugarScape")){
+        	rule = new SugarScape();
         }
     }
 
