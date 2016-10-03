@@ -34,17 +34,24 @@ public class ForagingAnts extends Rule {
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 		BackgroundCell myBGCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-		if (myCell.getCurrentState(ANT) == 1 && myBGCell.getCurrentBGState(FOOD) == 1 && myBGCell.getCurrentBGState(NEST) == 0){
+		if (myCell.getCurrentType().equals(ANT) && myCell.getCurrentState(FOOD) == 1 && myBGCell.getCurrentBGState(NEST) == 0){
 			this.returnToNest(myCell, myGrid);
-		} else if (myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 1 && myBGCell.getCurrentBGState(NEST) == 1){
+		} else if (myCell.getCurrentType().equals(ANT) && myCell.getCurrentState(FOOD) == 1 && myBGCell.getCurrentBGState(NEST) == 1){
 			dropFood(myCell, myGrid);
 			this.returnToNest(myCell, myGrid);
-		} else if(myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 0 && myBGCell.getCurrentBGState(FOOD) == 1){
+		} else if(myCell.getCurrentType().equals(ANT) && myCell.getCurrentState(FOOD) == 0 && myBGCell.getCurrentBGState(FOOD) == 1){
 			pickUpFood(myCell, myGrid);
 			this.returnToNest(myCell, myGrid); 
-		} else if(myCell.getCurrentState(ANT) == 1){
+		} else if(myCell.getCurrentType().equals(ANT)){
 			this.findFoodSource(myCell, myGrid); 
 		}
+		if (myCell.getNextType() == null){
+			myCell.setNextType(myCell.getCurrentType());
+		}
+		transferPheromones(myBGCell);
+	}
+	
+	private void transferPheromones(BackgroundCell myBGCell){
 		if (myBGCell.getNextBGState(FOODPHERO) == null){
 			myBGCell.setNextBGState(FOODPHERO, myBGCell.getCurrentBGState(FOODPHERO));
 		}
@@ -60,45 +67,82 @@ public class ForagingAnts extends Rule {
 		};
 		int nextCol = myCell.getMyCol() + myCell.getCurrentState(XOrientation);
 		int nextRow = myCell.getMyRow() + myCell.getCurrentState(YOrientation);
-		Cell nextCell = myGrid.getCell(nextCol, nextRow);
-		if (nextCell == null || nextCell.getNextState(ANT) != 0){
+		Cell nextCell = null;
+		try { if (nextCell == null || nextCell.getNextType().equals(ANT)){
 			setHomeOrientation(myCell, myGrid);
 			nextCol = myCell.getMyCol() + myCell.getCurrentState(XOrientation);
 			nextRow = myCell.getMyRow() + myCell.getCurrentState(YOrientation);
-			nextCell = myGrid.getCell(nextCol, nextRow);
+			nextCell = myGrid.getCell(nextRow, nextCol);
+			}
+		} catch (NullPointerException npe){		}
+		if (nextCol >= 0 && nextRow >= 0){
+			nextCell = myGrid.getCell(nextRow, nextCol);
+		} else if (nextCol >= 0 && nextRow < 0){
+			nextCell = myGrid.getCell(myCell.getMyRow(), nextCol);
+		} else if (nextCol < 0 && nextRow >= 0){
+			nextCell = myGrid.getCell(nextRow, myCell.getMyCol());
+		} else {
+			nextCell = myCell;
+		} if (nextCell == null){
+			System.out.println("Shit");
+			nextCell = myCell;
 		}
-		dropFoodPheromones(myCell, myGrid);
+		if (nextCell != myCell){
+			dropFoodPheromones(myCell, myGrid);
+		}
 		setNextCellStates(myCell, nextCell);
 	}
 	
 	private void findFoodSource(Cell myCell, CellGrid myGrid) {
 		int atNest = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol()).getCurrentBGState(NEST);
-		if (atNest == 1){
+		if (atNest == 1 || true){
 			setFoodOrientation(myCell, myGrid);
 		};
 		int nextCol = myCell.getMyCol() + myCell.getCurrentState(XOrientation);
 		int nextRow = myCell.getMyRow() + myCell.getCurrentState(YOrientation);
-		Cell nextCell = myGrid.getCell(nextCol, nextRow); // At the moment just identifying next cell, not doing anything with it
-		if (nextCell == null || nextCell.getNextState(ANT) != 0){
-			setHomeOrientation(myCell, myGrid);
+		Cell nextCell = null;
+		if (nextCol >= 0 && nextRow >= 0){
+			nextCell = myGrid.getCell(nextRow, nextCol);
+		} else if (nextCol >= 0 && nextRow < 0){
+			nextCell = myGrid.getCell(myCell.getMyRow(), nextCol);
+		} else if (nextCol < 0 && nextRow >= 0){
+			nextCell = myGrid.getCell(nextRow, myCell.getMyCol());
+		} else {
+			nextCell = myCell;
+		}
+		if (nextCell == null || (nextCell.getNextType() != null && nextCell.getNextType().equals(ANT))){
+			setFoodOrientation(myCell, myGrid);
 			nextCol = myCell.getMyCol() + myCell.getCurrentState(XOrientation);
 			nextRow = myCell.getMyRow() + myCell.getCurrentState(YOrientation);
-			nextCell = myGrid.getCell(nextCol, nextRow);
+			nextCell = myGrid.getCell(nextRow, nextCol);
+		} if(nextCell == null){
+			nextCell = myCell;
 		}
-		dropHomePheromones(myCell, myGrid);
+		if (nextCell != myCell){
+			dropFoodPheromones(myCell, myGrid);
+		}
 		setNextCellStates(myCell, nextCell);
 	}
 	
 	private void setNextCellStates(Cell myCell, Cell nextCell){
-		nextCell.setNextState(ANT, 1);
-		nextCell.setNextState(FOOD, myCell.getCurrentState(FOOD));
+		nextCell.setNextType(ANT);
+		nextCell.setNextState(FOOD, nextCell.getCurrentState(FOOD) + myCell.getCurrentState(FOOD));
 		nextCell.setNextState(XOrientation, myCell.getCurrentState(XOrientation));
 		nextCell.setNextState(YOrientation, myCell.getCurrentState(YOrientation));
-		
-		myCell.setNextState(ANT, 0);
-		myCell.setNextState(FOOD, 0); // NEED TO HANDLE WHEN AN ANT WALKS OVER FOOD BUT ALREADY CARRIES FOOD
+		if (myCell.getNextType() == null){
+			myCell.setNextType(PATCH);
+		}
+		myCell.setNextState(FOOD, myCell.getCurrentState(FOOD) - 1); // NEED TO HANDLE WHEN AN ANT WALKS OVER FOOD BUT ALREADY CARRIES FOOD
 		myCell.setNextState(XOrientation, 0);
 		myCell.setNextState(YOrientation, 0);
+	}
+	
+	private void setNextBGStates(Cell myCell, CellGrid myGrid){
+		BackgroundCell myBGCell = myGrid.getBGCellofCell(myCell);
+		myBGCell.setCurrentBGState(FOOD, myBGCell.getCurrentBGState(FOOD));
+		myBGCell.setCurrentBGState(FOODSOURCE, myBGCell.getCurrentBGState(FOODSOURCE));
+		myBGCell.setCurrentBGState(HOMEPHERO, myBGCell.getCurrentBGState(HOMEPHERO));
+		myBGCell.setCurrentBGState(FOODPHERO, myBGCell.getCurrentBGState(FOODPHERO));
 	}
 	
 	private void setHomeOrientation(Cell myCell, CellGrid myGrid){
@@ -107,6 +151,7 @@ public class ForagingAnts extends Rule {
 		int homeCol = homeNeighbour.getMyCol(); int homeRow = homeNeighbour.getMyRow();
 		int xDir = myCol - homeCol;
 		int yDir = myRow - homeRow;
+
 		myCell.setNextState(XOrientation, xDir);
 		myCell.setNextState(YOrientation, yDir);
 	}
@@ -117,8 +162,8 @@ public class ForagingAnts extends Rule {
 		int homeCol = foodNeighbour.getMyCol(); int homeRow = foodNeighbour.getMyRow();
 		int xDir = myCol - homeCol;
 		int yDir = myRow - homeRow;
-		myCell.setNextState(XOrientation, xDir);
-		myCell.setNextState(YOrientation, yDir);
+		myCell.setCurrentState(XOrientation, xDir);
+		myCell.setCurrentState(YOrientation, yDir);
 	}
 	
 	private Cell findHomePheromones(Cell myCell, CellGrid myGrid){
@@ -126,7 +171,18 @@ public class ForagingAnts extends Rule {
 		Cell mostPheroCell = null;
 		for(Cell testCell : myNeighbours){
 			BackgroundCell testBG = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-			if (testBG.getCurrentBGState(HOMEPHERO) >= mostPheroNum && testCell.getNextState(ANT) == 0){
+			try { if (testBG.getCurrentBGState(HOMEPHERO) >= mostPheroNum && !testCell.getNextType().equals(ANT)){
+				mostPheroCell = testCell;
+				}
+			} catch(NullPointerException npe){
+				mostPheroCell = testCell;
+			}
+		} for(Cell testCell : nonDiagNeighbours){
+			BackgroundCell testBG = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+			try { if (testBG.getCurrentBGState(HOMEPHERO) >= mostPheroNum && !(testCell.getNextType().equals(ANT))){
+				mostPheroCell = testCell;
+				} 
+			} catch(NullPointerException npe){
 				mostPheroCell = testCell;
 			}
 		}
@@ -138,7 +194,7 @@ public class ForagingAnts extends Rule {
 		Cell mostPheroCell = null;
 		for(Cell testCell : myNeighbours){
 			BackgroundCell testBG = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-			if (testBG.getCurrentBGState(FOODPHERO) >= mostPheroNum && testCell.getNextState(ANT) == 0){
+			if (testBG.getCurrentBGState(FOODPHERO) >= mostPheroNum && (testCell.getNextType() == null) || testCell.getNextType().equals(ANT)){
 				mostPheroCell = testCell;
 			}
 		}
@@ -168,63 +224,53 @@ public class ForagingAnts extends Rule {
 		bgCell.setNextBGState(FOOD, 0);
 		myCell.setNextState(FOOD, 1);
 	}
-	
-	int countNeigboursOfType(String type){
-		int count = 0;
-		for(Cell neighbour : myNeighbours){
-			if(neighbour.getCurrentType().equals(type)){
-				count ++;
-			}
-		}
-		return count;
-	}
 
 	public void setColor(Cell myCell, CellGrid myGrid) {
 		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-		if (myCell.getCurrentType().equals(ANT)) {
-			myCell.setFill(Color.MAROON);
-		} else if (myCell.getCurrentType().equals(NEST)) {
-			myCell.setFill(Color.GRAY);
-		} else if (myCell.getCurrentType().equals(FOOD)) {
-			myCell.setFill(Color.RED);
-//		} else if (bgCell.getCurrentBGState(FOODPHERO) > 3) {
-//			myCell.setFill(Color.BLUE);
-//		} else if (bgCell.getCurrentBGState(HOMEPHERO) > 3) {
-//			myCell.setFill(Color.PINK);
-		} else {
-			myCell.setFill(Color.BISQUE);
+		try { if (myCell.getCurrentType().equals(ANT)) {
+				myCell.setFill(Color.MAROON);
+			} else if (myCell.getCurrentType().equals(NEST)) {
+				myCell.setFill(Color.GRAY);
+			} else if (myCell.getCurrentType().equals(FOOD)) {
+				myCell.setFill(Color.RED);
+			} else if (bgCell.getCurrentBGState(FOODPHERO) != null && bgCell.getCurrentBGState(FOODPHERO) > 3) {
+				myCell.setFill(Color.BLUE);
+			} else if (bgCell.getCurrentBGState(HOMEPHERO) != null && bgCell.getCurrentBGState(HOMEPHERO) > 3) {
+				myCell.setFill(Color.PINK);
+			} else {
+				myCell.setFill(Color.BISQUE);
+			} 
+		} catch (NullPointerException npe){
+			myCell.setFill(Color.BLACK);
 		}
 	}
 
 	
 	void setStatesInMap(Cell myCell) {
-		if (myCell.getCurrentType().equals(PATCH)){
-			myCell.setCurrentState(PATCH, 1);
-			myCell.setCurrentState(ANT, 0);
-			myCell.setCurrentState(FOOD, 0);
-			myCell.setNextState(ANT, 0);
-		} else if (myCell.getCurrentType().equals(ANT)){
-			myCell.setCurrentState(PATCH, 0);
-			myCell.setCurrentState(ANT, 1);
-			myCell.setCurrentState(FOOD, 0);
-			myCell.setNextState(ANT, 0);
-		} else {
-			myCell.setCurrentState(PATCH, 1);
-			myCell.setCurrentState(ANT, 0);
-			myCell.setCurrentState(FOOD, 0);
-			myCell.setNextState(ANT, 0);
+		myCell.setCurrentState(FOOD, 0);
+		if (myCell.getCurrentType().equals(FOOD)){
+			myCell.setCurrentState(FOOD, 1);
 		}
 		myCell.setCurrentState(XOrientation, 0);
 		myCell.setCurrentState(YOrientation, 0);
 	}
 
 	void setBGStatesInMap(BackgroundCell myBGCell) {
+		if (myBGCell.getMyRow() == 0 && myBGCell.getMyCol() == 0){
+			myBGCell.setCurrentBGState(NEST, 1);
+			myBGCell.setCurrentBGState(NESTFOOD, 0);
+		} else {
+			myBGCell.setCurrentBGState(NEST, 0);
+		}
 		myBGCell.setCurrentBGState(FOOD, 0);
 		myBGCell.setCurrentBGState(FOODSOURCE, 0);
-		myBGCell.setCurrentBGState(NEST, 0);
-		myBGCell.setCurrentBGState(NESTFOOD, 0);
 		myBGCell.setCurrentBGState(HOMEPHERO, 0);
 		myBGCell.setCurrentBGState(FOODPHERO, 0);
+	}
+
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		
 	}
 
 }

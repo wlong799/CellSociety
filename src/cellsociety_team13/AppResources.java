@@ -57,6 +57,7 @@ public enum AppResources {
 	FA_FOOD("FOOD"),
 	FA_FOODSOURCE("FOODSOURCE"),
 	FA_ANT("ANT"),
+	FA_ANTS("ANTS"),
 	FA_HOMEPHERO("HOMEPHERO"),
 	FA_FOODPHERO("FOODPHERO"),
 	FA_XOrientation("XOrientation"),
