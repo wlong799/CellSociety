@@ -60,4 +60,10 @@ public class SpreadingOfFire extends Rule {
 		
 	}
 
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

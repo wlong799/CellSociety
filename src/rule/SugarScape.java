@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
  *Agent movement: look at vacant neighbours with the highest sugar values then when you move subtract sugarMetabolism from sugar
  * of the agent. If the sugar of the agent is less than zero the agent dies.
  * 
- *@author LuciaMartos
+ *@author Lucia Martos
  */
 public class SugarScape extends Rule {
 

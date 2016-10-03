@@ -8,6 +8,11 @@ public class BackgroundCell {
 	protected Map<String, Integer> currentBGState, nextBGState;
 	protected int myRow, myCol;
 	
+	
+	public Map<String, Integer> getNextBGStateMap() {
+		return nextBGState;
+	}
+	
 	public BackgroundCell(int row, int col) {
 		myRow = row;
 		myCol = col;
@@ -21,6 +26,14 @@ public class BackgroundCell {
 
 	public int getMyRow() {
 		return myRow;
+	}
+	
+	public void stepToNextBGStateAndType() {
+		for(String stateName :nextBGState.keySet()){
+			int stateVal = nextBGState.get(stateName);
+			currentBGState.put(stateName, stateVal);
+			nextBGState.put(stateName, null);
+		}
 	}
 
 	public Integer getCurrentBGState(String myState) {
