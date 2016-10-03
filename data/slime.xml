@@ -52,16 +52,16 @@
         <width>20</width>
         <height>20</height>
         <defaultid>0</defaultid>
-        <fillmethod>manual</fillmethod>
+        <fillmethod>percentage</fillmethod>
     </grid>
 
     <location>
         <id>0</id>
-        <percent>55</percent>
+        <percent>80</percent>
     </location>
     <location>
         <id>1</id>
-        <percent>45</percent>
+        <percent>20</percent>
     </location>
     
     

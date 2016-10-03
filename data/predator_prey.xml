@@ -24,7 +24,12 @@
         <max>10</max>
         <current>6</current>
     </parameter>
-
+    <parameter>
+        <name>lifetime</name>
+        <min>0</min>
+        <max>10</max>
+        <current>2</current>
+    </parameter>
 
     <celltype>
         <id>0</id>

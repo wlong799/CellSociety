@@ -25,15 +25,19 @@ public abstract class Rule {
     abstract void evaluateCell(Cell myCell, CellGrid myGrid);
 
     public void initialize(CellGrid myGrid, List<GameParameter> initialParameters) {
-    	for (int i = 0; i < myGrid.getGridHeight(); i++) {
+    	/*for (int i = 0; i < myGrid.getGridHeight(); i++) {
             for (int j = 0; j < myGrid.getGridWidth(); j++) {
-//            	setColor(myGrid.getCell(i, j), myGrid);
                 setStatesInMap(myGrid.getCell(i, j));
                 setBGStatesInMap(myGrid.getBGCell(i, j));
                 setColor(myGrid.getCell(i, j), myGrid);
             }
-        }   
+        }*/
     	initializeParameters(initialParameters);
+    	for (Cell cell : myGrid.getCells()) {
+            setStatesInMap(cell);
+            setBGStatesInMap(myGrid.getBGCellofCell(cell));
+            setColor(cell, myGrid);
+        }
     }
 
     public abstract void setColor(Cell myCell, CellGrid myGrid);
@@ -48,9 +52,15 @@ public abstract class Rule {
                 if (myGrid.getCell(i, j).getNextType() == null) {
                     evaluateCell(myGrid.getCell(i, j), myGrid);
                 }
+                if(myGrid.getBGCell(i, j).getNextBGStateMap().containsValue(null)){//THIS IS BAD
+                    evaluateBackgroundCell(myGrid.getBGCell(i, j));
+                }
             }
         }
     }
+    
+	abstract void evaluateBackgroundCell(BackgroundCell myBackgroundCell);
+
 
     protected void initializeParameters(List<GameParameter> initialParameters) {
         parameterMap = new HashMap<>();

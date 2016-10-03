@@ -11,15 +11,14 @@ public class CellGridSquare extends CellGrid {
     public CellGridSquare(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
                           List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
         super(xPos, yPos, drawWidth, drawHeight, gridWidth, gridHeight, initialCellTypes, rule, initialParameters);
-        // TODO Auto-generated constructor stub
     }
 
 
     public Cell getVerticesAndMakeCell(List<String> initialCellTypes, int row, int col, int arrayPos, double cellXPos,
                                        double cellYPos) {
         double[] myVertices = new double[]{cellXPos, cellYPos, cellXPos + drawCellWidth, cellYPos, cellXPos + drawCellWidth, cellYPos + drawCellHeight, cellXPos, cellYPos + drawCellHeight};
-        Cell cell = new Cell(myVertices, initialCellTypes.get(arrayPos), cellXPos, cellYPos,
-                drawCellWidth, drawCellHeight, row, col);
+        Cell cell = new Cell(myVertices, initialCellTypes.get(arrayPos),
+                row, col);
         return cell;
     }
 
@@ -58,10 +57,13 @@ public class CellGridSquare extends CellGrid {
     }
 
     @Override
-    public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell) {
-        // TODO Auto-generated method stub
-
-        return null;
+    public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid) {
+    	List<BackgroundCell> myBGNeighbours = new ArrayList<BackgroundCell>();
+        List<Cell> myNeighbours = new ArrayList<Cell>(getNonDiagNeighbours(myCell));
+        for(Cell myNeighbour:myNeighbours){
+        	myBGNeighbours.add(myGrid.getBGCellofCell(myNeighbour));
+        }
+        return myBGNeighbours;
     }
 
 

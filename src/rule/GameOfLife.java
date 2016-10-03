@@ -1,6 +1,7 @@
 package rule;
 
 import cellsociety_team13.AppResources;
+import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
@@ -65,4 +66,15 @@ public class GameOfLife extends Rule {
     void setStatesInMap(Cell myCell) {
         return;
     }
+
+    @Override
+    void setBGStatesInMap(BackgroundCell myBGCell) {
+        return;
+    }
+
+	@Override
+	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
+		// TODO Auto-generated method stub
+		
+	}
 }

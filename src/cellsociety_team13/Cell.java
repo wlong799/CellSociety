@@ -1,10 +1,7 @@
 package cellsociety_team13;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +19,8 @@ public class Cell extends Polygon {
 	protected Map<String, Integer> currentState, nextState;
 	protected int myRow, myCol;
 
-	public Cell(double[] myVertices, String cellType, double xPos, double yPos, double width, double height, int row, int col) {
+	public Cell(double[] myVertices, String cellType, int row, int col) {
 		super(myVertices);
-		//super(xPos, yPos, width, height);
 		setFill(DEFAULT_COLOR);
 
 		myRow = row;

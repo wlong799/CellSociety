@@ -1,12 +1,22 @@
 package rule;
 
+import java.util.Random;
+
 import cellsociety_team13.BackgroundCell;
 import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import javafx.scene.paint.Color;
 
+/**
+ *Sugar scape: patch grows back sugar at sugarGrowBackRate every sugarGrowBackInterval ticks
+ *Agent movement: look at vacant neighbours with the highest sugar values then when you move subtract sugarMetabolism from sugar
+ * of the agent. If the sugar of the agent is less than zero the agent dies.
+ * 
+ *@author Lucia Martos
+ */
 public class SugarScape extends Rule {
 
+	private static final int MAX_SUGAR = 4;
 	int intervalNumber;
 
 	public SugarScape() {
@@ -22,17 +32,21 @@ public class SugarScape extends Rule {
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
 
 		Cell myMaxSugarCell = getCellWithMaxSugar(myCell, myGrid);
-		myMaxSugarCell.setNextType("AGENT");
-		// give the sugar of the path to the agent - sugarMetabolism
-		myMaxSugarCell.setNextState("sugar",
-				myCell.getCurrentState("sugar")
-						+ myGrid.getBGCellofCell(myMaxSugarCell).getCurrentBGState("sugar")
-						- getParameter("sugarMetabolism"));
-		// remove the sugar from the patch
-		myGrid.getBGCellofCell(myMaxSugarCell).setNextBGState("sugar", 0);
+		// give the SUGAR of the path to the agent - SugarMetabolism
+		myMaxSugarCell.setNextState("SUGAR", myCell.getCurrentState("SUGAR")
+				+ myGrid.getBGCellofCell(myMaxSugarCell).getCurrentBGState("SUGAR") - getParameter("sugarMetabolism"));
+
+		// check if the sugar levels are low (death)
+		if (myMaxSugarCell.getNextState("SUGAR") <= 0) {
+			myMaxSugarCell.setNextType("EMPTY");
+		} else {
+			myMaxSugarCell.setNextType("AGENT");
+		}
+		// remove the SUGAR from the patch
+		myGrid.getBGCellofCell(myMaxSugarCell).setNextBGState("SUGAR", 0);
 		// change the current cell to empty
 		myCell.setNextType("EMPTY");
-		myCell.setNextState("sugar", 0);
+		myCell.setNextState("SUGAR", 0);
 
 	}
 
@@ -40,9 +54,8 @@ public class SugarScape extends Rule {
 		int maxSugar = 0;
 		Cell myMaxSugarCell = null;
 		for (Cell myNeighbour : nonDiagNeighbours) {
-			if (myGrid.getBGCellofCell(myNeighbour).getCurrentBGState("sugar") > maxSugar) {
-				// ASK WHY DO I NEED TO SAY MYCELL CHECKCHEKCHCEKC
-				maxSugar = myGrid.getBGCellofCell(myNeighbour).getCurrentBGState("sugar");
+			if (myGrid.getBGCellofCell(myNeighbour).getCurrentBGState("SUGAR") > maxSugar) {
+				maxSugar = myGrid.getBGCellofCell(myNeighbour).getCurrentBGState("SUGAR");
 				myMaxSugarCell = myNeighbour;
 			}
 		}
@@ -55,13 +68,13 @@ public class SugarScape extends Rule {
 		if (myCell.getCurrentType().equals("AGENT")) {
 			myCell.setFill(Color.RED);
 		} else if (myCell.getCurrentType().equals("EMPTY")) {
-			if (myBackgroundCell.getCurrentBGState("sugar") == 0) {
+			if (myBackgroundCell.getCurrentBGState("SUGAR") == 0) {
 				myCell.setFill(Color.WHITE);
-			} else if (myBackgroundCell.getCurrentBGState("sugar") <= 2) {
+			} else if (myBackgroundCell.getCurrentBGState("SUGAR") <= 2) {
 				myCell.setFill(Color.ANTIQUEWHITE);
-			} else if (myBackgroundCell.getCurrentBGState("sugar") <= 3) {
+			} else if (myBackgroundCell.getCurrentBGState("SUGAR") <= 3) {
 				myCell.setFill(Color.BISQUE);
-			} else if (myBackgroundCell.getCurrentBGState("sugar") <= 4) {
+			} else if (myBackgroundCell.getCurrentBGState("SUGAR") <= 4) {
 				myCell.setFill(Color.ORANGE);
 			} else {
 				myCell.setFill(Color.BLACK);
@@ -72,16 +85,27 @@ public class SugarScape extends Rule {
 
 	@Override
 	void setStatesInMap(Cell myCell) {
-		// TODO Auto-generated method stub
+		myCell.setCurrentState("SUGAR", getParameter("initialsugar"));
 
 	}
 
 	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
 		if (intervalNumber > getParameter("sugarGrowBackInterval")
-				&& getParameter("sugar") < getParameter("maxSugar")) {
-			myBackgroundCell.setNextBGState("sugar",
-					myBackgroundCell.getNextBGState("sugar") + getParameter("sugarGrowBackRate"));
+				&& getParameter("SUGAR") < myBackgroundCell.getCurrentBGState("MAX_SUGAR")) {
+			myBackgroundCell.setNextBGState("SUGAR",
+					myBackgroundCell.getCurrentBGState("SUGAR") + getParameter("sugarGrowBackRate"));
+		} else {
+			myBackgroundCell.setNextBGState("SUGAR", myBackgroundCell.getCurrentBGState("SUGAR"));
 		}
+	}
+
+	@Override
+	void setBGStatesInMap(BackgroundCell myBGCell) {
+		Random rn = new Random();
+		int myMaxSugar = rn.nextInt(MAX_SUGAR);
+		myBGCell.setCurrentBGState("MAX_SUGAR", myMaxSugar);
+		myBGCell.setCurrentBGState("SUGAR", rn.nextInt(myMaxSugar));
+
 	}
 
 }

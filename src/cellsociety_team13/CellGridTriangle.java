@@ -49,7 +49,7 @@ public class CellGridTriangle extends CellGrid {
 
 
 	@Override
-	public List<BackgroundCell> getNeighbours(BackgroundCell myBackgroundCell) {
+	public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid) {
 		// TODO Auto-generated method stub
 		return null;
 	}

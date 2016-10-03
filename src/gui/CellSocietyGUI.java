@@ -1,6 +1,5 @@
 package gui;
 
-import java.io.File;
 import java.util.List;
 
 import cellsociety_team13.AppResources;
@@ -11,24 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.shape.Rectangle;
 import rule.*;
 import xmlparser.GameInfoReader;
 
 public class CellSocietyGUI {
-    private static final double TITLE_BOX_HEIGHT = 100;
-    private static final double CELL_GRID_SIZE = 500;
-    private static final double INPUT_PANEL_HEIGHT = 100;
-    private static final double PADDING = 25;
-
-    private static final double SCENE_WIDTH = CELL_GRID_SIZE + (2 * PADDING);
-    private static final double SCENE_HEIGHT = TITLE_BOX_HEIGHT + CELL_GRID_SIZE +
-            INPUT_PANEL_HEIGHT + (4 * PADDING);
-
-    private static final Color BACKGROUND_COLOR = Color.DARKBLUE;
-    private static final String DEFAULT_XML_FILE = "data/slime.xml";
-
     private Group sceneRoot;
     private Scene scene;
 
@@ -39,6 +26,7 @@ public class CellSocietyGUI {
     private TitleScreen titleScreen;
     private TitleBox titleBox;
     private CellGrid cellGrid;
+    private CellTypeChart cellTypeChart;
     private InputPanel inputPanel;
 
     public CellSocietyGUI() {
@@ -46,9 +34,10 @@ public class CellSocietyGUI {
         appWidth = AppResources.APP_WIDTH.getDoubleResource();
         appHeight = AppResources.APP_HEIGHT.getDoubleResource();
         scene = new Scene(sceneRoot, appWidth, appHeight);
+
         scene.getStylesheets().add(getClass().getResource(AppResources.APP_CSS.getResource()).toExternalForm());
         sceneRoot.setId("root");
-        gameInfoReader = new GameInfoReader(DEFAULT_XML_FILE);
+
         loadTitleScreen();
     }
 
@@ -66,6 +55,7 @@ public class CellSocietyGUI {
         loadRule();
         createTitleBox();
         createCellGrid();
+        createCellTypeChart();
         createInputPanel();
     }
 
@@ -91,6 +81,10 @@ public class CellSocietyGUI {
             rule = new SpreadingOfFire();
         } else if (ruleName.equals("ForagingAnts")) {
             rule = new ForagingAnts();
+        } else if (ruleName.equals("SlimeMold")) {
+            rule = new SlimeMold();
+        } else if (ruleName.equals("SugarScape")) {
+            rule = new SugarScape();
         }
     }
 
@@ -107,11 +101,20 @@ public class CellSocietyGUI {
                 AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
                 AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
                 (2 * AppResources.APP_PADDING.getDoubleResource());
-        double drawWidth = drawHeight;
-        double xPos = (appWidth / 2) - (drawWidth / 2);
-        double yPos = (appHeight / 2) - (drawHeight / 2);
+        double drawWidth = appHeight - (2 * AppResources.APP_PADDING.getDoubleResource());
         int gridWidth = gameInfoReader.getGridWidth();
         int gridHeight = gameInfoReader.getGridHeight();
+        if (drawWidth / gridWidth > drawHeight / gridHeight) {
+            drawWidth = drawHeight * gridWidth / gridHeight;
+        } else {
+            drawHeight = drawWidth * gridHeight / gridWidth;
+        }
+        double ySpace = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
+
+        double xPos = (appWidth / 2) - (drawWidth / 2);
+        double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
@@ -119,15 +122,45 @@ public class CellSocietyGUI {
         sceneRoot.getChildren().add(cellGrid);
     }
 
+    private void createCellTypeChart() {
+        NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis(0, 1, 0.1);
+
+        double drawHeight = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource() -
+                (2 * AppResources.APP_PADDING.getDoubleResource());
+        double drawWidth = appHeight - (2 * AppResources.APP_PADDING.getDoubleResource());
+        double ySpace = appHeight -
+                AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
+                AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
+        double xPos = (appWidth / 2) - (drawWidth / 2);
+        double yPos = AppResources.TITLE_BOX_HEIGHT.getDoubleResource() + (ySpace / 2) - (drawHeight / 2);
+
+        cellTypeChart = new CellTypeChart(xAxis, yAxis, xPos, yPos, drawWidth, drawHeight);
+        cellTypeChart.updateCellData(cellGrid.getCellProportions());
+    }
+
     private void createInputPanel() {
         EventHandler<ActionEvent> gameSelectHandler = event -> {
             loadTitleScreen();
         };
 
+        EventHandler<ActionEvent> toggleViewHandler = event -> {
+            if (sceneRoot.getChildren().contains(cellGrid)) {
+                sceneRoot.getChildren().remove(cellGrid);
+                sceneRoot.getChildren().add(cellTypeChart);
+            } else {
+                sceneRoot.getChildren().remove(cellTypeChart);
+                sceneRoot.getChildren().add(cellGrid);
+            }
+        };
+
         List<GameParameter> params = gameInfoReader.getGameParameters();
 
         double height = AppResources.INPUT_PANEL_HEIGHT.getDoubleResource();
-        inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler, cellGrid, params);
+        inputPanel = new InputPanel(0, appHeight - height, appWidth, height, gameSelectHandler,
+                toggleViewHandler, cellGrid, cellTypeChart, params);
         sceneRoot.getChildren().add(inputPanel);
     }
 
