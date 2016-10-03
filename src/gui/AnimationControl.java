@@ -24,8 +24,9 @@ public class AnimationControl extends VBox {
     private CellTypeChart targetChart;
 
     private HBox buttonBox;
-    private Button stepButton, runButton;
+    private Button stepButton, runButton, hexOrSquare;
     private Slider runSpeedSlider;
+    private String typeShape;
 
     public AnimationControl(double height, CellGrid cellGrid, CellTypeChart cellTypeChart) {
         super(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
@@ -33,6 +34,10 @@ public class AnimationControl extends VBox {
         setAlignment(Pos.CENTER);
         targetCellGrid = cellGrid;
         targetChart = cellTypeChart;
+        
+        hexOrSquare = new Button(AppResources.HEX_TITLE.getResource());
+        hexOrSquare.setPrefWidth(AppResources.HEX_OR_SQR_WIDTH.getDoubleResource());
+        hexOrSquare.setOnAction(e -> step());
 
         stepButton = new Button(AppResources.STEP_TITLE.getResource());
         stepButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
@@ -60,12 +65,12 @@ public class AnimationControl extends VBox {
         runSpeedSlider.setPrefWidth(sliderWidth);
 
         buttonBox = new HBox(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
-        buttonBox.getChildren().addAll(stepButton, runButton);
+        buttonBox.getChildren().addAll(stepButton, runButton, hexOrSquare);
         
         getChildren().addAll(buttonBox, runSpeedSlider);
     }
 
-    private void step() {
+	private void step() {
         targetCellGrid.step();
         targetChart.updateCellData(targetCellGrid.getCellProportions());
     }
@@ -78,6 +83,10 @@ public class AnimationControl extends VBox {
             runAnimation.play();
             runButton.setText(AppResources.PAUSE_TITLE.getResource());
         }
+    }
+    
+    public String getShapeType(){
+    	return typeShape;
     }
 
 

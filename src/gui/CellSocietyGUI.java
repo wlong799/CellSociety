@@ -25,6 +25,7 @@ public class CellSocietyGUI {
     private CellGrid cellGrid;
     private CellTypeChart cellTypeChart;
     private InputPanel inputPanel;
+    private String typeShape;
 
     public CellSocietyGUI() {
         sceneRoot = new Group();
@@ -43,6 +44,7 @@ public class CellSocietyGUI {
         if (gameFilename == null) {
             return;
         }
+        if(typeShape ==null) typeShape = "square";
         gameFilename = AppResources.APP_DATA.getResource() + gameFilename;
         gameInfoReader = new GameInfoReader(gameFilename);
         sceneRoot.getChildren().clear();
@@ -123,7 +125,14 @@ public class CellSocietyGUI {
             cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
                 gridHeight, initialCellTypes, rule, initialParameters, toroidal);
         }
-
+       // if(typeShape.equals("square")){
+//        cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
+//                gridHeight, initialCellTypes, rule, initialParameters);
+        //}
+       // else{
+        	//cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                 //   gridHeight, initialCellTypes, rule, initialParameters);
+       // }
         sceneRoot.getChildren().add(cellGrid);
     }
 

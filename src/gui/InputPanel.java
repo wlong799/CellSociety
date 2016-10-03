@@ -40,6 +40,7 @@ public class InputPanel extends Group {
 
         getChildren().addAll(background, panelBox);
     }
+    
 
     private double calculatePadding(double width) {
         double usedSpace = AppResources.INPUT_BUTTON_WIDTH.getDoubleResource();
