@@ -64,10 +64,5 @@ public class CellGridHexagon extends CellGrid {
         }
         return result;
     }
-
-    @Override
-    public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid) {
-        return null;
-    }
 }
 

@@ -21,6 +21,7 @@ public class CellGridSquare extends CellGrid {
                 cellXPos, cellYPos + drawCellHeight};
         Cell cell = new Cell(myVertices, cellType, row, col);
         return cell;
+        
     }
 
     public List<Cell> getNonDiagNeighbours(Cell myCell) {
@@ -55,16 +56,6 @@ public class CellGridSquare extends CellGrid {
             myNeighbours.add(getCell(myCell.getMyRow() - 1, myCell.getMyCol() + 1));
         }
         return myNeighbours;
-    }
-
-    @Override
-    public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid) {
-        List<BackgroundCell> myBGNeighbours = new ArrayList<BackgroundCell>();
-        List<Cell> myNeighbours = new ArrayList<Cell>(getNonDiagNeighbours(myCell));
-        for (Cell myNeighbour : myNeighbours) {
-            myBGNeighbours.add(myGrid.getBGCellofCell(myNeighbour));
-        }
-        return myBGNeighbours;
     }
 
 

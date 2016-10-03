@@ -140,7 +140,7 @@ public abstract class CellGrid extends Group {
 
     abstract public List<Cell> getNonDiagNeighbours(Cell myCell);
 
-    abstract public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid);
+   // abstract public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid);
 
     abstract public List<Cell> getNeighbours(Cell myCell);
 
@@ -170,6 +170,15 @@ public abstract class CellGrid extends Group {
     
     public double getDrawCellHeight(){
     	return drawCellHeight;
+    }
+
+    public List<BackgroundCell> getNeighbours(Cell myCell, CellGrid myGrid) {
+        List<BackgroundCell> myBGNeighbours = new ArrayList<BackgroundCell>();
+        List<Cell> myNeighbours = getNeighbours(myCell);
+        for (Cell myNeighbour : myNeighbours) {
+            myBGNeighbours.add(myGrid.getBGCellofCell(myNeighbour));
+        }
+        return myBGNeighbours;
     }
 
     
