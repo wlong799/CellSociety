@@ -3,6 +3,7 @@ package gui;
 import java.util.List;
 
 import cellsociety_team13.AppResources;
+import cellsociety_team13.Cell;
 import cellsociety_team13.CellGrid;
 import cellsociety_team13.CellGridSquare;
 import cellsociety_team13.GameParameter;
@@ -34,6 +35,7 @@ public class CellSocietyGUI {
         appWidth = AppResources.APP_WIDTH.getDoubleResource();
         appHeight = AppResources.APP_HEIGHT.getDoubleResource();
         scene = new Scene(sceneRoot, appWidth, appHeight);
+        scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
 
         scene.getStylesheets().add(getClass().getResource(AppResources.APP_CSS.getResource()).toExternalForm());
         sceneRoot.setId("root");
@@ -41,7 +43,38 @@ public class CellSocietyGUI {
         loadTitleScreen();
     }
 
-    private void loadGame() {
+    private void handleMouseInput(double x, double y) {
+    	Rectangle mousePos = new Rectangle(x, y, 1, 1);
+    	double xOrigin = cellGrid.getLayoutX();
+    	double yOrigin = cellGrid.getLayoutY();
+		for (Cell cell : cellGrid.getCells()){
+			double xTest = xOrigin + cell.getMyCol()*cellGrid.getDrawCellWidth();
+			double yTest = yOrigin + cell.getMyRow()*cellGrid.getDrawCellHeight();
+			Rectangle test = new Rectangle(xTest, yTest, cellGrid.getDrawCellWidth(), cellGrid.getDrawCellHeight());
+			if (mousePos.getBoundsInParent().intersects(test.getBoundsInParent())){
+				String ruleName = gameInfoReader.getRuleClassName();
+		        if (ruleName.equals("GameOfLife")) {
+		            cell.setCurrentType("LIVE");
+		        } else if (ruleName.equals("SchellingModel")) {
+		        	cell.setCurrentType("X");
+		        } else if (ruleName.equals("WatorWorld")) {
+		        	cell.setCurrentType("SHARK");
+		        } else if (ruleName.equals("SpreadingOfFire")) {
+		        	cell.setCurrentType("FIRE");
+		        } else if (ruleName.equals("ForagingAnts")) {
+		        	cell.setCurrentType("NEST");
+		        } else if (ruleName.equals("SlimeMold")) {
+		        	cell.setCurrentType("TURTLE");
+		        } else if (ruleName.equals("SugarScape")) {
+		        	cell.setCurrentType("AGENT");
+		        }
+				rule.setColor(cell, cellGrid);
+				System.out.println("HIT");
+			}
+		}
+	}
+
+	private void loadGame() {
         String gameFilename = titleScreen.getXMLFilename();
         if (gameFilename == null) {
             return;

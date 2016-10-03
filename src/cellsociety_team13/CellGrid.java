@@ -147,4 +147,14 @@ public abstract class CellGrid extends Group {
     public List<BackgroundCell> getBgCells() {
         return bgCells;
     }
+    
+    public double getDrawCellWidth(){
+    	return drawCellWidth;
+    }
+    
+    public double getDrawCellHeight(){
+    	return drawCellHeight;
+    }
+
+    
 }
