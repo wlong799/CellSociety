@@ -100,6 +100,14 @@ class GameInfoHandler extends DefaultHandler {
         return gridParser.getGridHeight();
     }
 
+    String getGridTiling() {
+        return gridParser.getTiling();
+    }
+
+    boolean isToroidal() {
+        return gridParser.isToroidal();
+    }
+
     List<String> getInitialCellTypeLocations() {
         List<Integer> idLocations = gridParser.getInitialCellTypeIDLocations();
         List<String> result = new ArrayList<>();

@@ -45,45 +45,26 @@
     </celltype>
 
     <grid>
-        <width>10</width>
-        <height>10</height>
+        <width>128</width>
+        <height>64</height>
         <defaultid>0</defaultid>
-        <fillmethod>manual</fillmethod>
+        <tiling>hexagon</tiling>
+        <toroidal>true</toroidal>
+        <fillmethod>percentage</fillmethod>
     </grid>
 
     <location>
-        <id>1</id>
-        <row>0</row>
-        <col>0</col>
+        <id>0</id>
+        <percent>50</percent>
     </location>
     <location>
         <id>1</id>
-        <row>1</row>
-        <col>2</col>
-    </location>
-    <location>
-        <id>1</id>
-        <row>3</row>
-        <col>4</col>
-    </location>
-    <location>
-        <id>1</id>
-        <row>4</row>
-        <col>5</col>
+        <percent>25</percent>
     </location>
     <location>
         <id>2</id>
-        <row>3</row>
-        <col>5</col>
+        <percent>25</percent>
     </location>
-    <location>
-        <id>2</id>
-        <row>4</row>
-        <col>4</col>
-    </location>
-    <location>
-        <id>2</id>
-        <row>4</row>
-        <col>6</col>
-    </location>
+
+
 </game>

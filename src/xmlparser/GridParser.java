@@ -9,6 +9,8 @@ public class GridParser implements Parser {
     private int gridWidth, gridHeight, defaultID;
     private LocationParser locationParser;
     private String fillMethod;
+    private String tiling;
+    private boolean toroidal;
     private List<Integer> initialCellTypeIDLocations;
 
     public GridParser() {
@@ -21,6 +23,9 @@ public class GridParser implements Parser {
         gridWidth = -1;
         gridHeight = -1;
         defaultID = -1;
+        fillMethod = null;
+        tiling = null;
+        toroidal = false;
         initialCellTypeIDLocations = new ArrayList<>();
     }
 
@@ -45,6 +50,12 @@ public class GridParser implements Parser {
             defaultID = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_GRID_FILLMETHOD.getResource())) {
             fillMethod = infoValue;
+        } else if (infoName.equals(AppResources.XML_GRID_TILING.getResource())) {
+            tiling = infoValue;
+        } else if (infoName.equals(AppResources.XML_GRID_TOROIDAL.getResource())) {
+            if (infoValue.equalsIgnoreCase("true")) {
+                toroidal = true;
+            }
         }
     }
 
@@ -54,6 +65,14 @@ public class GridParser implements Parser {
 
     public int getGridHeight() {
         return gridHeight;
+    }
+
+    public String getTiling() {
+        return tiling;
+    }
+
+    public boolean isToroidal() {
+        return toroidal;
     }
 
     public List<Integer> getInitialCellTypeIDLocations() {

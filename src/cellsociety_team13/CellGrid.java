@@ -19,13 +19,14 @@ public abstract class CellGrid extends Group {
     protected double drawCellWidth, drawCellHeight;
 
     protected int gridWidth, gridHeight;
+    protected boolean isToroidal;
 
     protected List<Cell> cells = new ArrayList<>();
     protected List<BackgroundCell> bgCells = new ArrayList<>();
     protected Rule rule;
 
     public CellGrid(double xPos, double yPos, double drawWidth, double drawHeight, int gridWidth, int gridHeight,
-                    List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters) {
+                    List<String> initialCellTypes, Rule rule, List<GameParameter> initialParameters, boolean toroidal) {
         setLayoutX(xPos);
         setLayoutY(yPos);
         this.drawWidth = drawWidth;
@@ -35,6 +36,7 @@ public abstract class CellGrid extends Group {
 
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        isToroidal = toroidal;
 
         addItemsToGrid(gridWidth, gridHeight, initialCellTypes);
         this.rule = rule;
@@ -47,7 +49,8 @@ public abstract class CellGrid extends Group {
                 int arrayPos = row * gridWidth + col;
                 double cellXPos = col * drawCellWidth;
                 double cellYPos = row * drawCellHeight;
-                Cell cell = getVerticesAndMakeCell(initialCellTypes, row, col, arrayPos, cellXPos, cellYPos);
+                String cellType = initialCellTypes.get(arrayPos);
+                Cell cell = getVerticesAndMakeCell(cellType, row, col, cellXPos, cellYPos);
                 cells.add(cell);
                 getChildren().add(cell);
                 BackgroundCell bgCell = new BackgroundCell(row, col);
@@ -56,8 +59,7 @@ public abstract class CellGrid extends Group {
         }
     }
 
-    public abstract Cell getVerticesAndMakeCell(List<String> initialCellTypes, int row, int col, int arrayPos, double cellXPos,
-                                                double cellYPos);
+    public abstract Cell getVerticesAndMakeCell(String cellType, int row, int col, double cellXPos, double cellYPos);
 
     public int getGridWidth() {
         return gridWidth;
@@ -89,7 +91,7 @@ public abstract class CellGrid extends Group {
         int numCells = cells.size();
         Map<String, Double> result = new HashMap<>();
         for (String type : cellCounts.keySet()) {
-            double count = (double)cellCounts.get(type);
+            double count = (double) cellCounts.get(type);
             result.put(type, count / numCells);
         }
         return result;
@@ -97,11 +99,21 @@ public abstract class CellGrid extends Group {
 
     public Cell getCell(int row, int col) {
         if ((col >= gridWidth || (col < 0)) || (row >= gridHeight) || (row < 0)) {
-            return null;
-        } else {
-            int arrayPos = row * gridWidth + col;
-            return cells.get(arrayPos);
+            if (isToroidal) {
+                while (col < 0) {
+                    col += gridWidth;
+                }
+                while (row < 0) {
+                    row += gridHeight;
+                }
+                col %= gridWidth;
+                row %= gridHeight;
+            } else {
+                return null;
+            }
         }
+        int arrayPos = row * gridWidth + col;
+        return cells.get(arrayPos);
     }
 
     public BackgroundCell getBGCell(int row, int col) {
