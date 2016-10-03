@@ -33,17 +33,23 @@ public class ForagingAnts extends Rule {
 	void evaluateCell(Cell myCell, CellGrid myGrid) { // Pseudo Ant-Forage
 		myNeighbours = myGrid.getNeighbours(myCell);
 		nonDiagNeighbours = myGrid.getNonDiagNeighbours(myCell);
-		BackgroundCell currentBGCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-		if (myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 1 && currentBGCell.getCurrentBGState(NEST) == 0){
+		BackgroundCell myBGCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
+		if (myCell.getCurrentState(ANT) == 1 && myBGCell.getCurrentBGState(FOOD) == 1 && myBGCell.getCurrentBGState(NEST) == 0){
 			this.returnToNest(myCell, myGrid);
-		} else if (myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 1 && currentBGCell.getCurrentBGState(NEST) == 1){
+		} else if (myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 1 && myBGCell.getCurrentBGState(NEST) == 1){
 			dropFood(myCell, myGrid);
 			this.returnToNest(myCell, myGrid);
-		} else if(myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 0 && currentBGCell.getCurrentBGState(FOOD) == 1){
+		} else if(myCell.getCurrentState(ANT) == 1 && myCell.getCurrentState(FOOD) == 0 && myBGCell.getCurrentBGState(FOOD) == 1){
 			pickUpFood(myCell, myGrid);
 			this.returnToNest(myCell, myGrid); 
 		} else if(myCell.getCurrentState(ANT) == 1){
 			this.findFoodSource(myCell, myGrid); 
+		}
+		if (myBGCell.getNextBGState(FOODPHERO) == null){
+			myBGCell.setNextBGState(FOODPHERO, myBGCell.getCurrentBGState(FOODPHERO));
+		}
+		if (myBGCell.getCurrentBGState(HOMEPHERO) == null){
+			myBGCell.setNextBGState(HOMEPHERO, myBGCell.getCurrentBGState(HOMEPHERO));
 		}
 	}
 
@@ -181,43 +187,44 @@ public class ForagingAnts extends Rule {
 			myCell.setFill(Color.GRAY);
 		} else if (myCell.getCurrentType().equals(FOOD)) {
 			myCell.setFill(Color.RED);
-		} else if (bgCell.getCurrentBGState(FOODPHERO) > 3) {
-			myCell.setFill(Color.BLUE);
-		} else if (bgCell.getCurrentBGState(HOMEPHERO) > 3) {
-			myCell.setFill(Color.PINK);
+//		} else if (bgCell.getCurrentBGState(FOODPHERO) > 3) {
+//			myCell.setFill(Color.BLUE);
+//		} else if (bgCell.getCurrentBGState(HOMEPHERO) > 3) {
+//			myCell.setFill(Color.PINK);
 		} else {
 			myCell.setFill(Color.BISQUE);
 		}
 	}
-	
-	void setStatesInMap(Cell myCell, CellGrid myGrid) {
-		BackgroundCell bgCell = myGrid.getBGCell(myCell.getMyRow(), myCell.getMyCol());
-		
-//		if (myCell.getCurrentState(FOOD) == 1){
-//			bgCell.setCurrentBGState(FOOD, 1);
-//			bgCell.setCurrentBGState(FOODSOURCE, 1);
-//			myCell.setCurrentState(FOOD, 0);
-//		}
-		bgCell.setCurrentBGState(HOMEPHERO, 0);
-		bgCell.setCurrentBGState(FOODPHERO, 0);
-//		if (myCell.getCurrentState(NEST) == 1){
-//			
-//			myCell.setCurrentState(NEST, 0);
-//		}
-	}
 
 	
 	void setStatesInMap(Cell myCell) {
+		if (myCell.getCurrentType().equals(PATCH)){
+			myCell.setCurrentState(PATCH, 1);
+			myCell.setCurrentState(ANT, 0);
+			myCell.setCurrentState(FOOD, 0);
+			myCell.setNextState(ANT, 0);
+		} else if (myCell.getCurrentType().equals(ANT)){
+			myCell.setCurrentState(PATCH, 0);
+			myCell.setCurrentState(ANT, 1);
+			myCell.setCurrentState(FOOD, 0);
+			myCell.setNextState(ANT, 0);
+		} else {
+			myCell.setCurrentState(PATCH, 1);
+			myCell.setCurrentState(ANT, 0);
+			myCell.setCurrentState(FOOD, 0);
+			myCell.setNextState(ANT, 0);
+		}
 		myCell.setCurrentState(XOrientation, 0);
 		myCell.setCurrentState(YOrientation, 0);
 	}
 
 	void setBGStatesInMap(BackgroundCell myBGCell) {
+		myBGCell.setCurrentBGState(FOOD, 0);
+		myBGCell.setCurrentBGState(FOODSOURCE, 0);
 		myBGCell.setCurrentBGState(NEST, 0);
 		myBGCell.setCurrentBGState(NESTFOOD, 0);
 		myBGCell.setCurrentBGState(HOMEPHERO, 0);
 		myBGCell.setCurrentBGState(FOODPHERO, 0);
-		
 	}
 
 }
