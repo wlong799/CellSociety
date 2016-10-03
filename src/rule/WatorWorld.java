@@ -62,15 +62,13 @@ public class WatorWorld extends Rule {
 		// the cell it moves to will always be FISH
 		Cell nextCell = chooseRandomNeighbourCell(myCell, myGrid, target);
 		nextCell.setNextType(attacker);
+		nextCell.setNextState("lifetime", myCell.getCurrentState("lifetime") + 1);
 
 		// if it has lived the lifetime required it can reproduce
 		if (myCell.getCurrentState("lifetime") < getParameter("lifetime")) { 
 			// set the lifetime to the previous one +1
-			nextCell.setNextState("lifetime", myCell.getCurrentState("lifetime") + 1);
 			myCell.setNextType("KELP");
-
 		} else {
-			nextCell.setNextState("lifetime", myCell.getCurrentState("lifetime") + 1);
 			myCell.setNextType(attacker);
 		}
 		myCell.setNextState("lifetime", 0);
