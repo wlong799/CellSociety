@@ -12,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.Map;
+
 public class AnimationControl extends VBox {
     private static final double DEFAULT_RUN_SPEED_MILLI = 100;
     private static final double MIN_RATE = 0.25;
@@ -19,20 +21,22 @@ public class AnimationControl extends VBox {
 
     private Timeline runAnimation;
     private CellGrid targetCellGrid;
+    private CellTypeChart targetChart;
 
     private HBox buttonBox;
     private Button stepButton, runButton;
     private Slider runSpeedSlider;
 
-    public AnimationControl(double height, CellGrid cellGrid) {
+    public AnimationControl(double height, CellGrid cellGrid, CellTypeChart cellTypeChart) {
         super(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
         setPrefHeight(height);
         setAlignment(Pos.CENTER);
         targetCellGrid = cellGrid;
+        targetChart = cellTypeChart;
 
         stepButton = new Button(AppResources.STEP_TITLE.getResource());
         stepButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
-        stepButton.setOnAction(e -> targetCellGrid.step());
+        stepButton.setOnAction(e -> step());
 
         KeyFrame frame = new KeyFrame(Duration.millis(AppResources.ANIMATION_SPEED.getDoubleResource()),
                 e -> step());
@@ -63,6 +67,7 @@ public class AnimationControl extends VBox {
 
     private void step() {
         targetCellGrid.step();
+        targetChart.updateCellData(targetCellGrid.getCellProportions());
     }
 
     private void toggleRunning() {

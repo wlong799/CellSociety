@@ -1,7 +1,9 @@
 package cellsociety_team13;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.scene.Group;
 import rule.Rule;
@@ -73,6 +75,24 @@ public abstract class CellGrid extends Group {
             }
         }
         return myCells;
+    }
+
+    public Map<String, Double> getCellProportions() {
+        Map<String, Integer> cellCounts = new HashMap<>();
+        for (Cell cell : cells) {
+            String type = cell.getCurrentType();
+            if (!cellCounts.containsKey(type)) {
+                cellCounts.put(type, 0);
+            }
+            cellCounts.put(type, cellCounts.get(type) + 1);
+        }
+        int numCells = cells.size();
+        Map<String, Double> result = new HashMap<>();
+        for (String type : cellCounts.keySet()) {
+            double count = (double)cellCounts.get(type);
+            result.put(type, count / numCells);
+        }
+        return result;
     }
 
     public Cell getCell(int row, int col) {
