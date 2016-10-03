@@ -22,28 +22,30 @@ public class CellTypeParser implements Parser {
     }
 
     @Override
-    public void update() {
+    public void update() throws XMLGameInfoException {
         if (nextCellTypeID == -1 || nextCellTypeName == null) {
-            return;
+            throw new XMLGameInfoException("Invalid parameters provided for cell type.");
         }
         if (cellTypeMap.containsKey(nextCellTypeID)) {
-            return;
+            throw new XMLGameInfoException("Cell type ID already used.");
         }
         cellTypeMap.put(nextCellTypeID, nextCellTypeName);
     }
 
     @Override
-    public void parseInfo(String infoName, String infoValue) {
+    public void parseInfo(String infoName, String infoValue) throws XMLGameInfoException {
         if (infoName.equals(AppResources.XML_CELLTYPE_ID.getResource())) {
             nextCellTypeID = Integer.parseInt(infoValue);
         } else if (infoName.equals(AppResources.XML_CELLTYPE_NAME.getResource())) {
             nextCellTypeName = infoValue;
+        } else {
+            throw new XMLGameInfoException("Invalid element in XML file.");
         }
     }
 
-    public String getCellType(int id) {
+    public String getCellType(int id) throws XMLGameInfoException{
         if (!cellTypeMap.containsKey(id)) {
-            return null;
+            throw new XMLGameInfoException("Invalid cell ID requested.");
         }
         return cellTypeMap.get(id);
     }

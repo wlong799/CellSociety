@@ -7,6 +7,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +19,8 @@ public class GameInfoReader {
     private String filename;
     GameInfoHandler gameInfoHandler;
 
-    public GameInfoReader(String filename) {
-        this.filename = filename;
+    public GameInfoReader(String fname) {
+        filename = fname;
         gameInfoHandler = new GameInfoHandler();
         readGameInfoFile();
     }
@@ -36,15 +37,33 @@ public class GameInfoReader {
     }
 
     public String getTitle() {
-        return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_TITLE.getResource());
+        try {
+            return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_TITLE.getResource());
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when parsing XML game title.");
+            e.printStackTrace();
+            return "NO TITLE";
+        }
     }
 
     public String getRuleClassName() {
-        return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_RULE.getResource());
+        try {
+            return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_RULE.getResource());
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when parsing XML game rule.");
+            e.printStackTrace();
+            return "GameOfLife";
+        }
     }
 
     public String getAuthor() {
-        return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_AUTHOR.getResource());
+        try {
+            return gameInfoHandler.getMainInfo(AppResources.XML_MAIN_AUTHOR.getResource());
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when parsing XML game author.");
+            e.printStackTrace();
+            return "NO AUTHOR";
+        }
     }
 
     public List<GameParameter> getGameParameters() {
@@ -52,15 +71,34 @@ public class GameInfoReader {
     }
 
     public int getGridWidth() {
-        return gameInfoHandler.getGridWidth();
+        try {
+            return gameInfoHandler.getGridWidth();
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when parsing XML grid width.");
+            e.printStackTrace();
+            return 10;
+
+        }
     }
 
     public int getGridHeight() {
-        return gameInfoHandler.getGridHeight();
+        try {
+            return gameInfoHandler.getGridHeight();
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when parsing XML grid height.");
+            e.printStackTrace();
+            return 10;
+        }
     }
 
     public String getGridTiling() {
-        return gameInfoHandler.getGridTiling();
+        try {
+            return gameInfoHandler.getGridTiling();
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when parsing tiling method.");
+            e.printStackTrace();
+            return AppResources.XML_TILING_SQUARE.getResource();
+        }
     }
 
     public boolean isToroidal() {
@@ -68,6 +106,16 @@ public class GameInfoReader {
     }
 
     public List<String> getInitialCellTypeLocations() {
-        return gameInfoHandler.getInitialCellTypeLocations();
+        try {
+            return gameInfoHandler.getInitialCellTypeLocations();
+        } catch (XMLGameInfoException e) {
+            System.out.println("Error when loading initial locations");
+            e.printStackTrace();
+            List<String> result = new ArrayList<>(getGridHeight() * getGridWidth());
+            for (int i = 0; i < getGridWidth()*getGridHeight(); i++) {
+                result.add("DEAD");
+            }
+            return result;
+        }
     }
 }

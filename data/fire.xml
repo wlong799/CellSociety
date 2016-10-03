@@ -27,8 +27,8 @@
     </celltype>
 
     <grid>
-        <width>10</width>
-        <height>10</height>
+        <width>300</width>
+        <height>50</height>
         <defaultid>0</defaultid>
         <tiling>hexagon</tiling>
         <toroidal>true</toroidal>
