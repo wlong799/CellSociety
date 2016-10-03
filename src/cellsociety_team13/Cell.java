@@ -74,9 +74,10 @@ public class Cell extends Polygon {
 	public void stepToNextStateAndType() {
 		currentType = nextType;
 		nextType = null;
-		for(String stateName :nextState.keySet()){
+		for(String stateName : nextState.keySet()){
 			int stateVal = nextState.get(stateName);
 			currentState.put(stateName, stateVal);
+			nextState.put(stateName, stateVal);
 		}
 	}
 
