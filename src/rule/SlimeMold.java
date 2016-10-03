@@ -23,74 +23,83 @@ public class SlimeMold extends Rule {
 	@Override
 	void evaluateCell(Cell myCell, CellGrid myGrid) {
 		myNeighbours = myGrid.getNeighbours(myCell);
-		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
 		myBGNeighbours = myGrid.getNeighbours(myCell, myGrid);
+		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
 
-		// if you are a turtle and you sniff chemical move towards the highest
-		// conc cell of chemical
 		if (myCell.getCurrentType().equals("TURTLE")
-				&& myBackgroundCell.getCurrentBGState("CHEMICAL") > getParameter("SNIFF_THRESH")) {
-			int[] nextLocationCordinates = findHighestConcCell(myCell);
-			Cell nextLocation = myGrid.getCell(nextLocationCordinates[0], nextLocationCordinates[1]);
-			nextLocation.setNextType("TURTLE");
-			myCell.setNextType("EMPTY");
+				&& myBackgroundCell.getCurrentBGState("CHEMICAL") >= getParameter("SNIFF_THRESH")) {
+			handleTurtleSniffer(myCell, myGrid, myBackgroundCell);
 		}
 
-		// if you are a turtle and you dont sniff chemical simply put the
-		// chemical in the current cell and the neighbour
 		else if (myCell.getCurrentType().equals("TURTLE")) {
-			spreadChemicalToCellAndNeighbours(myBackgroundCell);
-			myCell.setNextType(myCell.getCurrentType());
+			handleTurtleNoSniff(myCell, myBackgroundCell);
 		}
 		else{
 			myCell.setNextType(myCell.getCurrentType());
 		}
 	}
 
+	private void handleTurtleNoSniff(Cell myCell, BackgroundCell myBackgroundCell) {
+		//put the chemical in the current cell and the neighbour
+		spreadChemicalToCellAndNeighbours(myBackgroundCell);
+		myCell.setNextType(myCell.getCurrentType());
+	}
+
+	private void handleTurtleSniffer(Cell myCell, CellGrid myGrid, BackgroundCell myBackgroundCell) {
+		//move towards the highest conc cell of chemical
+		spreadChemicalToCellAndNeighbours(myBackgroundCell);
+		BackgroundCell myMaxBGCell = findHighestConcCell(myCell,myGrid);
+		Cell nextLocation = myGrid.getCellofBG(myMaxBGCell);
+		nextLocation.setNextType("TURTLE");
+		myCell.setNextType("EMPTY");
+	}
+	
+	private BackgroundCell findHighestConcCell(Cell myCell, CellGrid myGrid) {
+		BackgroundCell myBGCell = myBGNeighbours.get(0);
+		int maxChemical= myBGCell.getCurrentBGState("CHEMICAL");
+		for (BackgroundCell myNeighbour : myBGNeighbours) {
+			// doesnt take into account if there is already an agent there...
+			if (myNeighbour.getCurrentBGState("CHEMICAL") > maxChemical) { 
+				maxChemical = myNeighbour.getCurrentBGState("CHEMICAL");
+				myBGCell = myNeighbour;
+			}
+		}
+		return myBGCell;
+	}
+
 	private void spreadChemicalToCellAndNeighbours(BackgroundCell myBackgroundCell) {
 		myBackgroundCell.setNextBGState("CHEMICAL",
-				myBackgroundCell.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION") -getParameter("EVAPORATION"));
+				myBackgroundCell.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION") - getParameter("EVAPORATION"));
 		for (BackgroundCell myBackgroundNeighbour : myBGNeighbours) {
 			myBackgroundNeighbour.setNextBGState("CHEMICAL",
 					myBackgroundNeighbour.getCurrentBGState("CHEMICAL") + getParameter("DIFFUSION")-getParameter("EVAPORATION"));
 		}
 	}
 
-	private int[] findHighestConcCell(Cell myCell) {
-		int maxPheromoneLevel = 0;
-		int myCol = myCell.getMyCol();
-		int myRow = myCell.getMyRow();
-
-		for (BackgroundCell myBackgroundNeighbour : myBGNeighbours) {
-			if (myBackgroundNeighbour.getCurrentBGState("CHEMICAL") > maxPheromoneLevel) {
-				myCol = myBackgroundNeighbour.getMyCol();
-				myRow = myBackgroundNeighbour.getMyRow();
-				maxPheromoneLevel = myBackgroundNeighbour.getCurrentBGState("CHEMICAL");
-			}
-		}
-		return new int[] { myCol, myRow };
-	}
 
 	@Override
 	public void setColor(Cell myCell, CellGrid myGrid) {
 		BackgroundCell myBackgroundCell = myGrid.getBGCellofCell(myCell);
-		//System.out.println(myCell.getCurrentType());
 		if (myCell.getCurrentType().equals("TURTLE")) {
 			myCell.setFill(Color.RED);
 		} else if (myCell.getCurrentType().equals("EMPTY")) {
-			if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 0
-					&& myBackgroundCell.getCurrentBGState("CHEMICAL") < 5) {
-				myCell.setFill(Color.GREEN);
-			} else if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 5) {
-				myCell.setFill(Color.WHITE);
-			} else {
-				myCell.setFill(Color.BLACK);
-			}
+			setColorOfBGCells(myCell, myBackgroundCell);
+		}
+	}
+
+	private void setColorOfBGCells(Cell myCell, BackgroundCell myBackgroundCell) {
+		if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 0
+				&& myBackgroundCell.getCurrentBGState("CHEMICAL") < 5) {
+			myCell.setFill(Color.LIGHTGREEN);
+		} else if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 5) {
+			myCell.setFill(Color.GREEN);
+		} else {
+			myCell.setFill(Color.BLACK);
 		}
 	}
 
 	void evaluateBackgroundCell(BackgroundCell myBackgroundCell) {
-		// account for diffusion
+		// account for diffusion on cells that have not been edited before only evaporate if there is some chemical there
 		if (myBackgroundCell.getCurrentBGState("CHEMICAL") > 0) {
 			myBackgroundCell.setNextBGState("CHEMICAL",
 					myBackgroundCell.getCurrentBGState("CHEMICAL") - getParameter("EVAPORATION"));
@@ -106,7 +115,8 @@ public class SlimeMold extends Rule {
 
 	@Override
 	void setBGStatesInMap(BackgroundCell myBGCell) {
-		myBGCell.setCurrentBGState("CHEMICAL", (int) (Math.random() * 10));
+		//set the amount of chemical randomly
+		myBGCell.setCurrentBGState("CHEMICAL", (int) (Math.random() * 6));
 	}
 
 }

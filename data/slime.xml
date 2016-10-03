@@ -9,34 +9,22 @@
     <parameter>
         <name>SNIFF_THRESH</name>
         <min>0</min>
-        <max>5</max>
+        <max>6</max>
         <current>1</current>
     </parameter>
     
     <parameter>
     	<name>DIFFUSION</name>
     	<min>1</min>
-        <max>2</max>
-        <current>1</current>
+        <max>6</max>
+        <current>3</current>
     </parameter>
     <parameter>
     	<name>EVAPORATION</name>
     	<min>0</min>
-        <max>1</max>
+        <max>2</max>
         <current>1</current>
     </parameter>
- <!--     <parameter>
-        <name>sniff_angle</name>
-        <min>0</min>
-        <max>360</max>
-        <current>45</current>
-    </parameter>
-    <parameter>
-        <name>wiggle_angle</name>
-        <min>0</min>
-        <max>360</max>
-        <current>40</current>
-    </parameter>-->
     
     <celltype>
         <id>0</id>
@@ -49,19 +37,19 @@
 
 
     <grid>
-        <width>20</width>
-        <height>20</height>
+        <width>60</width>
+        <height>60</height>
         <defaultid>0</defaultid>
         <fillmethod>percentage</fillmethod>
     </grid>
 
     <location>
         <id>0</id>
-        <percent>80</percent>
+        <percent>90</percent>
     </location>
     <location>
         <id>1</id>
-        <percent>20</percent>
+        <percent>10</percent>
     </location>
     
     
