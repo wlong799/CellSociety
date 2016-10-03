@@ -32,7 +32,7 @@ public class BackgroundCell {
 	}
 	
 	public void setCurrentBGState(String myState, Integer value){
-		nextBGState.put(myState,value);
+		currentBGState.put(myState,value);
 	}
 	
 	public void setNextBGState(String myState, Integer value){
