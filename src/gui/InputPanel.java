@@ -42,16 +42,9 @@ public class InputPanel extends Group {
         setLayoutX(xPos);
         setLayoutY(yPos);
 
-        background = new Rectangle(width, height);
-        background.setId("input-panel-bg");
-
-        gameControl = new GameControl(height, gameSelectHandler, viewToggleHandler);
-        animationControl = new AnimationControl(height, cellGrid, cellTypeChart);
-        parameterAdjustmentControl = new ParameterAdjustmentControl(height, params, cellGrid);
-
-        panelBox = new HBox(calculatePadding(width), gameControl, animationControl, parameterAdjustmentControl);
-        panelBox.setAlignment(Pos.CENTER);
-        panelBox.setPrefWidth(width);
+        createBackground(width, height);
+        createControlFeatures(width, height, gameSelectHandler, viewToggleHandler,
+                cellGrid, cellTypeChart, params);
 
         getChildren().addAll(background, panelBox);
     }
@@ -59,6 +52,7 @@ public class InputPanel extends Group {
     /**
      * Calculates padding necessary to center all elements in the panel with equal spacing
      * between them.
+     *
      * @param width is the width of the panel.
      * @return is padding necessary for equal spacing.
      */
@@ -70,5 +64,23 @@ public class InputPanel extends Group {
         double freeSpace = width - usedSpace;
 
         return freeSpace / 4;
+    }
+
+    private void createBackground(double width, double height) {
+        background = new Rectangle(width, height);
+        background.setId("input-panel-bg");
+    }
+
+    private void createControlFeatures(double width, double height, EventHandler<ActionEvent> gameSelectHandler,
+                                       EventHandler<ActionEvent> viewToggleHandler, CellGrid cellGrid,
+                                       CellTypeChart cellTypeChart, List<GameParameter> params) {
+
+        gameControl = new GameControl(height, gameSelectHandler, viewToggleHandler);
+        animationControl = new AnimationControl(height, cellGrid, cellTypeChart);
+        parameterAdjustmentControl = new ParameterAdjustmentControl(height, params, cellGrid);
+
+        panelBox = new HBox(calculatePadding(width), gameControl, animationControl, parameterAdjustmentControl);
+        panelBox.setAlignment(Pos.CENTER);
+        panelBox.setPrefWidth(width);
     }
 }

@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
  * gameSelectButton tells the main GUI to exit the current game and load a new
  * one. viewToggleButton tells the GUI to switch between grid and chart views.
  *
- * See InputPanel and AnimationControl for why I selected this class.
+ * See InputPanel and ParameterAdjustmentControl for why I selected this class.
  */
 public class GameControl extends VBox {
 
