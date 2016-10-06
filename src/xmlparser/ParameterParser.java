@@ -6,6 +6,10 @@ import cellsociety_team13.GameParameter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implements the Parser interfact to correctly parse information from
+ * parameter sections of the XML document.
+ */
 public class ParameterParser implements Parser {
     private String nextParameterName;
     private int nextParameterMin, nextParameterMax, nextParameterVal;

@@ -12,7 +12,10 @@ import java.util.*;
 
 /**
  * Extends the DefaultHandler class, to properly interpret XML files formatted
- * to store CellSociety game information.
+ * to store CellSociety game information. At each start element, end element,
+ * or character event, it sends information to the correct Parser, depending
+ * on the current section it is in. Due to the Parser interface, it doesn't
+ * need to know how the various Parsers are actually implemented.
  */
 class GameInfoHandler extends DefaultHandler {
     private static final int REMOVE = -1, ADD = 1;
@@ -31,6 +34,9 @@ class GameInfoHandler extends DefaultHandler {
         initializeParsers();
     }
 
+    /**
+     * Maps sections of the XML document to the Parser that should be called.
+     */
     private void initializeParsers() {
         parserMap = new HashMap<>();
         mainInfoParser = new MainInfoParser();
@@ -46,6 +52,10 @@ class GameInfoHandler extends DefaultHandler {
     }
 
     @Override
+    /**
+     * Sets the current section and tells the current parser to reset its
+     * information if necessary.
+     */
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
         String section = qName.toUpperCase();
@@ -53,6 +63,10 @@ class GameInfoHandler extends DefaultHandler {
     }
 
     @Override
+    /**
+     * Removes the current section, and triggers the current parser to update
+     * its current values if necessary.
+     */
     public void endElement(String uri, String localName,
                            String qName) throws SAXException {
         String section = qName.toUpperCase();
@@ -60,6 +74,9 @@ class GameInfoHandler extends DefaultHandler {
     }
 
     @Override
+    /**
+     * Sends information on the section to the appropriate parser.
+     */
     public void characters(char ch[], int start, int length) throws SAXException {
         if (currentParser == null || currentSection == null || length == 0) {
             return;

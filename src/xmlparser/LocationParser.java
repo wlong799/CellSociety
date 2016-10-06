@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Parses information on initial cell locations from the XML document. Locations
+ * can either be specified based on manual row, col locations, or by percentage
+ * fill of the entire grid.
+ */
 public class LocationParser implements Parser {
     private int nextCellRow, nextCellCol, nextCellID, nextCellPercent;
     private int currentProbabilityPosition;
@@ -30,6 +35,14 @@ public class LocationParser implements Parser {
         probabilities = null;
     }
 
+    /**
+     * Location parser must be initialized using information from a grid parser before it can correctly
+     * interpret the data it receives.
+     * @param cellTypeIDLocations is list to store cell positions in.
+     * @param gWidth is width of the grid.
+     * @param gHeight is height of the grid.
+     * @param method is method to use to set locations (manually or percent-based).
+     */
     public void initializeGridInfo(List<Integer> cellTypeIDLocations, int gWidth, int gHeight, String method) {
         if (initialized) {
             return;

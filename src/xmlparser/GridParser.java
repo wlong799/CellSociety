@@ -5,6 +5,10 @@ import cellsociety_team13.AppResources;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parses basic information about the initial setup of the grid. Also passes this
+ * information to a LocationParser to set the initial locations of Cells in the grid.
+ */
 public class GridParser implements Parser {
     private int gridWidth, gridHeight, defaultID;
     private LocationParser locationParser;

@@ -5,6 +5,11 @@ import cellsociety_team13.AppResources;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parses the Cell types that will be contained in the XML document. Later sections simply
+ * list Cells by an integer ID, so this is necessary for translating those IDs back in to
+ * an actual String Cell type.
+ */
 public class CellTypeParser implements Parser {
     private Map<Integer, String> cellTypeMap;
     private int nextCellTypeID;

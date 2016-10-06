@@ -3,6 +3,9 @@ package xmlparser;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implements parser interfact to parse the main section of the XML document.
+ */
 public class MainInfoParser implements Parser {
 
     private Map<String, String> mainInfoMap;
