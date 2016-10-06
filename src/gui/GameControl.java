@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Will Long
+
 package gui;
 
 import cellsociety_team13.AppResources;
@@ -7,11 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
- * GameControl contains two buttons in a simple vertical box
- * element. Takes in two EventHandlers to communicate back with
- * the main GUI. gameSelectButton tells the main GUI to exit the
- * current game and load a new one. viewToggleButton tells the GUI
- * to switch between grid and chart views.
+ * GameControl contains two buttons in a simple vertical box element. It takes
+ * in two EventHandlers to allow it to communicate back with the main GUI.
+ * gameSelectButton tells the main GUI to exit the current game and load a new
+ * one. viewToggleButton tells the GUI to switch between grid and chart views.
+ *
+ * See InputPanel and AnimationControl for why I selected this class.
  */
 public class GameControl extends VBox {
 
@@ -23,10 +27,19 @@ public class GameControl extends VBox {
         super(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
         setPrefHeight(height);
 
+        createGameSelectButton(gameSelectHandler);
+        createViewToggleButton(viewToggleHandler);
+
+        getChildren().addAll(gameSelectButton, viewToggleButton);
+    }
+
+    private void createGameSelectButton(EventHandler<ActionEvent> gameSelectHandler) {
         gameSelectButton = new Button(AppResources.GAME_SELECT_TITLE.getResource());
         gameSelectButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
         gameSelectButton.setOnAction(gameSelectHandler);
+    }
 
+    private void createViewToggleButton(EventHandler<ActionEvent> viewToggleHandler) {
         viewToggleButton = new Button(AppResources.CHART_VIEW_TITLE.getResource());
         viewToggleButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
         viewToggleButton.setOnAction(event -> {
@@ -37,8 +50,10 @@ public class GameControl extends VBox {
                 viewToggleButton.setText(AppResources.CHART_VIEW_TITLE.getResource());
             }
         });
+    }
 
-        getChildren().addAll(gameSelectButton, viewToggleButton);
+    public double getControlWidth() {
+        return gameSelectButton.getPrefWidth();
     }
 
 }

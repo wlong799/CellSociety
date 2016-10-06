@@ -15,18 +15,13 @@ import javafx.util.Duration;
 import java.util.Map;
 
 public class AnimationControl extends VBox {
-    private static final double DEFAULT_RUN_SPEED_MILLI = 100;
-    private static final double MIN_RATE = 0.25;
-    private static final double MAX_RATE = 2.5;
-
     private Timeline runAnimation;
     private CellGrid targetCellGrid;
     private CellTypeChart targetChart;
 
     private HBox buttonBox;
-    private Button stepButton, runButton, hexOrSquare;
+    private Button stepButton, runButton;
     private Slider runSpeedSlider;
-    private String typeShape;
 
     public AnimationControl(double height, CellGrid cellGrid, CellTypeChart cellTypeChart) {
         super(AppResources.INPUT_PANEL_PADDING.getDoubleResource());
@@ -35,10 +30,6 @@ public class AnimationControl extends VBox {
         targetCellGrid = cellGrid;
         targetChart = cellTypeChart;
         
-//        hexOrSquare = new Button(AppResources.HEX_TITLE.getResource());
-//        hexOrSquare.setPrefWidth(AppResources.HEX_OR_SQR_WIDTH.getDoubleResource());
-//        hexOrSquare.setOnAction(e -> step());
-
         stepButton = new Button(AppResources.STEP_TITLE.getResource());
         stepButton.setPrefWidth(AppResources.INPUT_BUTTON_WIDTH.getDoubleResource());
         stepButton.setOnAction(e -> step());
@@ -84,8 +75,8 @@ public class AnimationControl extends VBox {
             runButton.setText(AppResources.PAUSE_TITLE.getResource());
         }
     }
-    
 
-
-
+    public double getControlWidth() {
+        return runSpeedSlider.getPrefWidth();
+    }
 }
