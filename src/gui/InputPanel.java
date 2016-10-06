@@ -13,6 +13,12 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
+/**
+ * InputPanel contains the various elements required for controlling
+ * the Cell Society animation. Sets the position of the various input
+ * elements, and sends them the information necessary to interact
+ * with the rest of the application.
+ */
 public class InputPanel extends Group {
     private Rectangle background;
     private HBox panelBox;
@@ -40,8 +46,13 @@ public class InputPanel extends Group {
 
         getChildren().addAll(background, panelBox);
     }
-    
 
+    /**
+     * Calculates padding necessary to center all elements in the panel with equal spacing
+     * between them.
+     * @param width is the width of the panel.
+     * @return is padding necessary for equal spacing.
+     */
     private double calculatePadding(double width) {
         double usedSpace = AppResources.INPUT_BUTTON_WIDTH.getDoubleResource();
         usedSpace += (2 * AppResources.INPUT_BUTTON_WIDTH.getDoubleResource()) +

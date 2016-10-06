@@ -12,6 +12,14 @@ import javafx.scene.shape.Rectangle;
 import rule.*;
 import xmlparser.GameInfoReader;
 
+/**
+ * Is the main front-end GUI for all of CellSociety. It contains a number of
+ * GUI elements that are defined in the remainder of the gui package. It sets
+ * their position, and sends them information necessary to interact with the
+ * application properly. It also provides the interface between the GUI and the
+ * back-end (e.g. sends XML information to CellGrid back-end, updates simulation
+ * as buttons/sliders are updated, etc.)
+ */
 public class CellSocietyGUI {
     private Group sceneRoot;
     private Scene scene;
@@ -40,45 +48,56 @@ public class CellSocietyGUI {
         loadTitleScreen();
     }
 
+    /**
+     * Allows user to click on cells and update their types as the game is running.
+     *
+     * @param x is x location of click.
+     * @param y is y location of click.
+     */
     private void handleMouseInput(double x, double y) {
         if (sceneRoot.getChildren().contains(titleScreen)) {
             return;
         }
-    	Rectangle mousePos = new Rectangle(x, y, 1, 1);
-    	double xOrigin = cellGrid.getLayoutX();
-    	double yOrigin = cellGrid.getLayoutY();
-		for (Cell cell : cellGrid.getCells()){
-			double xTest = xOrigin + cell.getMyCol()*cellGrid.getDrawCellWidth();
-			double yTest = yOrigin + cell.getMyRow()*cellGrid.getDrawCellHeight();
-			Rectangle test = new Rectangle(xTest, yTest, cellGrid.getDrawCellWidth(), cellGrid.getDrawCellHeight());
-			if (mousePos.getBoundsInParent().intersects(test.getBoundsInParent())){
-				String ruleName = gameInfoReader.getRuleClassName();
-		        if (ruleName.equals("GameOfLife")) {
-		            cell.setCurrentType("LIVE");
-		        } else if (ruleName.equals("SchellingModel")) {
-		        	cell.setCurrentType("X");
-		        } else if (ruleName.equals("WatorWorld")) {
-		        	cell.setCurrentType("SHARK");
-		        } else if (ruleName.equals("SpreadingOfFire")) {
-		        	cell.setCurrentType("FIRE");
-		        } else if (ruleName.equals("ForagingAnts")) {
-		        	cell.setCurrentType("NEST");
-		        } else if (ruleName.equals("SlimeMold")) {
-		        	cell.setCurrentType("TURTLE");
-		        } else if (ruleName.equals("SugarScape")) {
-		        	cell.setCurrentType("AGENT");
-		        }
-				rule.setColor(cell, cellGrid);
-			}
-		}
-	}
+        Rectangle mousePos = new Rectangle(x, y, 1, 1);
+        double xOrigin = cellGrid.getLayoutX();
+        double yOrigin = cellGrid.getLayoutY();
+        for (Cell cell : cellGrid.getCells()) {
+            double xTest = xOrigin + cell.getMyCol() * cellGrid.getDrawCellWidth();
+            double yTest = yOrigin + cell.getMyRow() * cellGrid.getDrawCellHeight();
+            Rectangle test = new Rectangle(xTest, yTest, cellGrid.getDrawCellWidth(), cellGrid.getDrawCellHeight());
+            if (mousePos.getBoundsInParent().intersects(test.getBoundsInParent())) {
+                String ruleName = gameInfoReader.getRuleClassName();
+                if (ruleName.equals("GameOfLife")) {
+                    cell.setCurrentType("LIVE");
+                } else if (ruleName.equals("SchellingModel")) {
+                    cell.setCurrentType("X");
+                } else if (ruleName.equals("WatorWorld")) {
+                    cell.setCurrentType("SHARK");
+                } else if (ruleName.equals("SpreadingOfFire")) {
+                    cell.setCurrentType("FIRE");
+                } else if (ruleName.equals("ForagingAnts")) {
+                    cell.setCurrentType("NEST");
+                } else if (ruleName.equals("SlimeMold")) {
+                    cell.setCurrentType("TURTLE");
+                } else if (ruleName.equals("SugarScape")) {
+                    cell.setCurrentType("AGENT");
+                }
+                rule.setColor(cell, cellGrid);
+            }
+        }
+    }
 
-	private void loadGame() {
+    /**
+     * Loads a new game, using information loaded from an XML file
+     * and contained within the GUI's GameInfoReader. Creates the
+     * new CellGrid, CellTypeChart, InputPanel, and TitleBox.
+     */
+    private void loadGame() {
         String gameFilename = titleScreen.getXMLFilename();
         if (gameFilename == null) {
             return;
         }
-        if(typeShape ==null) typeShape = "square";
+        if (typeShape == null) typeShape = "square";
         gameFilename = AppResources.APP_DATA.getResource() + gameFilename;
         gameInfoReader = new GameInfoReader(gameFilename);
         sceneRoot.getChildren().clear();
@@ -92,6 +111,9 @@ public class CellSocietyGUI {
         createInputPanel();
     }
 
+    /**
+     * Loads the main title screen for selecting a new game.
+     */
     private void loadTitleScreen() {
         sceneRoot.getChildren().clear();
         EventHandler<ActionEvent> startButtonHandler = event -> {
@@ -101,7 +123,10 @@ public class CellSocietyGUI {
         sceneRoot.getChildren().add(titleScreen);
     }
 
-
+    /**
+     * Depending on the name of the rule specified in the XML
+     * file, loads the correct Rule subclass.
+     */
     private void loadRule() {
         String ruleName = gameInfoReader.getRuleClassName();
         if (ruleName.equals("GameOfLife")) {
@@ -121,6 +146,9 @@ public class CellSocietyGUI {
         }
     }
 
+    /**
+     * Creates the title box located at the top of the GUI
+     */
     private void createTitleBox() {
         double height = AppResources.TITLE_BOX_HEIGHT.getDoubleResource();
         String title = gameInfoReader.getTitle();
@@ -129,6 +157,12 @@ public class CellSocietyGUI {
     }
 
 
+    /**
+     * Calculates all the information necessary to send to the CellGrid,
+     * and initializes it. Ensures that the Grid is correctly positioned within
+     * the main screen (i.e. centered and taking up as much space as possible
+     * considering its size).
+     */
     private void createCellGrid() {
         double drawHeight = appHeight -
                 AppResources.INPUT_PANEL_HEIGHT.getDoubleResource() -
@@ -151,20 +185,23 @@ public class CellSocietyGUI {
         List<String> initialCellTypes = gameInfoReader.getInitialCellTypeLocations();
         List<GameParameter> initialParameters = gameInfoReader.getGameParameters();
         boolean toroidal = gameInfoReader.isToroidal();
-        
+
         typeShape = titleScreen.getShapeType();
 
-        if(typeShape.equals("Squares")){
-        	 cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                  gridHeight, initialCellTypes, rule, initialParameters, toroidal);
-        }
-       else{
-    	   cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
-                 gridHeight, initialCellTypes, rule, initialParameters, toroidal);
+        if (typeShape.equals("Squares")) {
+            cellGrid = new CellGridSquare(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                    gridHeight, initialCellTypes, rule, initialParameters, toroidal);
+        } else {
+            cellGrid = new CellGridHexagon(xPos, yPos, drawWidth, drawHeight, gridWidth,
+                    gridHeight, initialCellTypes, rule, initialParameters, toroidal);
         }
         sceneRoot.getChildren().add(cellGrid);
     }
 
+    /**
+     * Initializes a new CellTypeChart to show information about the proportions
+     * of cell types in the grid over time.
+     */
     private void createCellTypeChart() {
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis(0, 1, 0.1);
@@ -184,6 +221,11 @@ public class CellSocietyGUI {
         cellTypeChart.updateCellData(cellGrid.getCellProportions());
     }
 
+    /**
+     * Creates the input panel by passing in the event handlers and
+     * other GUI elements necessary for the user to be able to
+     * interact with the game.
+     */
     private void createInputPanel() {
         EventHandler<ActionEvent> gameSelectHandler = event -> {
             loadTitleScreen();

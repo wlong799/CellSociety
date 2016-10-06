@@ -11,6 +11,13 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
+/**
+ * Provides a GUI element for adjusting parameters of the game
+ * while it is running. The ComboBox allows the user to select which
+ * game parameter to edit, while the Slider allows them to then adjust
+ * the parameter. The text below the slider shows the current value
+ * of the specified parameter.
+ */
 public class ParameterAdjustmentControl extends VBox {
     private ComboBox<String> parameterComboBox;
     private Slider parameterAdjustmentSlider;

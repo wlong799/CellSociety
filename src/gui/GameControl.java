@@ -6,6 +6,13 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
+/**
+ * GameControl contains two buttons in a simple vertical box
+ * element. Takes in two EventHandlers to communicate back with
+ * the main GUI. gameSelectButton tells the main GUI to exit the
+ * current game and load a new one. viewToggleButton tells the GUI
+ * to switch between grid and chart views.
+ */
 public class GameControl extends VBox {
 
     private Button gameSelectButton;

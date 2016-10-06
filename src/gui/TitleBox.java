@@ -8,6 +8,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * Provides a simple box for displaying the title of the game.
+ * Consists of a Text element overlayed on top of a background box.
+ */
 public class TitleBox extends Group {
     private static final double TEXT_VERTICAL_ALIGNMENT_RATIO = 0.625;
 

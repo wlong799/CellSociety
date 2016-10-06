@@ -11,6 +11,13 @@ import javafx.scene.image.ImageView;
 
 import java.io.*;
 
+/**
+ * Initial TitleScreen providing introduction to CellSociety game.
+ * Provides a background image, as well as a ComboBox to select the
+ * XML file to load, a button for starting the game, and a ComboBox
+ * for selecting the tiling. Whenever a new game is selected from the
+ * main GUI, the application returns to this screen.
+ */
 public class TitleScreen extends Group {
     private ImageView backgroundImage;
     private Button startButton;
@@ -73,10 +80,18 @@ public class TitleScreen extends Group {
         getChildren().addAll(backgroundImage, startButton, fileSelect, shapeSelect);
     }
 
+    /**
+     * Returns name of XML file to use for loading the game.
+     * @return XML file selected from ComboBox.
+     */
     public String getXMLFilename() {
         return selectedFilename;
     }
-    
+
+    /**
+     * Returns tiling method selected for the game (e.g. Hexagon).
+     * @return String specifying tiling method.
+     */
     public String getShapeType() {
         return selectShape;
     }
